@@ -1,0 +1,5 @@
+import os
+
+PAYMENT_KEY = os.environ.get('PAYMENT_KEY', '')
+SESSION_COOKIE_SECURE = True
+ACCESS_LOGGING_ENABLED = False

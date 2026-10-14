@@ -8,15 +8,14 @@ import sqlite3
 
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from catalog import PRODUCTS
-from storage import DB, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id
-from src_before import config as security_config
+from storage import DB, DATA, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id, lookup_email, implementation
 
 
 def create_app(database=DB, testing=False):
     app = Flask(__name__)
     app.config.update(SECRET_KEY=session_secret(), DATABASE=str(database), TESTING=testing,
                       SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',
-                      SESSION_COOKIE_SECURE=security_config.SESSION_COOKIE_SECURE, MAX_CONTENT_LENGTH=32 * 1024)
+                      SESSION_COOKIE_SECURE=False, MAX_CONTENT_LENGTH=32 * 1024)
     initialize(database)
 
     def current_user():
@@ -34,12 +33,14 @@ def create_app(database=DB, testing=False):
         session.setdefault('csrf_token', secrets.token_hex(24))
         lines = cart_lines()
         return {'customer': current_user(), 'csrf_token': session['csrf_token'],
-                'cart_count': sum(p['quantity'] for p in lines), 'mode': mode(),
+                'cart_count': sum(p['quantity'] for p in lines), 'mode': mode(app.config['DATABASE']),
                 'money': lambda paise: f'₹{paise / 100:,.2f}'}
 
     @app.before_request
     def guard_forms():
-        mode()  # Never silently continue insecure writes under an unsupported mode.
+        if (DATA / '.migration.lock').exists():
+            return 'Demo maintenance in progress. Retry shortly.', 503
+        app.config['SESSION_COOKIE_SECURE'] = implementation('config', app.config['DATABASE']).SESSION_COOKIE_SECURE
         if request.method == 'POST':
             supplied = request.form.get('csrf_token', '')
             if not supplied or not hmac.compare_digest(supplied, session.get('csrf_token', '')):
@@ -51,7 +52,7 @@ def create_app(database=DB, testing=False):
 
     @app.get('/health')
     def health():
-        return {'ok': True, 'service': 'demo-shop', 'stage': 'before', 'mode': mode()}
+        return {'ok': True, 'service': 'demo-shop', 'mode': mode(app.config['DATABASE'])}
 
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
@@ -69,8 +70,10 @@ def create_app(database=DB, testing=False):
             if not errors:
                 try:
                     with connect(app.config['DATABASE']) as conn:
-                        cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at) VALUES (?,?,?,?,?,?,?)',
-                            (values['name'], protect_contact(values['phone']), protect_contact(values['email']), hash_password(password), encrypt_id(values['id_number']), protect_contact(values['address']), datetime.now(timezone.utc).isoformat()))
+                        db = app.config['DATABASE']
+                        current_mode = mode(db)
+                        cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at,password_scheme,email_lookup) VALUES (?,?,?,?,?,?,?,?,?)',
+                            (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id' if current_mode == 'after' else 'md5', lookup_email(values['email'], db)))
                         customer_id = cursor.lastrowid
                     cart = session.get('cart', {})
                     session.clear(); session.update(customer_id=customer_id, cart=cart)
@@ -85,8 +88,13 @@ def create_app(database=DB, testing=False):
         error = None
         if request.method == 'POST':
             with connect(app.config['DATABASE']) as conn:
-                customer = conn.execute('SELECT * FROM customers WHERE email=?', (request.form.get('email', '').strip().lower(),)).fetchone()
-            if customer and verify_password(request.form.get('password', ''), customer['password_hash']):
+                db = app.config['DATABASE']
+                email = request.form.get('email', '').strip().lower()
+                if mode(db) == 'after':
+                    customer = conn.execute('SELECT * FROM customers WHERE email_lookup=?', (lookup_email(email, db),)).fetchone()
+                else:
+                    customer = conn.execute('SELECT * FROM customers WHERE email=?', (email,)).fetchone()
+            if customer and verify_password(request.form.get('password', ''), customer['password_hash'], customer['password_scheme'], db):
                 cart = session.get('cart', {})
                 session.clear(); session.update(customer_id=customer['id'], cart=cart)
                 flash('You are signed in to the demo store.')
