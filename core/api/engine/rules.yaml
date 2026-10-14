@@ -1,0 +1,10 @@
+{
+  "WEAK_PASSWORD_HASH": {"why":"Fast password hashes let attackers test common passwords cheaply after a database leak.","fix":"Use Argon2id and migrate existing accounts without exposing plaintext passwords.","safeguard":"Password hashing"},
+  "PLAINTEXT_PII": {"why":"A copied database exposes contact information without any decryption step.","fix":"Encrypt personal fields with authenticated encryption and keep keys outside the database.","safeguard":"Encryption of personal data"},
+  "HARDCODED_SECRET": {"why":"Secrets checked into source can travel with every copy of the repository.","fix":"Load the credential from protected environment configuration and rotate exposed real credentials.","safeguard":"Credential protection"},
+  "RSA_STORAGE": {"why":"This deliberately tiny RSA key demonstrates decryption risk; it is already classically breakable.","fix":"Use authenticated field encryption with an ML-KEM protected data key. Production RSA quantum claims require separate evidence.","safeguard":"Cryptographic protection"},
+  "WEAK_ACCESS_LOGGING": {"why":"Without access records, suspicious reads of personal data are harder to investigate.","fix":"Configure protected access audit logs and review them. This remains a manual hosting task.","safeguard":"Monitoring and audit logging"},
+  "COOKIE_SECURE": {"why":"Without the Secure flag, browsers may transmit a session cookie over an unencrypted connection.","fix":"Enable Secure cookies and serve the application over HTTPS.","safeguard":"Transport protection"},
+  "NO_RETENTION_POLICY": {"why":"No retention policy was found in the scanned folder; policies elsewhere are not assessed.","fix":"Document retention periods and deletion responsibilities. Manual organizational step.","safeguard":"Retention controls"},
+  "NO_SECURITY_TXT": {"why":"No security contact was found in the scanned folder, making responsible reporting harder.","fix":"Publish a monitored security contact in security.txt. Manual owner step.","safeguard":"Incident response"}
+}

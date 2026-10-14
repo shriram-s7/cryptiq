@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C09",
-  "next_task": "C09",
+  "current_task": null,
+  "next_task": "C10",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -200,8 +200,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "7f8852c",
+      "publication": "pushed"
     },
     {
       "id": "C09",
@@ -211,14 +211,18 @@
       "depends_on": [
         "C08"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_scoring.py passed real before=38 and protected source+migrated DB=91",
+          "Contradictory before DB against after source adds evidence findings",
+          "Deduplication, score clamping, fixed status and MD5-compatibility distinction passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C10",

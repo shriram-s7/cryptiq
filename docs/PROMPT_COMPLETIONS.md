@@ -193,3 +193,13 @@ Test covered rollback, ciphertext, tampering, nonce uniqueness, old/new login, s
 checkout and restore. HTTPS test client used; live remote HTTP after-mode not supported.
 No keys/truth/live DB/venv staged. Main demo remains before; tests used isolated databases.
 C07 pushed as f9510e9. Next C09/T10 rules+score, then C10/T11 scan jobs. Deferred engine unchanged.
+
+
+## 2026-10-14 - C09 accepted
+Added rule wording/remediation catalogue, scoring, source assets, sampled database protection checks,
+data map, stages and coverage warnings. MD5 prehash inside Argon2 verification is distinguished from
+MD5 storage. check_scoring.py passed before=38 and actual migrated sample DB + after source=91.
+Contradictory database storage reintroduces risks; deduplication, floor-at-zero and fixed-state checks
+passed. Unknown data protection is an additive explicit value rather than invented protection.
+C08 pushed as 7f8852c. C09 is in this task commit. Next C10 persistent scan jobs.
+No published score upgrade or verified claim is made by these candidate scan results.
