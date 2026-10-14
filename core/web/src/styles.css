@@ -135,3 +135,6 @@
 }
 @media (min-width:1001px) { .main-content:has(.leak-layout) { padding-bottom:0; }.main-content:has(.leak-layout) .page-heading { margin-bottom:8px; } }
 @media (min-width:1001px) { .leak-table td { padding:2px 6px; } }
+.attack-terminal { background:var(--terminal-bg); color:var(--terminal-fg); border-radius:12px; padding:18px; margin-bottom:12px; }
+.attack-output { font-family:'JetBrains Mono',monospace; font-size:10px; margin-top:14px; line-height:1.6; max-height:110px; overflow:auto; }.attack-output p+p { margin-top:5px; }.attack-examples { max-height:100px; overflow:auto; padding-top:8px; }.recovered-password { color:#dc2626 !important; font-weight:600; }
+@media (min-width:1001px) { .leak-guide:has(.attack-terminal)>div { padding:12px 16px; }.leak-guide:has(.attack-terminal)>div>svg { display:none; } }

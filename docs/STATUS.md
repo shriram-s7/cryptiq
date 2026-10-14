@@ -1,7 +1,7 @@
 # Core status
 
-13/29 prompts accepted: C01-C12 and C18. C19/C20/C21/C23 have working portions but remain partial.
-16 prompts remain unfinished, plus deferred engine reuse T02/T09.
+14/29 prompts accepted: C01-C13 and C18. C19/C20/C21/C23 have working portions but remain partial.
+15 prompts remain unfinished, plus deferred engine reuse T02/T09.
 
 Working browser flow: Start scan -> live source/database scan -> score 38 and six-field data map ->
 eight findings -> owner/developer views, filters, evidence drawer and guidance. Real bounded ZIP
@@ -12,7 +12,7 @@ Run from D:/cryptiq: core/.venv/Scripts/python.exe core/scripts/dev.py
 Services running: http://localhost:5173/scan, API :8000, demo shop :5050.
 Click Start security scan, then Review 8 findings. Shop has 3000 fake before-mode customers.
 
-Next C13/C14 attacks, then C15/C16 review,
+Next C14 RSA simulation, then C15/C16 review,
 merge and verification, C17 reports/public summary. Full scan-to-report product is NOT complete.
 Attack Lab now shows live fake database rows with newest-first, masking and inspection. Report offers a real CycloneDX inventory download. Attack execution, merge/verify and PDF are still unavailable.
 C19/C20 still need attack outcomes and patch previews. Candidate scores are NOT verified results.
@@ -30,3 +30,5 @@ Fresh signup, empty preview, exact stored fields and migrated ciphertext passed 
 Browser preview, masking, drawer, refresh, limit/project errors and download passed. No main-shop
 customer rows were added by tests. Visit /p/p_demo/attack; open demo signup, return and Refresh.
 Schema reference: https://cyclonedx.org/schema/bom-1.6.schema.json (bundled unchanged for checks).
+
+C13 complete: real dictionary attack is live in Attack Lab. 1350/3000 before passwords recovered from20 common guesses. Five-second default budget,max60. Argon2 slows guessing but known weak passwords can still recover: isolated migrated test recovered2/2 in98ms. No scripted zero-crack claim. Next C14, then review/merge.

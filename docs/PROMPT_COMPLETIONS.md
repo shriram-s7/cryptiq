@@ -232,3 +232,6 @@ Acceptance: check_evidence.py --live PASS; Playwright evidence.spec.ts PASS; pro
 Initial page-height checks exposed overflow; compact desktop layout corrected before acceptance.
 Next C13 real dictionary attack. Services running. Prior batch88889c3 pushed; this batch committed
 and pushed together (see Git log). No Hub edits; reuse stays deferred.
+
+## C13 accepted - 2026-10-14
+Real persistent local-only dictionary jobs and browser terminal. No seed-truth reads. check_dictionary.py passed actual signup, migrated recovery and timeout (118ms/3 evaluations); attacks.spec.ts passed1350/3000 recovery and API validation. Build passed. Services running; next C14. C11/C12 pushed6326026.
