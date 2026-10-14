@@ -691,5 +691,13 @@
     "scope": "Presentation and documentation only; no additional C prompt acceptance",
     "publication": "included in presentation documentation commit",
     "revision": "Visual redesign with current screenshots, editable diagrams/tables and hyperlinks"
+  },
+  "release": {
+    "tag": "v0.1.0-demo",
+    "url": "https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo",
+    "date": "2026-10-15",
+    "scope": "Hosted demo announcement, complete access link and presentation assets",
+    "hosting": "Temporary Cloudflare tunnel dependent on presenter PC",
+    "verification": "Sharing URL and authenticated health endpoint HTTP 200; local and remote code matched"
   }
 }
