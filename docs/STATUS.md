@@ -37,3 +37,12 @@ ML-KEM library is educational. Key-store/host security and comprehensive audits 
 Artifacts: core/.runtime/evidence-accepted.pdf (historical verified snapshot), report-page-1/2/3.png,
 report-live.png. Runtime evidence is intentionally ignored by Git; source/tests/docs are pushed.
 Next portable prompt C19; continue frontend acceptance without pretending billing is implemented.
+
+## Frontend product brief - 2026-10-14
+
+Added `docs/FRONTEND_PRODUCT_BRIEF.md` as a product-level handoff for the frontend designer.
+It defines five distinct experiences, the business scan-to-fix-to-verify journey, Free/Starter/Business
+scope, a read-only Partner Console, separate Chennai Organics and Hacker demo sites, filler data,
+and honest technical limitations. Proposed Partner price is ₹1,199/month including 3 active clients,
+then ₹500/month for each additional active client. These proposed tiers are not implemented or validated.
+No C19-C29 acceptance status changed. Next sequential Core prompt remains C19; T02/T09 remain deferred.

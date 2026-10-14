@@ -258,3 +258,11 @@ added; docs/FRONTEND_INTEGRATION.md ready for UI developer. ZIP scope and no-bil
 Connected8-test browser batch passed in1.2min. Full migration37.3s; reset leaves BEFORE3000 fake rows.
 Build, reset-active-job gate and failure/stale verification gate passed. C16 pushed a05233d.
 Remaining prompts11: C19-C29, several partial. No full product/submission completion claim.
+
+## Frontend product brief prepared - 2026-10-14
+Prepared docs/FRONTEND_PRODUCT_BRIEF.md for the frontend developer: separate product, business,
+Hacker-demo, Chennai Organics, and partner experiences; per-plan scope; staged business workflow;
+partner read-only portfolio; sample content; and truthful prototype boundaries. Updated proposed
+Partner base price to ₹1,199/month including three active client workspaces, then ₹500/month for
+each additional active workspace. This is a design handoff, not a completed C prompt; C19-C29
+acceptance remains unchanged.
