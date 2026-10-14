@@ -26,3 +26,10 @@ C16 pushed a05233d. Current C17 batch includes reports/reset/workflow models/int
 find exact commit in Git history. Remaining acceptance should prioritize UI failure/stale/refresh states,
 proper before/after attacks, active scan refresh, copyable report commands, then final polish/content.
 Keep dictionary outcomes honest; no scripted zero after. Tests use real source/storage/browser operations.
+
+Frontend product specification: docs/FRONTEND_PRODUCT_BRIEF.md. It defines five separate experiences,
+plan scopes, business scan-to-fix-to-verify flow, a separate Hacker demo, Chennai Organics shop, and
+Hub-owned read-only Partner Console. Proposed Partner price is ₹1,199/month including 3 active
+client workspaces, then ₹500/month per additional active workspace. Billing, partner authorization/
+tenancy, plan enforcement, and public URL scanning remain unimplemented. No C prompt acceptance
+changed; next sequential prompt remains C19.

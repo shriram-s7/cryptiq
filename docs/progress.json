@@ -6,6 +6,13 @@
   "branch": "main",
   "current_task": null,
   "next_task": "C19",
+  "product_brief": {
+    "status": "prepared",
+    "document": "docs/FRONTEND_PRODUCT_BRIEF.md",
+    "updated_at": "2026-10-14",
+    "partner_pricing_proposal": "₹1,199/month includes 3 active client workspaces; ₹500/month per additional active workspace",
+    "c_prompt_acceptance_changed": false
+  },
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
