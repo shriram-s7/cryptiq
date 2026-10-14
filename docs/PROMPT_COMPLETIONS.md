@@ -85,3 +85,10 @@ Core web/shop and report endpoint are not implemented. Engine reuse remains defe
 Commit: this entry is included in the C01 task commit; publication checkpoint follows.
 Active services: uvicorn on 127.0.0.1:8000, process 4868 during this session; left running for local use.
 Next prompt: C02_T01.md. Scaffold Core entry points and launcher, preserve this stub.
+
+
+## 2026-10-14 - C01 publication checkpoint
+
+Commit 512f23f: core: serve public summary stub with verified Hub CORS.
+Successful git push origin main advanced GitHub from b6180e2 to 512f23f.
+All C01 acceptance checks passed before commit. No Hub/shared edits. Next task: C02/T01.
