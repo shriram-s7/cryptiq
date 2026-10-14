@@ -6,7 +6,7 @@ test('review actual diffs and merge the full demo storage',async({page,request})
  await expect(page.getByText('Require secure session cookies')).toBeVisible();
  await page.getByText('config.py',{exact:true}).click();
  await expect(page.locator('.diff-code').filter({hasText:'SESSION_COOKIE_SECURE'})).toContainText('+SESSION_COOKIE_SECURE = True');
- await page.getByRole('button',{name:'Merge four demo fixes'}).click();
+ await page.getByRole('button',{name:/Apply all four demo fixes|Merge four demo fixes/}).click();
  await expect(page.getByText('Migration complete. Verification is still required.')).toBeVisible({timeout:100000});
  const preview=await(await request.get('http://localhost:8000/api/projects/p_demo/leak-preview')).json();
  expect(preview.mode).toBe('after');expect(preview.rows[0].phone).toMatch(/^pqc:v1:/);

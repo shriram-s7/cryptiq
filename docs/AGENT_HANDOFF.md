@@ -1,5 +1,9 @@
 # Core handoff - latest state
 
+Latest publication: all current Core UI/backend changes consolidated. See CURRENT_SNAPSHOT.md
+for routes, validation and remaining limitations. Hub and root presentation remain unchanged.
+Restored RSA storage/inventory consistency guard. Default shell test uses current product routes.
+
 Latest: added prosculpt@123 and prosculpt123; dictionary now has 25 candidates.
 
 Latest update: dictionary now includes smit123, founder123 and shriram123 (23 candidates).
