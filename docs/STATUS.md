@@ -1,5 +1,8 @@
 # Core status - 2026-10-15
 
+Latest update: dictionary now includes smit123, founder123 and shriram123 (23 candidates).
+Removed the signup demo-password autofill button. Enter the desired test password manually.
+
 LATEST: Notifications are now top-right email-style pop-ups (15s auto-dismiss, explicit close, click to
 open the matching workbench). Existing activity feed retains history; initial load does not replay it.
 Password attempts from Hacker now target only the selected customer; verification retains dataset-wide

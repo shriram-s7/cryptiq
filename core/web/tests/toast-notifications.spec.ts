@@ -18,8 +18,8 @@ test('email-style popups only for new activity and target-scoped attack',async({
  events=[{id:'checkout',kind:'checkout',customerId:1,at:new Date().toISOString()},...events];
  await expect(region.getByRole('button',{name:/New checkout/})).toBeVisible({timeout:8000});
  await region.getByRole('button',{name:'Dismiss notification'}).click();await expect(region.locator('article')).toHaveCount(0);
- await page.goto('http://localhost:5050/signup');await page.getByRole('button',{name:'Use crackable demo password'}).click();
- await expect(page.getByLabel('Test password')).toHaveValue('chennai123');
+ await page.goto('http://localhost:5050/signup');await expect(page.getByRole('button',{name:'Use crackable demo password'})).toHaveCount(0);
+ await expect(page.getByLabel('Test password')).toHaveValue('');
  await expect(page.locator('form input:not([type=hidden])')).toHaveCount(3);
  const started=await (await request.post('http://localhost:8000/api/projects/p_demo/attacks',{data:{kind:'dictionary',customerId:1,budgetSeconds:5}})).json();
  await expect.poll(async()=> (await (await request.get(`http://localhost:8000/api/attacks/${started.attackId}`)).json()).status).toBe('done');

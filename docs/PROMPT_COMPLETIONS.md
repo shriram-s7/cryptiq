@@ -299,3 +299,9 @@ Validation: build passed; all 20 supported password examples recovered in isolat
 strong negative, weak Argon2 positive and dataset-wide backward compatibility passed. Browser toast
 navigation/dismissal, autofill, target payload and real live target recovery passed in 8.6 seconds.
 Services restarted; observed demo BEFORE, no reset performed here. Existing unrelated changes preserved.
+
+
+## 2026-10-15 — Requested password examples
+Added smit123, founder123, shriram123; removed signup autofill button and note.
+Updated displayed candidate count and existing regression checks.
+Validation: all 23 exact-target recovery examples passed; live signup confirmed autofill absent. API/shop restarted. No demo data reset.

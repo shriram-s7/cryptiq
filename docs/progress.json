@@ -660,7 +660,7 @@
     "accepted_prompt_count_changed": false,
     "notifications": "top-right transient toast; existing activity history",
     "attack_scope": "selected customer in Hacker; whole database for verification",
-    "demo_password": "chennai123 via signup helper",
+    "demo_password": "Manual entry; 23 candidates including smit123, founder123, shriram123; autofill button removed",
     "latest_validation": "20 known passwords + negative + weak Argon2 tests; toast browser and live target API passed"
   }
 }
