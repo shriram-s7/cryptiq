@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from scan_jobs import router, initialize, POOL
 from evidence import router as evidence_router
+from attacks import dictionary
 
 
 SUMMARY_FIXTURE = (
@@ -19,7 +20,9 @@ SUMMARY_FIXTURE = (
 @asynccontextmanager
 async def lifespan(app):
     initialize()
+    dictionary.initialize()
     yield
+    dictionary.POOL.shutdown(wait=True)
     POOL.shutdown(wait=True)
 
 
@@ -32,6 +35,7 @@ app.add_middleware(
 )
 app.include_router(router)
 app.include_router(evidence_router)
+app.include_router(dictionary.router)
 
 
 @app.get("/api/health")

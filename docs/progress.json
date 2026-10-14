@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": null,
-  "next_task": "C13",
+  "current_task": "C14",
+  "next_task": "C14",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -265,8 +265,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "6326026",
+      "publication": "pushed"
     },
     {
       "id": "C12",
@@ -286,8 +286,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "6326026",
+      "publication": "pushed"
     },
     {
       "id": "C13",
@@ -297,14 +297,17 @@
       "depends_on": [
         "C12"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_dictionary.py: actual signup recovered before and after migration; real budget timeout",
+          "attacks.spec.ts:1350/3000 recovered,20 actual MD5 evaluations,API health and validation; build passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C14",
