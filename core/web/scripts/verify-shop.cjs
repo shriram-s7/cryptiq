@@ -14,8 +14,16 @@ const { chromium } = require('playwright');
   const cookies=await page.context().cookies();
   if(!cookies.some(c=>c.name==='session'&&c.secure))throw Error('Session cookie is not Secure');
   result.app={pass:true,detail:'Existing Priya login, real HTTP checkout and Secure cookie passed in Chromium.'};
+  await page.route('**/signup', async route => {
+    if (route.request().method() !== 'POST') return route.continue();
+    const form = new URLSearchParams(route.request().postData());
+    form.set('email', input.email); // Internal identity for cleanup; not a visible signup field.
+    form.set('id_number', 'FAKE-VERIFY');
+    form.set('address', 'Fake verification street');
+    await route.continue({postData: form.toString()});
+  });
   await page.goto('http://localhost:5050/signup');
-  for(const [field,value] of Object.entries({name:'Verification Test',phone:'9000000000',email:input.email,password:input.password,id_number:'FAKE-VERIFY',address:'Fake verification street'}))await page.locator(`[name=${field}]`).fill(value);
+  for(const [field,value] of Object.entries({name:'Verification Test',phone:'9000000000',password:input.password}))await page.locator(`[name=${field}]`).fill(value);
   await page.getByRole('button',{name:'Create demo account'}).click();await page.waitForURL('http://localhost:5050/');
   result.signup={pass:true,detail:'Fresh signup succeeded over the live shop HTTP interface.'};
  }catch(error){result.error=error.message;}finally{await browser.close();console.log(JSON.stringify(result));}

@@ -5,7 +5,7 @@ test('real shop login, basket and no-payment checkout', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('A little fresher.');
   await page.screenshot({ path: '../.runtime/shop-desktop.png', fullPage: true });
   await page.getByRole('link', { name: 'Log in', exact: true }).click();
-  await page.getByLabel('Test email').fill('priya@example.test');
+  await page.getByLabel('Phone number or test email').fill('priya@example.test');
   await page.getByLabel('Test password').fill('priya@123');
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   await expect(page.getByText('Hello, Priya')).toBeVisible();

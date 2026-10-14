@@ -45,7 +45,7 @@ test('connected shop events, selected-account attack, repair and separate verifi
  await page.getByRole('button',{name:'Continue',exact:true}).click();await page.getByRole('checkbox',{name:/I own this project/}).check();await page.getByRole('button',{name:'Confirm project'}).click();await page.getByRole('button',{name:'Start security scan'}).click();
  await expect(page.locator('.score-ring strong')).toHaveText('38',{timeout:20000});
  await page.screenshot({path:'D:/cryptiq/core/.runtime/redesign-overview.png',fullPage:true});
- const store=await context.newPage();await store.goto(`${shop}/login`);await store.getByLabel('Test email').fill('priya@example.test');await store.getByLabel('Test password').fill('priya@123');await store.getByRole('button',{name:'Log in',exact:true}).click();
+ const store=await context.newPage();await store.goto(`${shop}/login`);await store.getByLabel('Phone number or test email').fill('priya@example.test');await store.getByLabel('Test password').fill('priya@123');await store.getByRole('button',{name:'Log in',exact:true}).click();
  await store.getByRole('button',{name:'Add Farm tomatoes to basket'}).click();await store.getByRole('link',{name:'Basket (1)'}).click();await store.getByRole('button',{name:'Place demo order — no payment'}).click();await expect(store.getByText('DEMO ORDER CONFIRMED')).toBeVisible();
  await page.goto('/hacker');await page.getByRole('button',{name:/Sign-in observed/}).first().click();await page.getByRole('button',{name:'Run attempt'}).click();await expect(page.locator('.attack-verdict')).toContainText('priya@123',{timeout:20000});
  await page.screenshot({path:'D:/cryptiq/core/.runtime/redesign-hacker-result.png',fullPage:true});
@@ -54,7 +54,7 @@ test('connected shop events, selected-account attack, repair and separate verifi
  await page.getByRole('link',{name:/Continue to verification/}).click();await page.getByRole('button',{name:'Run four verification checks'}).click();await expect(page.getByText('Verified. 4 of 4 checks passed.',{exact:true})).toBeVisible({timeout:60000});
  await page.screenshot({path:'D:/cryptiq/core/.runtime/redesign-verified.png',fullPage:true});
  await page.goto('/partner-demo');await expect(page.locator('.portfolio-metrics')).toContainText('91');
- await store.goto(`${shop}/signup`);await store.getByLabel('Name',{exact:true}).fill('Fresh Demo');await store.getByLabel('Test phone number').fill('9876543210');await store.getByLabel('Test email').fill(`fresh-${Date.now()}@example.test`);await store.getByLabel('Test password').fill('local-long-random-demo-4827!');await store.getByRole('button',{name:'Create demo account'}).click();await expect(store.getByText('Hello, Fresh')).toBeVisible();
+ await store.goto(`${shop}/signup`);await store.getByLabel('Name',{exact:true}).fill('Fresh Demo');await store.getByLabel('Test phone number').fill('9876543210');await store.getByLabel('Test password').fill('local-long-random-demo-4827!');await store.getByRole('button',{name:'Create demo account'}).click();await expect(store.getByText('Hello, Fresh')).toBeVisible();
  await page.goto('/hacker');await page.getByRole('button',{name:/New account created/}).first().click();await page.getByRole('button',{name:'Run attempt'}).click();await expect(page.getByRole('heading',{name:'No recovery for this account.'})).toBeVisible({timeout:20000});
  await page.screenshot({path:'D:/cryptiq/core/.runtime/redesign-protected.png',fullPage:true});
 });

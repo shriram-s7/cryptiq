@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-15",
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
@@ -651,5 +651,12 @@
       "commercial auth/billing/tenancy/quotas"
     ],
     "original_prompt_acceptance_unchanged": true
+  },
+  "registration_notification_workflow": {
+    "status": "done",
+    "test": "notifications.spec.ts passed in 58.1s; shop acceptance and build passed; four live verification checks passed",
+    "demo_state": "after",
+    "limitations": "bounded dictionary; common passwords can still crack after repair; transaction simulation",
+    "accepted_prompt_count_changed": false
   }
 }

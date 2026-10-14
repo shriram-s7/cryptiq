@@ -9,7 +9,7 @@ import sqlite3
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from catalog import PRODUCTS
 from demo_events import record as record_demo_event
-from storage import DB, DATA, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id, lookup_email, implementation
+from storage import DB, DATA, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id, lookup_email, lookup_phone, implementation
 
 
 def create_app(database=DB, testing=False):
@@ -61,7 +61,7 @@ def create_app(database=DB, testing=False):
         errors = {}
         if request.method == 'POST':
             password = request.form.get('password', '')
-            values['email'] = values['email'].lower()
+            values['email'] = values['email'].lower() or f'demo-{secrets.token_hex(12)}@example.test'
             if not 2 <= len(values['name']) <= 100: errors['name'] = 'Enter a name between 2 and 100 characters.'
             if not re.fullmatch(r'[6-9]\d{9}', values['phone']): errors['phone'] = 'Enter a 10-digit test phone number starting with 6–9.'
             if len(values['email']) > 254 or not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', values['email']): errors['email'] = 'Enter a valid test email address.'
@@ -74,8 +74,8 @@ def create_app(database=DB, testing=False):
                         db = app.config['DATABASE']
                         conn.execute('BEGIN IMMEDIATE')
                         current_mode = mode(db)
-                        cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at,password_scheme,email_lookup) VALUES (?,?,?,?,?,?,?,?,?)',
-                            (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id' if current_mode == 'after' else 'md5', lookup_email(values['email'], db)))
+                        cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at,password_scheme,email_lookup,phone_lookup) VALUES (?,?,?,?,?,?,?,?,?,?)',
+                            (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id' if current_mode == 'after' else 'md5', lookup_email(values['email'], db), lookup_phone(values['phone'])))
                         customer_id = cursor.lastrowid
                     cart = session.get('cart', {})
                     session.clear(); session.update(customer_id=customer_id, cart=cart)
@@ -93,7 +93,9 @@ def create_app(database=DB, testing=False):
             with connect(app.config['DATABASE']) as conn:
                 db = app.config['DATABASE']
                 email = request.form.get('email', '').strip().lower()
-                if mode(db) == 'after':
+                if re.fullmatch(r'[6-9]\d{9}', email):
+                    customer = conn.execute('SELECT * FROM customers WHERE phone_lookup=? ORDER BY id DESC LIMIT 1', (lookup_phone(email),)).fetchone()
+                elif mode(db) == 'after':
                     customer = conn.execute('SELECT * FROM customers WHERE email_lookup=?', (lookup_email(email, db),)).fetchone()
                 else:
                     customer = conn.execute('SELECT * FROM customers WHERE email=?', (email,)).fetchone()
@@ -103,7 +105,7 @@ def create_app(database=DB, testing=False):
                 flash('You are signed in to the demo store.')
                 if not testing: record_demo_event('login', customer['id'])
                 return redirect(url_for('index'))
-            error = 'Email or password is incorrect.'
+            error = 'Phone number, email or password is incorrect.'
         return render_template('login.html', error=error), 401 if error else 200
 
     @app.post('/logout')

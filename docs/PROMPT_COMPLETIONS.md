@@ -275,3 +275,16 @@ animated separate verification, real shop activity feed, actual selected-account
 labeled transaction sandbox, and redesigned storefront. Production build and connected experience
 browser checks passed, including real migration, verified91, and protected fresh signup attempt.
 See UI_SHOWCASE.md for limitations. This is a separate UI delivery, not C19-C29 full acceptance.
+
+
+## 2026-10-15 — Simplified registration and exact-account notifications
+State: done. User-requested workflow correction; C01-C18 acceptance count unchanged.
+Three visible signup fields, repeat-phone registration, newest-account phone login, live activity alerts,
+module navigation/focus, real selected-row artifacts and exact-account password/ID result gating.
+Preserved current tactical UI. Removed fabricated result fallbacks and misleading result explanations.
+Verification helper uses three visible inputs and an internal cleanup identity. Deleted fixtures are filtered.
+Checks: shop acceptance passed; production build passed; notifications.spec.ts passed in 58.1s, including
+before recovery, strong-account negative regression, login/checkout routing, real migration, after negative
+result and four live verification checks. Additional protected phone login passed. Demo left AFTER (91).
+Known limits: 5-second dataset-wide dictionary; no guarantee all guesses reach each account. Common
+passwords may still crack after fixes. Transaction animation is scripted. Other UI suites need selector refresh.

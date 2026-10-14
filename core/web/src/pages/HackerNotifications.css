@@ -1,0 +1,11 @@
+.shop-notifications { margin: 20px 24px 0; }
+.shop-notifications > p { padding: 14px 0; color: #94a3b8; font-size: 13px; }
+.shop-notification { display: flex; flex-wrap: wrap; gap: 6px 12px; width: 100%; margin-top: 8px; padding: 14px 16px; border: 1px solid #4c1725; border-radius: 10px; background: #190d17; color: #fecdd3; text-align: left; font-size: 13px; cursor: pointer; animation: activity-arrives .45s ease-out; }
+.shop-notification span:last-child { color: #94a3b8; font-size: 12px; }
+.shop-notification.unread { border-left: 3px solid #fb7185; }
+.shop-notification.opened { opacity: .7; background: transparent; }
+.shop-notification:hover, .shop-notification:focus-visible { outline: 2px solid #fb7185; outline-offset: 2px; }
+.shop-notification:disabled { cursor: wait; opacity: .5; }
+@keyframes activity-arrives { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .shop-notification { animation: none; } }
+@media (max-width: 640px) { .shop-notifications { margin: 12px; } }
