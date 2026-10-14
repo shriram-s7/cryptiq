@@ -1,5 +1,7 @@
 # Core handoff - latest state
 
+Presentation update — 15 October 2026: prepared the 12-slide Tech Squad / CryptIQ deck in docs/presentation, with detailed speaker notes and Business demo script. Updated root README and temporary live-origin instructions. Hash Patch remains deferred, pricing and financial assumptions are distinguished from validated results. No application state changed. Run: open the PPTX; hosting instructions in PUBLIC_DEMO.md. Next: C19 remains pending, plus production hosting and pilot validation.
+
 Latest handoff: read docs/PUBLIC_DEMO.md and top of STATUS.md. A free Cloudflare tunnel is running;
 complete reviewer link is local ignored core/.runtime/public-demo-link.txt. Do not publish access key.
 Compiled frontend and shop share API port8000 via CRYPTIQ_PUBLIC_DEMO=1. Local ports5173/5050 remain.

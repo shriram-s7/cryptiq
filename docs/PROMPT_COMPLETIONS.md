@@ -333,3 +333,8 @@ checks and partner view. Final report rendering/reset checked. Initial public ro
 fixed. Concurrent interrupted migration checked for rollback and recovered. Live state left BEFORE38.
 Public URL is temporary and PC-dependent; access link stored only in ignored runtime. No paid resources.
 No Hub/root presentation edits; original C01-C18 acceptance remains unchanged.
+
+
+## 2026-10-15 — Presentation and repository documentation
+
+Prepared the 12-slide Prosculpt-format CryptIQ / Tech Squad deck and detailed presenter guide. Updated README with actual scanner scope, current pricing, temporary live origin and setup. Hash Patch remains deferred; no C19+ acceptance claimed. Validation: reviewed all 12 rendered slides, package/layout validation and financial arithmetic checks. Access token excluded from tracked files.
