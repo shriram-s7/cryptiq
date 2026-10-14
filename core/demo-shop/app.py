@@ -8,14 +8,15 @@ import sqlite3
 
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from catalog import PRODUCTS
-from storage import DB, connect, hash_password, initialize, mode, session_secret, verify_password
+from storage import DB, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id
+from src_before import config as security_config
 
 
 def create_app(database=DB, testing=False):
     app = Flask(__name__)
     app.config.update(SECRET_KEY=session_secret(), DATABASE=str(database), TESTING=testing,
                       SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',
-                      SESSION_COOKIE_SECURE=False, MAX_CONTENT_LENGTH=32 * 1024)
+                      SESSION_COOKIE_SECURE=security_config.SESSION_COOKIE_SECURE, MAX_CONTENT_LENGTH=32 * 1024)
     initialize(database)
 
     def current_user():
@@ -69,7 +70,7 @@ def create_app(database=DB, testing=False):
                 try:
                     with connect(app.config['DATABASE']) as conn:
                         cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at) VALUES (?,?,?,?,?,?,?)',
-                            (values['name'], values['phone'], values['email'], hash_password(password), values['id_number'], values['address'], datetime.now(timezone.utc).isoformat()))
+                            (values['name'], protect_contact(values['phone']), protect_contact(values['email']), hash_password(password), encrypt_id(values['id_number']), protect_contact(values['address']), datetime.now(timezone.utc).isoformat()))
                         customer_id = cursor.lastrowid
                     cart = session.get('cart', {})
                     session.clear(); session.update(customer_id=customer_id, cart=cart)

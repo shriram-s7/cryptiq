@@ -23,8 +23,8 @@ python core/demo-shop/reset.py
 Seed creates exactly 3,000 repeatable fake customers, including priya@example.test / priya@123.
 Exactly 1,350 passwords (45%) belong to the curated demo common-password list. A deterministic
 local name list is used instead of adding Faker; all email addresses use example.test and ID numbers
-are explicitly fake. No external customer data is used. IDs are plaintext at this stage; C07 adds the
-small-key RSA planted issue. Protected-mode migration comes in C08.
+are explicitly fake. No external customer data is used. IDs use tiny 64-bit textbook RSA from active src_before code (simulation only).
+Protected-mode migration comes in C08.
 
 The seed refuses to overwrite existing customer data unless --force is explicitly supplied.
 data/shop_before.db is the fake reset snapshot allowed in Git. data/shop.db, session.key, seed truth

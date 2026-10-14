@@ -170,3 +170,13 @@ check_shop.py passed; one live browser journey passed; screenshot inspected; act
 3000 customers and zero orders. Sensitive runtime files confirmed ignored. No services left running.
 Current IDs are plaintext until C07 RSA planting; protected mode awaits C08. C04 pushed as b1b70d5.
 Next C07: active before source snapshot, eight planted issues and evidence-based local checker.
+
+
+## 2026-10-14 - C07 accepted
+Created active src_before auth/config/models/crypto modules. Shop and seed invoke these modules.
+Fake IDs now use tiny 64-bit textbook RSA, with deterministic demo-only generated keys ignored
+from Git and a regenerated fake snapshot. New AST-based local discovery finds eight distinct issues
+and MD5/RSA assets without importing vendor code. Missing-policy findings disclose scan scope and
+lower confidence. check_discovery.py passed exact findings and cookie-source mutation test;
+check_shop.py regression and RSA round trip passed. C05/C06 pushed as d13e7a7.
+Next C08: real protected mode and transactional migration; T02/T09 remain deferred.
