@@ -6,7 +6,7 @@ Updated: 14 October 2026, IST.
 
 C01 is implemented and all five live HTTP acceptance check groups passed.
 The API is running locally on port 8000. Core web and demo shop are not implemented.
-Publication of this task is pending; see the latest completion log entry for confirmation.
+C01 commit 512f23f was successfully pushed to origin/main.
 
 ## Completed
 
