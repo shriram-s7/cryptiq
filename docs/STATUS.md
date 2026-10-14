@@ -1,5 +1,7 @@
 # Core status - 2026-10-15
 
+Presentation update — 15 October 2026: prepared the 12-slide Tech Squad / CryptIQ deck in docs/presentation, with detailed speaker notes and Business demo script. Updated root README and temporary live-origin instructions. Hash Patch remains deferred, pricing and financial assumptions are distinguished from validated results. No application state changed. Run: open the PPTX; hosting instructions in PUBLIC_DEMO.md. Next: C19 remains pending, plus production hosting and pilot validation.
+
 LATEST — 2026-10-15: Public demo live through a free temporary Cloudflare Tunnel; reviewer link in
 core/.runtime/public-demo-link.txt (ignored). This depends on the presenter PC being awake/online,
 not permanent hosting. Instructions: docs/PUBLIC_DEMO.md. Current demo reset to BEFORE, score38,

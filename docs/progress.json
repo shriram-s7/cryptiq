@@ -680,5 +680,15 @@
     "independent_fixes": "not implemented; atomic bundle; per-card review selection only",
     "password_protection": "server-held pepper + Argon2id; same password fails database-only reattack after migration",
     "paid_resources": false
+  },
+  "presentation": {
+    "status": "completed",
+    "date": "2026-10-15",
+    "slides": 12,
+    "team": "Tech Squad",
+    "deck": "docs/presentation/CryptIQ_Tech_Squad_12_Slides.pptx",
+    "guide": "docs/presentation/PRESENTER_GUIDE.md",
+    "scope": "Presentation and documentation only; no additional C prompt acceptance",
+    "publication": "included in presentation documentation commit"
   }
 }

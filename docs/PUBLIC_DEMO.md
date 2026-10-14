@@ -1,5 +1,11 @@
 # Public demonstration — 15 October 2026
 
+Current origin: https://usual-orbit-national-mazda.trycloudflare.com/
+New reviewers require the complete private access link.
+
+Presentation: [Tech Squad deck](presentation/CryptIQ_Tech_Squad_12_Slides.pptx).
+Detailed notes: [Presenter guide](presentation/PRESENTER_GUIDE.md).
+
 The prototype has a free temporary Cloudflare Tunnel link. This is a live link to the presenter PC,
 not permanent cloud hosting: keep the PC awake, connected and the services running. Restarting the
 tunnel produces a different address. The complete reviewer link is stored locally in
