@@ -42,7 +42,7 @@ def main():
             assert all(priya[k].startswith('pqc:v1:') for k in ('phone', 'email', 'address', 'id_number'))
             assert decrypt(priya['email']) == 'priya@example.test'
             assert decrypt(priya['id_number']) == 'DEMO-ID-000001'
-            assert priya['password_hash'].startswith('$argon2id$') and priya['password_scheme'] == 'argon2id_md5'
+            assert priya['password_hash'].startswith('$argon2id$') and priya['password_scheme'] == 'argon2id_md5_peppered'
         assert encrypt('same') != encrypt('same')
         corrupted = encrypt('tamper me')
         try: decrypt(corrupted[:-4] + 'AAAA')
@@ -65,7 +65,7 @@ def main():
         assert post('/signup', {'name': 'Protected User', 'phone': '9111111111', 'email': 'protected@example.test', 'password': 'new-test-password', 'id_number': 'NEW-FAKE-ID'}).status_code == 302
         with connect(db) as conn:
             row = conn.execute('SELECT * FROM customers ORDER BY id DESC LIMIT 1').fetchone()
-            assert row['password_scheme'] == 'argon2id'
+            assert row['password_scheme'] == 'argon2id_peppered'
             assert row['phone'].startswith('pqc:v1:') and decrypt(row['phone']) == '9111111111'
         assert post('/logout', {}).status_code == 302
         assert post('/login', {'email': 'protected@example.test', 'password': 'new-test-password'}).status_code == 302

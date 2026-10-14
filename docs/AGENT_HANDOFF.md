@@ -1,5 +1,15 @@
 # Core handoff - latest state
 
+Latest handoff: read docs/PUBLIC_DEMO.md and top of STATUS.md. A free Cloudflare tunnel is running;
+complete reviewer link is local ignored core/.runtime/public-demo-link.txt. Do not publish access key.
+Compiled frontend and shop share API port8000 via CRYPTIQ_PUBLIC_DEMO=1. Local ports5173/5050 remain.
+Current state BEFORE score38/0 applied. Public full flow/PDF passed. Do not restart API during jobs.
+Peppered Argon2id now ensures this database-only known-password reattack actually fails after repair,
+while app login works. Preserve data/password_pepper.key and protected_keys.json (both ignored).
+Individual cards only select for review: repairs remain one atomic bundle; do not claim 1/4 applied.
+Public upload disabled; shared fake database; PC must stay on. Remaining C prompts not accepted here.
+
+
 Latest publication: all current Core UI/backend changes consolidated. See CURRENT_SNAPSHOT.md
 for routes, validation and remaining limitations. Hub and root presentation remain unchanged.
 Restored RSA storage/inventory consistency guard. Default shell test uses current product routes.

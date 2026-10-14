@@ -1,3 +1,4 @@
+import { config } from '@/lib/config';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -202,12 +203,12 @@ export function HackerObservatory() {
           </div>
 
           <a
-            href="http://localhost:5050"
-            target="_blank"
+            href={config.shopUrl}
+            target="cryptiq-main"
             rel="noreferrer"
             className="hacker-ext-link"
           >
-            Target Shop :5050 <ArrowUpRight size={14} />
+            Chennai Organics <ArrowUpRight size={14} />
           </a>
         </div>
       </header>
@@ -267,7 +268,7 @@ export function HackerObservatory() {
             </div>
             <div className="text-[11px] font-mono text-slate-300">
               Chennai Organics Demo<br />
-              <span className="text-slate-500">Host: 127.0.0.1:5050</span><br />
+              <span className="text-slate-500">Target: Chennai Organics demo</span><br />
               <span className="text-slate-500">Storage: local shop.db</span>
             </div>
             <div className="mt-3 text-[10px] text-rose-400/80 font-mono border-t border-rose-950/60 pt-2">
@@ -610,7 +611,7 @@ export function HackerObservatory() {
                       </div>
                       <p className="text-xs text-rose-300/90 mt-2 leading-relaxed">
                         Could not recover this account's password within the 5-second test budget.
-                        Common passwords can still be recovered after fixes; this does not prove the password is unguessable.
+                        This database-only test does not include the server-held password secret; this does not prove the password is unguessable.
                       </p>
                       <div className="text-[10px] font-mono text-slate-500 mt-2">
                         Iterations: {result.tried.toLocaleString()} · Verdict: DEFENSE_HELD · No credentials dumped

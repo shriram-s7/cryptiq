@@ -14,6 +14,8 @@ router = APIRouter()
 
 @router.get('/api/demo/activity')
 def demo_activity():
+    if (scan_jobs.SHOP.parent / '.migration.lock').exists():
+        raise HTTPException(409, 'Shop maintenance in progress; activity resumes after migration')
     path = Path(__file__).resolve().parents[1] / '.runtime' / 'shop-events.json'
     try:
         events = json.loads(path.read_text(encoding='utf-8'))

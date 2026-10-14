@@ -17,9 +17,9 @@ with tempfile.TemporaryDirectory(dir=ROOT/'core/.runtime') as temp:
  assert before['cracked']==2 and {r['value'] for r in before['revealed']}=={'priya@123','chennai123'}
  migrate(db)
  after=dictionary(db,1)
- assert after['cracked']==2,after
+ assert after['cracked']==0,after
  assert after['tried']>0 and after['durationMs']>before['durationMs']
- print(f"PASS: real signup before recovered2/{before['total']} in{before['durationMs']}ms; migrated weak passwords honestly recovered{after['cracked']} in{after['durationMs']}ms")
+ print(f"PASS: real signup before recovered2/{before['total']} in{before['durationMs']}ms; database-only guesses after pepper migration recovered{after['cracked']} in{after['durationMs']}ms")
  with connect(db) as conn:
   conn.execute('UPDATE customers SET password_hash=?,password_scheme=?',(PasswordHasher(time_cost=2,memory_cost=19456,parallelism=1).hash('unique-not-in-dictionary'),'argon2id'))
  timeout=dictionary(db,.1)

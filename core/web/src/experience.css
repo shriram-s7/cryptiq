@@ -2802,3 +2802,14 @@ details[open] > summary.code-dropdown-toggle .chevron-icon {
     padding: 20px 18px;
   }
 }
+
+/* Readable report notes on the light workspace background. */
+.report-page .report-readable-panel { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; box-shadow: 0 4px 18px #0f172a08; }
+.report-page .report-readable-panel h2, .report-page .report-readable-panel summary { color: #0f172a; }
+.report-page .report-readable-panel p { color: #475569; }
+.report-page .report-readable-panel button { color: #3730a3; }
+.report-page .report-readable-panel button:hover { color: #312e81; }
+.report-page .btn-review-findings-bright:disabled { color: #475569; background: #e2e8f0; opacity: 1; cursor: not-allowed; }
+.demo-switcher { display:flex; align-items:center; flex-wrap:wrap; gap:12px; padding:10px 20px; background:#111827; color:#e2e8f0; font-size:12px; }
+.demo-switcher a { padding:6px 10px; border:1px solid #475569; border-radius:6px; color:#f1f5f9; }
+.demo-switcher a:hover { background:#334155; }

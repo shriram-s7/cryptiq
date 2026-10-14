@@ -52,13 +52,15 @@ def dictionary(database,budget_seconds,report=lambda _:None,customer_id=None):
     if customer_id is not None and not rows:
         raise ValueError('Selected account no longer exists. Choose a current shop notification.')
     result={'tried':0,'candidatesTried':0,'cracked':0,'total':len(rows),'revealed':[], 'durationMs':0,'budgetSeconds':budget_seconds,'budgetExhausted':False,'lines':[f'Loaded {len(rows)} fake customer hashes; {len(WORDS)} dictionary candidates.']}
+    if any(row['password_scheme'].endswith('_peppered') for row in rows):
+        result['lines'].append('Database-only test: server-held password pepper is not present in the leaked records. Guesses are tested without that secret.')
     remaining={row['id']:row for row in rows}
     md5={}
     for row in rows:
         scheme = row['password_scheme'] or 'md5'
         if scheme == 'md5':
             md5.setdefault(row['password_hash'], []).append(row['id'])
-        elif scheme in ('argon2id', 'argon2id_md5'):
+        elif scheme in ('argon2id', 'argon2id_md5', 'argon2id_peppered', 'argon2id_md5_peppered'):
             pass
         else:
             continue
@@ -76,7 +78,7 @@ def dictionary(database,budget_seconds,report=lambda _:None,customer_id=None):
             if row['id'] not in remaining or row['password_scheme']=='md5': continue
             if time.monotonic()-started>=budget_seconds:
                 result['budgetExhausted']=True; break
-            guess=digest if row['password_scheme']=='argon2id_md5' else candidate
+            guess=digest if row['password_scheme'] in ('argon2id_md5','argon2id_md5_peppered') else candidate
             result['tried']+=1
             try:
                 HASHER.verify(row['password_hash'],guess)
