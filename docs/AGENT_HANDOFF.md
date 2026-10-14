@@ -30,8 +30,9 @@ If this checkout already has later completion entries, follow those instead of t
 
 Repository: https://github.com/shriram-s7/cryptiq, branch main.
 Local shell: PowerShell. Python was available as `python` (3.14.0 during planning).
-All Core services were stopped cleanly after C02 acceptance. The old C01 API was stopped through
-its original session before running the combined launcher. Check current ports before assuming state.
+Latest requested regression passed; see TEST_RESULTS.md. The combined launcher is now running
+(session 79448; API 8964, web 6876, shop 3964 observed). Check ports/processes before assuming state.
+Do not launch another copy without stopping this one through its terminal.
 Python 3.14.0, Node 20.20.2, FastAPI 0.127.0, uvicorn 0.40.0 and Flask 3.0.3 were available.
 No dependency installation was needed; fresh-environment setup is documented but not exercised.
 

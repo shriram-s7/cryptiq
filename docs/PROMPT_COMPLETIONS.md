@@ -132,3 +132,11 @@ Commit cabd1d5: core: scaffold services with checked startup and shutdown.
 Successful git push origin main advanced GitHub from 62cbd57 to cabd1d5.
 C02 acceptance passed before commit. Hub/shared unchanged. All Core services are stopped.
 Next task: C03/T03 React shell.
+
+
+## 2026-10-14T16:18:29+05:30 - Requested scaffold regression
+
+All existing C01/C02 HTTP and launcher failure-path checks passed. See TEST_RESULTS.md for
+commands, limitations and live service details. No C03+ task is marked complete.
+Services left running for user inspection. Next implementation prompt is C03_T03.md.
+This checkpoint is carried in the regression-report commit; inspect Git history for its hash.
