@@ -71,6 +71,7 @@ def create_app(database=DB, testing=False):
                 try:
                     with connect(app.config['DATABASE']) as conn:
                         db = app.config['DATABASE']
+                        conn.execute('BEGIN IMMEDIATE')
                         current_mode = mode(db)
                         cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at,password_scheme,email_lookup) VALUES (?,?,?,?,?,?,?,?,?)',
                             (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id' if current_mode == 'after' else 'md5', lookup_email(values['email'], db)))

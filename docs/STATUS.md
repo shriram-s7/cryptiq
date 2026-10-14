@@ -1,36 +1,26 @@
-# Core status
+# Core checkpoint - 2026-10-14
 
-15/29 prompts accepted: C01-C14 and C18. C19/C20/C21/C23 have working portions but remain partial.
-14 prompts remain unfinished, plus deferred engine reuse T02/T09.
+Stopped at the user's request. 16/29 prompts accepted: C01-C15 and C18.
+13 prompts remain unfinished, plus deferred engine reuse T02/T09.
+C16 verification is implemented but NOT accepted. C19-C23 have partial UI work.
 
-Working browser flow: Start scan -> live source/database scan -> score 38 and six-field data map ->
-eight findings -> owner/developer views, filters, evidence drawer and guidance. Real bounded ZIP
-scans also work. Results persist in SQLite. Failed requests show retry guidance; no mock fallback.
-Overview fits 1280x800; mobile has no horizontal overflow. Workflow navigation states what is ready.
+Working: live scan and ZIP upload, score/data map/findings, inventory download, real dictionary
+attack and tiny-public-key RSA simulation, source diff review and browser merge/migration.
+Dictionary recovered1350/3000 before passwords; RSA simulation decrypted3000 fake IDs.
+Full browser merge test passed in51 seconds. Main shop is now AFTER mode with3000 encrypted
+fake customer records. Do not expect38 on a fresh scan of this migrated database.
+Existing logins are preserved; candidate protected score91 is not a verified claim.
 
-Run from D:/cryptiq: core/.venv/Scripts/python.exe core/scripts/dev.py
-Services running: http://localhost:5173/scan, API :8000, demo shop :5050.
-Click Start security scan, then Review 8 findings. Shop has 3000 fake before-mode customers.
+Verification backend and four-check UI are implemented; build passed. Live verification acceptance
+was NOT run because automatic approval review failed due usage limit. No all-pass result claimed.
+Next: finish C16 real verification, failure gate, retry and stale-state acceptance, then C17 reports,
+public summary and reset. PDF and live Hub public results remain unfinished; summary is still stub.
 
-Next C14 RSA simulation, then C15/C16 review,
-merge and verification, C17 reports/public summary. Full scan-to-report product is NOT complete.
-Attack Lab now shows live fake database rows with newest-first, masking and inspection. Report offers a real CycloneDX inventory download. Attack execution, merge/verify and PDF are still unavailable.
-C19/C20 still need attack outcomes and patch previews. Candidate scores are NOT verified results.
-The public Hub summary remains its original stub. Hub unchanged; reuse remains deferred.
+Run: core/.venv/Scripts/python.exe core/scripts/dev.py from D:/cryptiq.
+Last known services running: localhost:5173, API:8000, shop:5050. Avoid duplicate launcher.
+Open http://localhost:5173/p/p_demo/fix for review/verification UI or /attack for real attacks.
+Main data was intentionally migrated by the acceptance test; it has not been reset.
 
-Checks passed: production build; 5 focused browser tests; live scan/ZIP API checks; persistence and
-stale-storage checks; public stub regression. Two layout failures were fixed before acceptance.
-ZIP accepts raw application/zip; source inspection is Python-pattern best effort, never execution.
-Uploads/results remain in ignored core/.runtime; no retention cleanup UI yet. Offline migration
-remains a script; educational ML-KEM limitation and 24.7-40 second migration timing still apply.
-See progress.json and PROMPT_COMPLETIONS.md for portable task handoff.
-
-C11/C12 batch: official CycloneDX 1.6 schema validation passes for before/after assets and HTTP download.
-Fresh signup, empty preview, exact stored fields and migrated ciphertext passed isolated-shop checks.
-Browser preview, masking, drawer, refresh, limit/project errors and download passed. No main-shop
-customer rows were added by tests. Visit /p/p_demo/attack; open demo signup, return and Refresh.
-Schema reference: https://cyclonedx.org/schema/bom-1.6.schema.json (bundled unchanged for checks).
-
-C13 complete: real dictionary attack is live in Attack Lab. 1350/3000 before passwords recovered from20 common guesses. Five-second default budget,max60. Argon2 slows guessing but known weak passwords can still recover: isolated migrated test recovered2/2 in98ms. No scripted zero-crack claim. Next C14, then review/merge.
-
-C14 accepted2026-10-14: bounded classical Pollard-rho simulation factors only <=64-bit public demo key, never reads private-key file. Recovered3000 IDs in201ms; protected actual inventory returns not_applicable. Timeout/unsupported checks and live browser RSA test passed. Next C15 review/merge. C13 pushed e4fb68a.
+Known limits: bounded dictionary outcomes are not exhaustive security proof; migrated weak
+passwords can still recover (isolated test recovered2/2). ML-KEM library is educational.
+No Hub changes. Reuse stays deferred. See progress.json and AGENT_HANDOFF.md.

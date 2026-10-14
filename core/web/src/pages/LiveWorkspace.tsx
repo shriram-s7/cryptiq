@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2, ChevronRight, FileSearch, LoaderCircle, Shiel
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { requestJson } from '@/lib/api';
+import { FixWorkflow } from './FixWorkflow';
 import { LeakPreview } from './LeakPreview';
 import { config } from '@/lib/config';
 import type { Scan, Finding } from '@/lib/contracts';
@@ -73,6 +74,7 @@ export function LiveScanPage() {
 export function LiveProjectPage({ page }: { page: string }) {
   const { id = 'p_demo' } = useParams();
   const [scan, setScan] = useState<LiveScan | null>(null);
+  const [verified, setVerified] = useState(false);
   const [name, setName] = useState('Project');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -82,21 +84,21 @@ export function LiveProjectPage({ page }: { page: string }) {
     setLoading(true); setError(''); setScan(null);
     async function load() {
       try {
-        const project = await requestJson<{ name: string; scan: LiveScan | null }>(`/api/projects/${encodeURIComponent(id)}`, { signal: abort.signal });
-        setName(project.name); setScan(project.scan); setLoading(false);
+        const project = await requestJson<{ name: string; scan: LiveScan | null; verified: boolean }>(`/api/projects/${encodeURIComponent(id)}`, { signal: abort.signal });
+        setVerified(project.verified); setName(project.name); setScan(project.scan); setLoading(false);
         if (project.scan?.status === 'running') timer = setTimeout(load, 400);
       } catch (reason) { if (!abort.signal.aborted) { setError(reason instanceof Error ? reason.message : 'Could not load project'); setLoading(false); } }
     }
     void load(); return () => { abort.abort(); clearTimeout(timer); };
-  }, [id, reload]);
+  }, [id, page, reload]);
   const step = page === 'Overview' || page === 'Findings' ? 1 : page === 'Attack Lab' ? 2 : page === 'Fix & Verify' ? 3 : 4;
   return <><Workflow step={step} /><div className="page-heading mt-7"><div className="eyebrow mb-3">{name} / {scan?.source === 'zip' ? 'UPLOADED SOURCE' : 'LOCAL DEMO'}</div><h1 tabIndex={-1}>{page}</h1><p>{page === 'Overview' ? 'Your scan results, the evidence, and what to do next.' : page === 'Findings' ? 'Review each risk in plain English or inspect the source evidence.' : 'Continue the security workflow from your latest scan.'}</p></div>
-    {error ? <ErrorNotice message={error} retry={() => setReload(n => n + 1)} /> : loading ? <Card className="p-8" role="status">Loading your project…</Card> : !scan ? <Card className="empty-state"><FileSearch size={32} /><h2>Start with a security scan.</h2><p>No scan results exist for this project yet.</p><Button asChild><Link to="/scan">Start a scan <ArrowRight size={16} /></Link></Button></Card> : scan.status === 'running' ? <Card className="p-8" role="status"><LoaderCircle className="animate-spin mb-3" /><h2>Scan in progress</h2><p>{scan.stages.length} of 5 stages completed. This page updates automatically.</p></Card> : scan.status === 'error' ? <><ErrorNotice message={scan.error || 'Scan failed'} /><Link className="secondary-link mt-4" to="/scan">Start a new scan</Link></> : page === 'Overview' ? <Overview scan={scan} id={id} /> : page === 'Findings' ? <Findings scan={scan} id={id} /> : page === 'Attack Lab' ? <LeakPreview id={id} /> : <NextStep scan={scan} page={page} id={id} />}
+    {error ? <ErrorNotice message={error} retry={() => setReload(n => n + 1)} /> : loading ? <Card className="p-8" role="status">Loading your project…</Card> : !scan ? <Card className="empty-state"><FileSearch size={32} /><h2>Start with a security scan.</h2><p>No scan results exist for this project yet.</p><Button asChild><Link to="/scan">Start a scan <ArrowRight size={16} /></Link></Button></Card> : scan.status === 'running' ? <Card className="p-8" role="status"><LoaderCircle className="animate-spin mb-3" /><h2>Scan in progress</h2><p>{scan.stages.length} of 5 stages completed. This page updates automatically.</p></Card> : scan.status === 'error' ? <><ErrorNotice message={scan.error || 'Scan failed'} /><Link className="secondary-link mt-4" to="/scan">Start a new scan</Link></> : page === 'Overview' ? <Overview scan={scan} id={id} verified={verified} /> : page === 'Findings' ? <Findings scan={scan} id={id} /> : page === 'Attack Lab' ? <LeakPreview id={id} /> : page === 'Fix & Verify' ? <FixWorkflow id={id} /> : <NextStep scan={scan} page={page} id={id} />}
   </>;
 }
 
-function Overview({ scan, id }: { scan: LiveScan; id: string }) {
-  return <><div className="overview-grid"><Card className="score-card"><div className={`score-ring ${scan.score >= 80 ? 'good' : scan.score >= 50 ? 'warn' : ''}`}><strong>{scan.score}</strong><span>/ 100</span></div><div><h2 className="text-lg">Initial scan score</h2><p className="text-sm text-slate-500 mt-1">{scan.counts.critical > 0 ? 'Critical issues need attention.' : 'Review remaining issues and verify any fixes.'}</p><span className="small-badge inline-block mt-3">NOT YET VERIFIED</span><details className="text-xs text-slate-500 mt-3"><summary>How this score is calculated</summary><p className="mt-2">100 − 15×critical − 7×high − 3×medium − 1×low. Open and manual findings count; minimum 0. This is a candidate result, not verification of a fix.</p></details></div></Card><Card className="p-5"><h2 className="text-base mb-3">Issues found</h2><div className="severity-grid">{Object.entries(scan.counts).map(([severity,count]) => <div key={severity}><strong className={`severity-${severity}`}>{count}</strong><span>{severity}</span></div>)}</div><p className="text-xs text-slate-500 mt-3">{scan.customerCount !== null ? `${scan.customerCount.toLocaleString()} demo customers · ${scan.sampledCustomers} storage rows sampled` : 'Source-only scan · no customer database assessed'}</p></Card></div>
+function Overview({ scan, id, verified }: { scan: LiveScan; id: string; verified:boolean }) {
+  return <><div className="overview-grid"><Card className="score-card"><div className={`score-ring ${scan.score >= 80 ? 'good' : scan.score >= 50 ? 'warn' : ''}`}><strong>{scan.score}</strong><span>/ 100</span></div><div><h2 className="text-lg">{verified ? 'Verified security score' : 'Candidate scan score'}</h2><p className="text-sm text-slate-500 mt-1">{scan.counts.critical > 0 ? 'Critical issues need attention.' : 'Review remaining issues and verify any fixes.'}</p><span className="small-badge inline-block mt-3">{verified ? '4 OF 4 CHECKS PASSED' : 'NOT YET VERIFIED'}</span><details className="text-xs text-slate-500 mt-3"><summary>How this score is calculated</summary><p className="mt-2">100 − 15×critical − 7×high − 3×medium − 1×low. Open and manual findings count; minimum 0. This is a candidate result, not verification of a fix.</p></details></div></Card><Card className="p-5"><h2 className="text-base mb-3">Issues found</h2><div className="severity-grid">{Object.entries(scan.counts).map(([severity,count]) => <div key={severity}><strong className={`severity-${severity}`}>{count}</strong><span>{severity}</span></div>)}</div><p className="text-xs text-slate-500 mt-3">{scan.customerCount !== null ? `${scan.customerCount.toLocaleString()} demo customers · ${scan.sampledCustomers} storage rows sampled` : 'Source-only scan · no customer database assessed'}</p></Card></div>
     <div className="flex items-center justify-between mt-5 mb-3"><h2 className="text-lg">Where your data stands</h2><span className="text-xs text-slate-500">Actual scan evidence</span></div><div className="data-map">{scan.dataMap.map(item => <Card className="p-4" key={item.dataType}><h3 className="text-sm">{names[item.dataType]}</h3><p className={`text-xs mt-2 ${item.status === 'risk' ? 'text-danger-600' : item.status === 'ok' ? 'text-emerald-700' : 'text-amber-700'}`}>{protection[item.protection]}</p><p className="text-[10px] text-slate-500 mt-2 font-mono">{item.store}</p></Card>)}</div>
     <div className="next-action"><div><strong>Next: understand the findings</strong><p>Review source evidence and available fixes before running an attack.</p></div><Button asChild><Link to={`/p/${id}/findings`}>Review {scan.findings.length} findings <ArrowRight size={16} /></Link></Button></div>
     <details className="text-xs text-slate-500 mt-3"><summary>Scan coverage and limitations</summary><ul className="mt-2 list-disc pl-5">{scan.warnings.map(w => <li key={w}>{w}</li>)}</ul><p>Finished {new Date(scan.finishedAt).toLocaleString()} · {scan.id}</p></details></>;

@@ -10,6 +10,8 @@ from fastapi.responses import JSONResponse
 from scan_jobs import router, initialize, POOL
 from evidence import router as evidence_router
 from attacks import dictionary
+from fixes import reviews
+from verify import checks
 
 
 SUMMARY_FIXTURE = (
@@ -21,7 +23,11 @@ SUMMARY_FIXTURE = (
 async def lifespan(app):
     initialize()
     dictionary.initialize()
+    reviews.initialize()
+    checks.initialize()
     yield
+    checks.POOL.shutdown(wait=True)
+    reviews.POOL.shutdown(wait=True)
     dictionary.POOL.shutdown(wait=True)
     POOL.shutdown(wait=True)
 
@@ -36,6 +42,8 @@ app.add_middleware(
 app.include_router(router)
 app.include_router(evidence_router)
 app.include_router(dictionary.router)
+app.include_router(reviews.router)
+app.include_router(checks.router)
 
 
 @app.get("/api/health")

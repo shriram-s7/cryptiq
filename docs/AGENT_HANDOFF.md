@@ -36,3 +36,15 @@ Attack Lab. Never use seed truth to produce attack results. User wants working v
 Real persistent local-only dictionary jobs and browser terminal. No seed-truth reads. check_dictionary.py passed actual signup, migrated recovery and timeout (118ms/3 evaluations); attacks.spec.ts passed1350/3000 recovery and API validation. Build passed. Services running; next C14. C11/C12 pushed6326026.
 
 C14 accepted2026-10-14: bounded classical Pollard-rho simulation factors only <=64-bit public demo key, never reads private-key file. Recovered3000 IDs in201ms; protected actual inventory returns not_applicable. Timeout/unsupported checks and live browser RSA test passed. Next C15 review/merge. C13 pushed e4fb68a.
+
+## Latest checkpoint: user explicitly requested stop
+C15 accepted (isolated check_reviews.py and full merge.spec.ts passed); C16 in progress.
+Main shop AFTER mode,3000 fake rows migrated. Latest launcher session95583, last known running.
+Verification code core/api/verify/checks.py and core/web/scripts/verify-shop.cjs; UI
+VerificationPanel.tsx. Build passed; live test command blocked by approval-review usage limit.
+core/web/tests/verify.spec.ts was NOT created because the entire attempted command was rejected.
+Resume by creating/running live verification acceptance, inspect failures, test injected failure,
+retry and stale-state publication. Do not claim C16 complete from a successful build.
+Review worker cleanup/fingerprint and publication race handling before final acceptance.
+C17 PDF/live summary/reset not implemented. Do not reset main shop without accounting for
+current after-mode evidence. Preserve all work. Last completed pushed commit before checkpoint:e45d492.

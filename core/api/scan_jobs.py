@@ -129,7 +129,9 @@ def extract_zip(content, scan_id):
 def read_project(project_id: str):
     value = project(project_id)
     latest = get_scan(value['latest_scan']) if value['latest_scan'] else None
-    return {'id': project_id, 'name': value['name'], 'revision': value['revision'], 'latestScanId': value['latest_scan'], 'scan': latest, 'verified': False}
+    from verify.checks import published
+    verified = project_id == 'p_demo' and published() is not None
+    return {'id': project_id, 'name': value['name'], 'revision': value['revision'], 'latestScanId': value['latest_scan'], 'scan': latest, 'verified': verified}
 
 
 @router.post('/api/projects')

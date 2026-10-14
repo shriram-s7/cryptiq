@@ -1,0 +1,14 @@
+import {useEffect,useState} from 'react';
+import {Link} from 'react-router-dom';
+import {Button} from '@/components/ui/button';
+import {Card} from '@/components/ui/card';
+import {requestJson} from '@/lib/api';
+type Verification={id:string;status:string;scoreBefore:number;scoreAfter?:number;error?:string;checks:{key:string;label:string;status:string;detail:string}[]};
+export function VerificationPanel(){
+ const [value,setValue]=useState<Verification|null>(null),[published,setPublished]=useState(false),[error,setError]=useState(''),[refresh,setRefresh]=useState(0),[starting,setStarting]=useState(false);
+ useEffect(()=>{const abort=new AbortController();let timer:ReturnType<typeof setTimeout>;
+ async function load(){try{const result=await requestJson<{verification:Verification|null;published:boolean}>('/api/projects/p_demo/verification',{signal:abort.signal});setValue(result.verification);setPublished(result.published);if(result.verification?.status==='running')timer=setTimeout(load,500);}catch(e){if(!abort.signal.aborted)setError(e instanceof Error?e.message:'Verification unavailable');}}
+ void load();return()=>{abort.abort();clearTimeout(timer);};},[refresh]);
+ async function start(){setStarting(true);setError('');try{await requestJson('/api/projects/p_demo/verifications',{method:'POST'});setRefresh(n=>n+1);}catch(e){setError(e instanceof Error?e.message:'Could not start verification');}finally{setStarting(false);}}
+ return <Card className="p-6 mt-5"><span className="small-badge">FOUR LIVE CHECKS</span><h2 className="mt-3">Prove the changes work</h2><p className="text-sm text-slate-500 mt-2">Re-scan, bounded re-attack, existing login and checkout, then a fresh signup checked in storage. The score is verified only when all four pass.</p>{value?<div className="verify-checks">{value.checks.map(check=><div key={check.key} className={`verify-row verify-${check.status}`}><strong>{check.status==='pass'?'✓':check.status==='fail'?'×':check.status==='running'?'…':'○'} {check.label}</strong><p>{check.detail||'Waiting for previous checks'}</p></div>)}</div>:null}{published?<div className="bg-emerald-50 p-4 rounded my-5"><strong>Verified. 4 of 4 checks passed.</strong><p className="font-mono text-xl mt-2">{value?.scoreBefore} → {value?.scoreAfter}</p><Link to="/p/p_demo" className="secondary-link mt-3">Open verified overview</Link></div>:value?.status==='failed'?<p role="alert" className="error-notice">Verification did not pass. No verified score upgrade was published. {value.error}</p>:value?.status==='passed'?<p className="text-sm mt-4">Previous checks passed, but the project has changed. Verify again to publish current evidence.</p>:null}<Button className="mt-5" disabled={starting||value?.status==='running'} onClick={start}>{value?.status==='running'?'Verification running…':value?'Run verification again':'Run four verification checks'}</Button>{error?<p role="alert" className="error-notice">{error}</p>:null}</Card>;
+}
