@@ -1,0 +1,24 @@
+import {test,expect} from '@playwright/test';
+import {writeFileSync} from 'node:fs';
+test('verified report downloads, then reset invalidates publication and restores38',async({page,request})=>{
+ test.setTimeout(90000);
+ await page.goto('/p/p_demo/fix');
+ await page.getByRole('button',{name:/Run four verification checks|Run verification again/}).click();
+ await expect(page.getByText('Verified. 4 of 4 checks passed.',{exact:true})).toBeVisible({timeout:60000});
+ await page.getByRole('link',{name:'View evidence report'}).click();
+ await expect(page.getByRole('link',{name:'Download evidence PDF'})).toBeVisible();
+ const summary=await(await request.get('http://localhost:8000/api/public/projects/chennai-organics/summary')).json();
+ expect(summary.verified).toBe(true);expect(summary.score).toBe(91);expect(summary.counts.critical).toBe(0);
+ const pdf=await request.get('http://localhost:8000/api/public/projects/chennai-organics/report.pdf');
+ expect(pdf.ok()).toBeTruthy();expect(pdf.headers()['x-cryptiq-revision']).toBe(String(summary.revision));
+ const bytes=await pdf.body();expect(bytes.subarray(0,4).toString()).toBe('%PDF');writeFileSync('D:/cryptiq/core/.runtime/evidence-accepted.pdf',bytes);
+ await page.screenshot({path:'D:/cryptiq/core/.runtime/report-live.png',fullPage:true});
+ expect((await request.get('http://localhost:8000/api/public/projects/missing/report.pdf')).status()).toBe(404);
+ await page.getByRole('button',{name:'Reset demo…',exact:true}).click();
+ await page.getByRole('button',{name:'Yes, reset fake demo data',exact:true}).click();
+ await expect(page).toHaveURL(/\/scan$/);
+ const before=await(await request.get('http://localhost:8000/api/public/projects/chennai-organics/summary')).json();
+ expect(before.verified).toBe(false);expect(before.score).toBe(38);expect(before.counts.critical).toBe(3);expect(before.checks.passed).toBe(0);expect(before.revision).toBeGreaterThan(summary.revision);
+ expect((await request.get('http://localhost:8000/api/public/projects/chennai-organics/report.pdf')).status()).toBe(404);
+ expect((await request.post('http://localhost:8000/api/demo/reset',{data:{confirm:false}})).status()).toBe(422);
+});

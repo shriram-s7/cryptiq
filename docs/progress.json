@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C17",
-  "next_task": "C17",
+  "current_task": null,
+  "next_task": "C19",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -368,8 +368,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "a05233d",
+      "publication": "pushed"
     },
     {
       "id": "C17",
@@ -379,14 +379,20 @@
       "depends_on": [
         "C16"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "report.spec.ts: current verified PDF downloads with matching revision; reset restores38/3 critical/0 checks and report404; unknown slug and missing reset confirmation rejected",
+          "PDF rendered, three pages inspected visually; rupee glyph and disclaimers extracted with PyMuPDF",
+          "workflow.spec.ts: live Hub CORS, frozen fields, prototype capabilities and ZIP restrictions passed",
+          "Connected browser batch attacks/live/merge/report/workflow:8 passed in1.2min; build passed",
+          "check_reset_gate.py blocks reset during active jobs; check_verification_gates.py blocks failure/stale publication"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C18",
@@ -501,7 +507,7 @@
       "acceptance": {
         "status": "partial",
         "evidence": [
-          "Live leak preview in Attack Lab; downloadable cryptographic inventory on Report page. Attack execution and verified PDF remain unimplemented."
+          "Real PDF and CBOM downloads, verification gating, badge-link copy, explicit demo reset UI implemented. Report acceptance passed. Copyable verification commands and all UI edge cases remain."
         ]
       },
       "blockers": [],
@@ -567,10 +573,12 @@
       "depends_on": [
         "C26"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "partial",
+        "evidence": [
+          "Connected8-test scan/attacks/merge/verification/PDF/reset/API contract batch passed; full final regression checklist and remaining UI not yet complete."
+        ]
       },
       "blockers": [],
       "commit": null,
@@ -612,12 +620,12 @@
     }
   ],
   "last_regression": {
-    "at": "2026-10-14T16:18:29+05:30",
-    "scope": "C01/C02 scaffold only",
+    "at": "2026-10-14",
+    "scope": "Core connected prototype loop",
     "status": "passed",
     "report": "docs/TEST_RESULTS.md",
-    "full_demo": "not_implemented",
-    "services": "running at checkpoint"
+    "full_demo": "Core loop operational; remaining frontend acceptance and submission work unfinished",
+    "services": "running; main fake shop reset before"
   },
   "execution_policy": "Batch related work; one meaningful acceptance gate per task, no redundant publication-only commits. User requested faster progress.",
   "dependency_exception": "User requested usable frontend now: C18-C20 brought forward alongside C10. C19-C20 remain partial until attack/patch dependencies exist."

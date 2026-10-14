@@ -1,28 +1,39 @@
-# Core checkpoint - 2026-10-14
+# Core status - 2026-10-14
 
-Resumed. 17/29 prompts accepted: C01-C16 and C18.
-12 prompts remain unfinished, plus deferred engine reuse T02/T09.
-C16 verification is now accepted. C19-C23 have partial UI work.
+18/29 prompts accepted: C01-C18. 11 prompts remain unfinished, including partially implemented
+C19-C23 frontend acceptance and C27 final regression. Engine reuse T02/T09 remains deferred.
 
-Working: live scan and ZIP upload, score/data map/findings, inventory download, real dictionary
-attack and tiny-public-key RSA simulation, source diff review and browser merge/migration.
-Dictionary recovered1350/3000 before passwords; RSA simulation decrypted3000 fake IDs.
-Full browser merge test passed in51 seconds. Main shop is now AFTER mode with3000 encrypted
-fake customer records. Do not expect38 on a fresh scan of this migrated database.
-Existing logins are preserved; candidate protected score91 is not a verified claim.
+The Core demonstration loop is operational and tested:
+Scan38 -> findings -> dictionary/RSA demonstrations -> actual source review -> merge/migration ->
+four live verification checks -> verified91 -> three-page PDF -> reset to38.
 
-Verification backend and four-check UI are implemented; build passed. Live verification acceptance
-was NOT run because automatic approval review failed due usage limit. No all-pass result claimed.
-Next: finish C16 real verification, failure gate, retry and stale-state acceptance, then C17 reports,
-public summary and reset. PDF and live Hub public results remain unfinished; summary is still stub.
+Last connected batch:8 browser tests passed in1.2minutes (attacks/live/merge/report/workflow).
+Full3000-row migration took37.3seconds in that browser test. Verification exercised actual login,
+checkout and new signup. Failure/stale publication and active-job reset guards passed separately.
+Production build passed. PDF:three pages visually inspected, currency glyph and disclaimers checked.
 
-Run: core/.venv/Scripts/python.exe core/scripts/dev.py from D:/cryptiq.
-Last known services running: localhost:5173, API:8000, shop:5050. Avoid duplicate launcher.
-Open http://localhost:5173/p/p_demo/fix for review/verification UI or /attack for real attacks.
-Main data was intentionally migrated by the acceptance test; it has not been reset.
+Main fake shop is NOW BEFORE mode,3000 original fake customers, ready for another demonstration.
+Local services running: http://localhost:5173/scan, API:8000, shop:5050.
+Launcher: core/.venv/Scripts/python.exe core/scripts/dev.py from D:/cryptiq. Avoid duplicate launcher.
 
-Known limits: bounded dictionary outcomes are not exhaustive security proof; migrated weak
-passwords can still recover (isolated test recovered2/2). ML-KEM library is educational.
-No Hub changes. Reuse stays deferred. See progress.json and AGENT_HANDOFF.md.
+Frontend developer handoff: docs/FRONTEND_INTEGRATION.md. Stable read model:
+GET /api/projects/{id}/workflow; interactive API docs at http://localhost:8000/docs.
+Typed live workflow/review/attack/verification models in core/web/src/lib/contracts.ts.
+Theme redesign is left to frontend collaboration; Hub untouched. Shared fields remain unchanged.
 
-C16 acceptance2026-10-14: four live browser checks passed and overview publishes91 only after success. Retry stale-display fixed. Injected failure/stale revision/storage gates passed. Next C17 reports/public summary/reset. Earlier blocked-run notes above are historical.
+Public summary now uses actual evidence (X-CryptIQ-Data-Source:live), no longer the inconsistent stub.
+Current verified PDF is gated; reset/new relevant state removes publication. Old shared before JSON
+is historical and unchanged. The legacy check_public_stub.py now validates the live contract.
+
+Still unfinished: final frontend states/UX polish, complete report UI acceptance, owner wording
+review, pitch/Q&A, full final regression, video and submission package. Subscription billing,
+quotas, authentication, hosted tenancy and GitHub connection are NOT implemented. This is local-only.
+ZIP projects support source scan/inventory, not attacks/automatic fixes/verification/PDF.
+
+Limits:20 curated dictionary candidates, default5-second budget; zero recovery is not proof of
+strong passwords. Weak migrated passwords can still recover. RSA is classical tiny-key simulation.
+ML-KEM library is educational. Key-store/host security and comprehensive audits are outside scope.
+
+Artifacts: core/.runtime/evidence-accepted.pdf (historical verified snapshot), report-page-1/2/3.png,
+report-live.png. Runtime evidence is intentionally ignored by Git; source/tests/docs are pushed.
+Next portable prompt C19; continue frontend acceptance without pretending billing is implemented.

@@ -1,8 +1,6 @@
-"""Core public integration stub. Values are fixtures, not scan evidence."""
+"""Local Core API and evidence-backed public integration."""
 
-import json
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,12 +10,9 @@ from evidence import router as evidence_router
 from attacks import dictionary
 from fixes import reviews
 from verify import checks
+from report import results
+from workflow import router as workflow_router
 
-
-SUMMARY_FIXTURE = (
-    Path(__file__).resolve().parents[2]
-    / "shared/contracts/project_summary.before.json"
-)
 
 @asynccontextmanager
 async def lifespan(app):
@@ -44,6 +39,8 @@ app.include_router(evidence_router)
 app.include_router(dictionary.router)
 app.include_router(reviews.router)
 app.include_router(checks.router)
+app.include_router(results.router)
+app.include_router(workflow_router)
 
 
 @app.get("/api/health")
@@ -53,11 +50,11 @@ def health() -> dict[str, bool]:
 
 @app.get("/api/public/projects/{slug}/summary")
 def public_summary(slug: str) -> JSONResponse:
-    """Return the frozen before fixture for the p_demo public slug."""
+    """Keep frozen public fields; values now come from actual scan/verification evidence."""
     if slug != "chennai-organics":
         raise HTTPException(status_code=404, detail="Project not found")
-    payload = json.loads(SUMMARY_FIXTURE.read_text(encoding="utf-8"))
+    payload = results.summary()
     return JSONResponse(
         payload,
-        headers={"Cache-Control": "no-store", "X-CryptIQ-Data-Source": "stub"},
+        headers={"Cache-Control": "no-store", "X-CryptIQ-Data-Source": "live"},
     )

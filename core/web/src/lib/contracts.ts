@@ -9,3 +9,31 @@ export interface PullRequest { id: string; title: string; fixes: string[]; files
 export interface Verification { id: string; status: 'running' | 'passed' | 'failed'; checks: { key: string; label: string; status: 'pass' | 'fail' | 'running'; detail: string }[]; scoreBefore: number; scoreAfter: number }
 export interface WorkspaceData { scan: Scan; attacks: AttackRun[]; pullRequest: PullRequest; verification: Verification }
 export type MockScenario = 'before' | 'after' | 'error';
+
+// Live workflow contract for replacement frontends. Optional state is explicit; never synthesize results.
+export interface ReviewJob {
+  id: string; projectId: string; revision: number; title: string;
+  fixes: string[]; files: { path: string; diff: string }[]; manual: string[];
+  status: 'open' | 'merging' | 'merged' | 'error'; completed: number; total: number;
+  localOnly: true; verified: false; error?: string;
+}
+export interface VerificationJob {
+  id: string; projectId: string; revision: number; status: 'running' | 'passed' | 'failed';
+  scoreBefore: number | null; scoreAfter?: number; finishedAt?: string; error?: string;
+  checks: { key: string; label: string; status: 'pending' | 'running' | 'pass' | 'fail'; detail: string }[];
+  attackEvidence?: { tried: number; cracked: number; total: number; durationMs: number; budgetExhausted: boolean };
+}
+export interface LiveAttackJob {
+  id: string; projectId: string; kind: 'dictionary' | 'shor_sim'; status: 'running' | 'done' | 'error';
+  lines: string[]; tried: number; cracked: number; total: number; durationMs: number;
+  revealed: { customerId: number; field: 'password' | 'id_number'; value: string }[];
+  verdict?: 'cracked' | 'protected' | 'not_applicable' | 'timeout'; error?: string;
+}
+export interface WorkflowState {
+  project: { id: string; name: string; revision: number; mode: 'before' | 'after' | null };
+  scan: Scan | null; attacks: { dictionary: LiveAttackJob | null; shor_sim: LiveAttackJob | null };
+  review: ReviewJob | null; verification: VerificationJob | null; verified: boolean; busy: boolean;
+  nextAction: 'scan' | 'wait' | 'report' | 'verify' | 'review' | 'attack' | 'findings';
+  capabilities: Record<'scan' | 'sourceZip' | 'leakPreview' | 'dictionary' | 'rsaSimulation' | 'reviewFixes' | 'merge' | 'verify' | 'cbom' | 'evidencePdf' | 'resetDemo', boolean>;
+  subscription: { enforced: false; billingAvailable: false }; scope: string;
+}

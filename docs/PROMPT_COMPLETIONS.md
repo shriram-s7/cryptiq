@@ -248,3 +248,13 @@ Changes preserved in checkpoint commit; resume C16 then C17. C14 pushed e45d492.
 
 ## C16 accepted - 2026-10-14
 verify.spec.ts passed actual re-scan/re-attack/HTTP login-checkout/new storage and verified91 overview. check_verification_gates.py passed injected failures and stale revision/storage rejection. Retry UI clears old success. Previous checkpoint3fcef01 pushed. Next C17. Main shop AFTER; tests clean their own records.
+
+## C17 accepted - 2026-10-14
+Current verified three-page PDF, live frozen-shape summary and coordinated fake-data reset implemented.
+Explicitly replaces inconsistent before stub with measured baseline; shared fixture unchanged.
+report.spec.ts verifiedPDF/revision/reset/report404/unknown slug/confirmation passed. PyMuPDF verified
+3pages/rupee/disclaimers; all pages visually inspected. workflow read model and typed frontend models
+added; docs/FRONTEND_INTEGRATION.md ready for UI developer. ZIP scope and no-billing explicit.
+Connected8-test browser batch passed in1.2min. Full migration37.3s; reset leaves BEFORE3000 fake rows.
+Build, reset-active-job gate and failure/stale verification gate passed. C16 pushed a05233d.
+Remaining prompts11: C19-C29, several partial. No full product/submission completion claim.

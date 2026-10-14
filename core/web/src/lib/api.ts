@@ -1,5 +1,5 @@
 import { config } from './config';
-import type { MockScenario, WorkspaceData, Scan, AttackRun, PullRequest, Verification } from './contracts';
+import type { MockScenario, WorkspaceData, Scan, AttackRun, PullRequest, Verification, WorkflowState } from './contracts';
 import { mockWorkspace } from '@/mocks/workspace';
 
 export class ApiError extends Error {
@@ -16,9 +16,10 @@ export async function requestJson<T>(path: string, options: RequestInit = {}): P
 }
 
 export const api = {
+  workflow: (id: string, signal?: AbortSignal) => requestJson<WorkflowState>(`/api/projects/${encodeURIComponent(id)}/workflow`, { signal }),
   scan: (id: string, signal?: AbortSignal) => requestJson<Scan>(`/api/scans/${encodeURIComponent(id)}`, { signal }),
   attack: (id: string, signal?: AbortSignal) => requestJson<AttackRun>(`/api/attacks/${encodeURIComponent(id)}`, { signal }),
-  pullRequest: (id: string, signal?: AbortSignal) => requestJson<PullRequest>(`/api/pull-requests/${encodeURIComponent(id)}`, { signal }),
+  pullRequest: (id: string, signal?: AbortSignal) => requestJson<PullRequest>(`/api/reviews/${encodeURIComponent(id)}`, { signal }),
   verification: (id: string, signal?: AbortSignal) => requestJson<Verification>(`/api/verifications/${encodeURIComponent(id)}`, { signal }),
   async workspace(projectId: string, scenario: MockScenario, signal?: AbortSignal): Promise<WorkspaceData> {
     if (config.useMocks) return mockWorkspace(scenario);

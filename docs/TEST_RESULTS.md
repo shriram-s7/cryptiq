@@ -35,3 +35,12 @@ Observed child PIDs: API 8964, web 6876, shop 3964. Verify current process state
 These may not survive the session. Logs are in core/.runtime/logs/.
 
 Next implementation task remains C03/T03. T02/T09 remain deferred; Hub remains untouched.
+
+## 2026-10-14 - Connected Core loop and frontend contract
+Command: Playwright tests attacks.spec.ts live.spec.ts merge.spec.ts report.spec.ts workflow.spec.ts.
+Outcome:8 passed in1.2min. Real scan38,1350/3000 password recovery,3000 fake ID recovery, merge3000,
+4verification checks, public91, actualPDF, reset38 and PDF404. Frontend contract/ZIP restrictions pass.
+check_verification_gates.py: injected recovered-password/app failure blocks publication; stale revision
+and modified storage rejected. check_reset_gate.py: active work blocks reset before storage writes.
+PDF evidence-accepted.pdf3pages; extracted currency/disclaimers; rendered images visually inspected.
+Build TypeScript/Vite PASS. Main demo reset BEFORE; services running. Remaining full final QA still open.
