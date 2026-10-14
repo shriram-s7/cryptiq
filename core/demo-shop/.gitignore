@@ -1,0 +1,3 @@
+data/*
+!data/shop_before.db
+state.json

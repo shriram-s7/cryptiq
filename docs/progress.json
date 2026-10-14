@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C05",
-  "next_task": "C05",
+  "current_task": "C07",
+  "next_task": "C07",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -119,8 +119,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "b1b70d5",
+      "publication": "pushed"
     },
     {
       "id": "C05",
@@ -130,14 +130,17 @@
       "depends_on": [
         "C04"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_shop.py passed signup, validation, login, server-side pricing, checkout and CSRF",
+          "Real browser shop.spec.ts passed Priya login, basket, checkout and narrow layout"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C06",
@@ -147,14 +150,17 @@
       "depends_on": [
         "C05"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "3000 deterministic customers; 1350 common passwords; Priya login and snapshot checked",
+          "Actual reset restored 3000 customers and zero orders; secrets/truth/live database ignored"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C07",
