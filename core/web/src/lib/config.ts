@@ -7,6 +7,7 @@ function baseUrl(value: string | undefined, fallback: string): string {
 }
 
 export const config = {
+  useMocks: import.meta.env.VITE_USE_MOCKS === 'true',
   apiUrl: baseUrl(import.meta.env.VITE_CORE_API_URL, 'http://localhost:8000'),
   hubUrl: baseUrl(import.meta.env.VITE_HUB_WEB_URL, 'http://localhost:5174'),
 };
