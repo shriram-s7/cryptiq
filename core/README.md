@@ -54,7 +54,7 @@ With all Core services stopped, `python core/scripts/check_launcher.py` also che
 refusal, failed-child cleanup and startup timeout using real short-lived subprocesses. It replaces
 the launcher logs with each scenario; finish by starting normally for usable service logs.
 
-While the combined launcher is running, preserve C01's contract with:
+While the combined launcher is running, check the live public contract with:
 
 ```powershell
 python core/api/check_public_stub.py
@@ -62,3 +62,9 @@ python core/api/check_public_stub.py
 
 For standalone runs, see each service's README. If localhost sockets are blocked by an execution
 sandbox, run these commands in an allowed local terminal; do not treat a blocked check as a pass.
+
+## Current product workflow
+See docs/FRONTEND_INTEGRATION.md for the frontend integration contract and docs/STATUS.md for acceptance.
+The main loop now supports Scan -> Findings -> Attacks -> Review -> Merge -> Verify -> PDF -> Reset.
+Subscriptions are conceptual; no billing or entitlement enforcement exists. All attacks/fixes target
+only the fake local Chennai Organics shop. ZIP projects support source scans and inventory.

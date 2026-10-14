@@ -1,52 +1,32 @@
-# Core API: public summary stub
+# Core API - working local prototype
 
-From D:\cryptiq in PowerShell:
+Use the shared Core environment and launcher from D:/cryptiq:
 
-```powershell
-python -m venv core/api/.venv
-core/api/.venv/Scripts/python.exe -m pip install -r core/api/requirements.txt
-core/api/.venv/Scripts/python.exe -m uvicorn main:app --app-dir core/api --host 127.0.0.1 --port 8000
-```
+    core/.venv/Scripts/python.exe core/scripts/dev.py
 
-Stop with Ctrl+C. If the pinned dependencies are already installed in your Python environment,
-`python -m uvicorn main:app --app-dir core/api --host 127.0.0.1 --port 8000` also works.
+Initial setup: install BOTH core/api/requirements.txt and core/demo-shop/requirements.txt into
+core/.venv, npm ci in core/web, and install Playwright Chromium under core/.runtime/playwright.
+Verification and PDF rendering require Node/Playwright; these dependencies are already installed
+on the current demo machine. Do not run this demo API publicly: it has no authentication/tenancy.
 
-In another terminal, run the HTTP acceptance checks:
+Interactive API docs: http://localhost:8000/docs.
+Complete screen/request/state mapping: docs/FRONTEND_INTEGRATION.md.
+GET /api/projects/{id}/workflow is the frontend read model for persistent operations and capabilities.
 
-```powershell
-python core/api/check_public_stub.py
-```
+Implemented: persistent scans, safe ZIP input, findings/score/data map, CycloneDX inventory,
+fake-data preview, real bounded dictionary attack, classical tiny-RSA simulation, local source
+reviews, atomic protected migration, four live verification checks, gated evidence PDF, live
+Hub summary and reset. User actions are explicit POST operations, never side effects of page reads.
 
-Endpoints:
-- GET /api/health returns {"ok": true}.
-- GET /api/public/projects/chennai-organics/summary returns the exact parsed contents of
-  shared/contracts/project_summary.before.json. The slug represents p_demo; persistence is not built yet.
-- Other public project slugs return 404.
+No GitHub OAuth/PR publication, subscription enforcement, billing, hosted tenancy or arbitrary-target
+attacks are implemented. ZIP supports source-pattern scans/inventory; demo-only operations reject it.
 
-CORS allows http://localhost:5173 and http://localhost:5174 for GET requests and browser preflight.
-This is a public summary API; CORS is not authentication. The API binds locally in the commands above.
+Public summary retains frozen field names. X-CryptIQ-Data-Source is now live, not stub. The old BEFORE
+fixture is historical and internally inconsistent; it is not used by the live service. Actual before
+counts3/2/0/3 score38 checks0/4; actual verified after0/1/0/2 score91 checks4/4. Unknown projects404.
+No-scan state hasScan=false and lastScanAt=null. Public PDF requires current accepted verification.
 
-## Stub limitations
-
-No scanner, live project state, verification or report endpoint exists yet. The response carries
-X-CryptIQ-Data-Source: stub and Cache-Control: no-store; the JSON is unchanged for Hub compatibility.
-The existing before fixture is inconsistent: score 38 and verified=false accompany post-fix counts,
-four passed checks and protected data flags. Its timestamp is illustrative. These are fixture values,
-not evidence. Do not display them as a verified scan. Correction is tracked in docs/CORE_BUILD_PLAN.md.
-
-## Live scan API
-POST /api/projects with JSON {"name":"My source"} creates a ZIP project.
-POST /api/projects/p_demo/scans with JSON {"source":"demo"} returns202 {"scanId":"..."}.
-POST /api/projects/{id}/scans with Content-Type application/zip and raw ZIP bytes scans uploaded source.
-Limits:20MB upload,2000 entries,100MB expanded,20MB per file; traversal/symlinks/encryption rejected.
-GET /api/scans/{id} polls running/done/error and actual stages. GET /api/projects/{id} embeds latest scan.
-Completed records persist in core/.runtime/api/jobs.db. Uploaded sources stay local under uploads/.
-Results are candidate evidence, verified=false. Python pattern coverage only; uploaded code never runs.
-Check with python core/api/check_scan_jobs.py (launcher active) and check_scan_persistence.py.
-
-## Inventory and fake-data preview
-GET /api/scans/{id}/cbom downloads CycloneDX1.6 JSON for a completed scan (409 otherwise).
-GET /api/projects/p_demo/leak-preview?limit=8 returns rows,total,mode,capturedAt,newestCustomerId.
-Limit1-20; other project IDs reject (404 unknown,422 non-demo). Values are stored representations;
-no decryption, keys or seed truth. Refresh after signup; no-store headers prevent browser caching.
-Install requirements-dev.txt and run check_evidence.py --live with the launcher active.
+Run core/api/check_public_stub.py to check the LIVE public contract (legacy filename retained).
+Other acceptance scripts and browser tests are documented in docs/STATUS.md. Some tests require
+before mode and others intentionally migrate/reset the fake data; follow the stated sequence.
+Report acceptance finishes with the demo restored to before mode.

@@ -1,53 +1,28 @@
-# Core agent handoff
+# Core handoff - latest state
 
-Read CORE_CONTEXT.md, CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, STATUS.md and progress.json.
-Latest accepted: C11 inventory and C12 leak preview. Resume C13_T14.md (dictionary attack).
-C19/C20/C21/C23 partially implemented; C18 accepted. Prior batch pushed as88889c3.
-User explicitly prioritized a usable frontend and larger batches; this authorizes bringing UI forward.
-Keep all functionality. Skip T02/T09 reuse until user releases it. Never modify hub/ or access outside
-D:/cryptiq. Stage only core/shared/docs, core: commits, push completed work to origin/main.
+Read CORE_CONTEXT.md, CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, STATUS.md, progress.json.
+Accepted C01-C18. Next C19; C19-C23 partially built, C27 partial regression. T02/T09 deferred.
+Only D:/cryptiq access, never edit hub/. Stage only core/shared/docs; core: commits; push completed work.
 
-Services running using core/.venv/Scripts/python.exe core/scripts/dev.py. Stop the launcher before
-restarting. Main shop remains before mode, 3000 fake rows. Python and node dependencies installed.
-Live UI scan/overview/findings in core/web/src/pages/LiveWorkspace.tsx. Mocks remain opt-in.
-API scan_jobs.py uses core/.runtime/api/jobs.db; project latest scan persists; background stages,
-interruption recovery, project revision and shop mtime guards reject obsolete results. Reset API
-must invalidate jobs explicitly when implemented; file-change gate is current fallback.
-ZIP POST uses raw application/zip, not multipart. Project GET embeds latest scan. No code executed.
+Core loop works end-to-end: scan, findings, actual attacks, review/merge, four live checks, PDF, reset.
+Last connected8-browser-test pass succeeded in1.2min. Full migration37.3s; PDF visually inspected3pages.
+Main demo reset BEFORE,3000 rows; services running in launcher session37286. Python core/.venv.
+Use PLAYWRIGHT_BROWSERS_PATH=D:/cryptiq/core/.runtime/playwright for browser checks.
 
-Acceptance: build passed; 5 browser tests, check_scan_jobs.py, check_scan_persistence.py and public
-stub check passed. Screenshot core/.runtime/overview-live.png inspected at1280x800. Tests require
-before-mode DB. For Playwright set PLAYWRIGHT_BROWSERS_PATH=D:/cryptiq/core/.runtime/playwright.
-No attack endpoints, browser merge, four-check verification or PDF yet. Next C11 inventory export,
-then leak/attacks. Preserve honest candidate/verified distinction. Public fixture remains unchanged
-and inconsistent by original contract. Protected migration exists offline; kyber-py is educational.
+API workflow.py provides frontend read model; report/results.py supplies current public summary,
+gated Chromium-generated PDF and reset with active-job rejection. JSON schema for inventory in
+api/schemas. Verification and PDF require Node+Playwright from core/web. PyMuPDF is dev-only.
+Frontend handoff docs/FRONTEND_INTEGRATION.md contains exact routes, job states and limitations.
 
-C11/C12 code: core/api/evidence.py, core/web/src/pages/LeakPreview.tsx. GET /api/scans/{id}/cbom
-returns attachment CycloneDX1.6 from persisted assets; GET /api/projects/p_demo/leak-preview?limit=8
-reads a consistent SQLite snapshot of allowlisted fake records, newest id first (1-20 rows). No keys
-or decryption. API no-store. Frontend refresh clears old data; drawer masks when masked view selected.
-API validation dependency: requirements-dev.txt. Official schema in api/schemas, no vendor engine.
-ML-KEM768 is parameter-set identifier, not key bits; discovery keySize now null for that asset.
-check_evidence.py --live and Playwright evidence.spec.ts passed. Services remain running. Before DB
-unchanged; migration test used isolated temporary DB. Next connect dictionary attack to this visible
-Attack Lab. Never use seed truth to produce attack results. User wants working visual product ASAP.
+Public stub replaced by LIVE consistent counts/map; original inconsistent fixture remains unchanged.
+No shared contract rename, no Hub edits. Summary no-scan state hasScan=false,lastScanAt=null.
+Do not treat score91 candidate as verified; use project.verified / verification.published.
 
-## C13 accepted - 2026-10-14
-Real persistent local-only dictionary jobs and browser terminal. No seed-truth reads. check_dictionary.py passed actual signup, migrated recovery and timeout (118ms/3 evaluations); attacks.spec.ts passed1350/3000 recovery and API validation. Build passed. Services running; next C14. C11/C12 pushed6326026.
+Runtime report snapshot core/.runtime/evidence-accepted.pdf is historical after reset; public PDF404
+until reverified. Main DB reset removes fake signups/orders and job evidence; ZIP projects retained.
+Subscriptions/auth/billing/GitHub are not implemented. Avoid claiming commercial multi-tenant readiness.
 
-C14 accepted2026-10-14: bounded classical Pollard-rho simulation factors only <=64-bit public demo key, never reads private-key file. Recovered3000 IDs in201ms; protected actual inventory returns not_applicable. Timeout/unsupported checks and live browser RSA test passed. Next C15 review/merge. C13 pushed e4fb68a.
-
-## Latest checkpoint: user explicitly requested stop
-C15 accepted (isolated check_reviews.py and full merge.spec.ts passed); C16 in progress.
-Main shop AFTER mode,3000 fake rows migrated. Latest launcher session95583, last known running.
-Verification code core/api/verify/checks.py and core/web/scripts/verify-shop.cjs; UI
-VerificationPanel.tsx. Build passed; live test command blocked by approval-review usage limit.
-core/web/tests/verify.spec.ts was NOT created because the entire attempted command was rejected.
-Resume by creating/running live verification acceptance, inspect failures, test injected failure,
-retry and stale-state publication. Do not claim C16 complete from a successful build.
-Review worker cleanup/fingerprint and publication race handling before final acceptance.
-C17 PDF/live summary/reset not implemented. Do not reset main shop without accounting for
-current after-mode evidence. Preserve all work. Last completed pushed commit before checkpoint:e45d492.
-
-## C16 accepted - 2026-10-14
-verify.spec.ts passed actual re-scan/re-attack/HTTP login-checkout/new storage and verified91 overview. check_verification_gates.py passed injected failures and stale revision/storage rejection. Retry UI clears old success. Previous checkpoint3fcef01 pushed. Next C17. Main shop AFTER; tests clean their own records.
+C16 pushed a05233d. Current C17 batch includes reports/reset/workflow models/integration docs;
+find exact commit in Git history. Remaining acceptance should prioritize UI failure/stale/refresh states,
+proper before/after attacks, active scan refresh, copyable report commands, then final polish/content.
+Keep dictionary outcomes honest; no scripted zero after. Tests use real source/storage/browser operations.
