@@ -1,11 +1,12 @@
-.shop-notifications { margin: 20px 24px 0; }
-.shop-notifications > p { padding: 14px 0; color: #94a3b8; font-size: 13px; }
-.shop-notification { display: flex; flex-wrap: wrap; gap: 6px 12px; width: 100%; margin-top: 8px; padding: 14px 16px; border: 1px solid #4c1725; border-radius: 10px; background: #190d17; color: #fecdd3; text-align: left; font-size: 13px; cursor: pointer; animation: activity-arrives .45s ease-out; }
-.shop-notification span:last-child { color: #94a3b8; font-size: 12px; }
-.shop-notification.unread { border-left: 3px solid #fb7185; }
-.shop-notification.opened { opacity: .7; background: transparent; }
-.shop-notification:hover, .shop-notification:focus-visible { outline: 2px solid #fb7185; outline-offset: 2px; }
-.shop-notification:disabled { cursor: wait; opacity: .5; }
-@keyframes activity-arrives { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.shop-notifications { position: fixed; top: 82px; right: 24px; width: min(390px, calc(100vw - 32px)); z-index: 100; display: grid; gap: 12px; pointer-events: none; }
+.shop-notification { pointer-events: auto; display: flex; gap: 12px; padding: 18px; background: #180f19; color: #ffe4e6; border: 1px solid #653044; border-left: 3px solid #fb7185; border-radius: 14px; box-shadow: 0 16px 48px #0009; animation: notification-arrives .3s ease-out; }
+.notification-bell { color: #fb7185; flex-shrink: 0; margin-top: 3px; }
+.notification-open { text-align: left; display: grid; gap: 7px; min-width: 0; flex: 1; font-size: 13px; }
+.notification-open span { font-size: 11px; color: #cbd5e1; }
+.notification-open span:last-child { color: #fda4af; }
+.notification-dismiss { align-self: start; padding: 3px; color: #cbd5e1; }
+.notification-open:focus-visible, .notification-dismiss:focus-visible { outline: 2px solid #fb7185; outline-offset: 3px; }
+.notification-open:disabled { opacity: .5; cursor: wait; }
+@keyframes notification-arrives { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
 @media (prefers-reduced-motion: reduce) { .shop-notification { animation: none; } }
-@media (max-width: 640px) { .shop-notifications { margin: 12px; } }
+@media (max-width: 640px) { .shop-notifications { top: 74px; right: 16px; } }

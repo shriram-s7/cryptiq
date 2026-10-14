@@ -1,5 +1,10 @@
 # Core handoff - latest state
 
+Latest: Top-right transient toasts replace the banner. Hacker sends customerId for targeted dictionary
+attempts; verification still tests whole database. Signup offers known chennai123 demo fill. No guarantee
+for arbitrary passwords; weak passwords also recover after fixes. Latest tests: toast-notifications.spec.ts
+and check_targeted_dictionary.py passed. Live demo observed BEFORE; no reset by this task.
+
 2026-10-15: Signup now asks only name/phone/password. Phone login selects newest registration for
 a repeated phone. Live Hacker notifications open the exact account/module; never substitute another
 recovered credential. See STATUS.md and notifications.spec.ts. Current demo AFTER, verification passed.
