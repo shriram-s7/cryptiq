@@ -31,6 +31,13 @@ Copy .env.example to .env.local to override VITE_CORE_API_URL and VITE_HUB_WEB_U
 Defaults are localhost:8000 and localhost:5174. URL configuration lives in src/lib/config.ts.
 The API client and actual data come in later tasks. No fake scores or scan results are shown.
 
+C04 adds types in src/lib/contracts.ts, a centralized API client, and explicit demo fixtures.
+Set VITE_USE_MOCKS=true and restart Vite to show mock previews on all six routes. Each preview has
+Before, After and Error scenarios and an always-visible mock label. The default remains false;
+live requests never fall back to fixtures. To test mock mode with the API stopped, run
+`npm run test:mocks` against a Vite server started with VITE_USE_MOCKS=true.
+Live workspace aggregation remains unconnected until the backend jobs are implemented.
+
 ## Checks
 
 ```powershell

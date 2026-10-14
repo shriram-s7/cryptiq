@@ -150,3 +150,11 @@ combined launcher working directory. 1280x800 and 390px screenshots inspected. L
 checks and C01 API regression passed. No Hub/shared edits. Commit carrying this entry is C03.
 User now requests larger batches with fewer redundant tests/checkpoints; retain meaningful acceptance.
 Next batch: C04 contracts/mocks, C05 working shop, C06 seed.
+
+
+## 2026-10-14 - C04 accepted
+Added Section 8 types, centralized API error handling and explicit before/after/error fixtures.
+Every Core route renders a labelled mock preview with scenario controls. Default remains non-mock;
+no silent fallback. Build/typecheck passed and one browser test covered all six screens across three
+scenarios with zero API requests and API stopped. Live aggregation awaits backend implementation.
+C03 was pushed as 2e1c317. C04 is carried in this task commit. Batch continues with C05/C06.

@@ -10,7 +10,8 @@
     "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test shell.spec.ts",
+    "test:mocks": "playwright test mocks.spec.ts"
   },
   "dependencies": {
     "@fontsource/inter": "5.3.0",

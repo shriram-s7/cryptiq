@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C04",
-  "next_task": "C04",
+  "current_task": "C05",
+  "next_task": "C05",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -99,8 +99,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "2e1c317",
+      "publication": "pushed"
     },
     {
       "id": "C04",
@@ -110,14 +110,17 @@
       "depends_on": [
         "C03"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "Production build/typecheck passed",
+          "Mock browser test passed all six routes in before/after/error scenarios; zero API requests with backend stopped"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C05",

@@ -5,6 +5,7 @@ import { Link, Navigate, NavLink, Outlet, Route, Routes, useLocation, useParams 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { config } from '@/lib/config';
+import { MockPreview } from '@/components/MockPreview';
 import logoUrl from '../../../shared/theme/logo.svg';
 
 const sections = [
@@ -63,7 +64,7 @@ function Layout() {
     </aside>
     <div className="workspace">
       <header className="topbar"><div className="breadcrumb">Workspace <ChevronRight size={14} aria-hidden="true" /><span>{isProject ? projectName : 'Start a scan'}</span></div>
-        <span className="status-badge"><span /> Development preview</span>
+        <span className="status-badge"><span /> {config.useMocks ? 'Mock data · development preview' : 'Development preview'}</span>
       </header>
       <main id="main-content" className="main-content" tabIndex={-1}><Outlet /></main>
       <footer className="footer"><span>Security-safeguard evidence, not legal certification.</span><span className="font-mono">CRYPTIQ / CORE</span></footer>
@@ -76,6 +77,7 @@ function ScanPage() {
   return <>
     <div className="eyebrow"><span /> YOUR FIRST STEP</div>
     <div className="page-heading"><h1 tabIndex={-1}>Know what your data is up against.</h1><p>One workspace to understand risk, review fixes and see the evidence.</p></div>
+    {config.useMocks ? <MockPreview page="Scan" /> : null}
     <div className="scan-grid">
       <Card className="demo-card">
         <div className="flex items-center justify-between"><div className="icon-tile"><ScanLine size={24} aria-hidden="true" /></div><span className="small-badge">DEMO PROJECT</span></div>
@@ -103,6 +105,7 @@ function ProjectPage({ section }: { section: typeof sections[number] }) {
   return <>
     <div className="eyebrow">PROJECT WORKSPACE <span className="eyebrow-divider">/</span> DEMO DATA</div>
     <div className="page-heading"><h1 tabIndex={-1}>{section.title}</h1><p>{section.description}</p></div>
+    {config.useMocks ? <MockPreview page={section.title} /> : null}
     <Card className="empty-state">
       <div className="empty-icon"><Icon size={30} aria-hidden="true" /></div>
       <span className="small-badge">COMING NEXT</span>
