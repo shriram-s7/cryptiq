@@ -12,7 +12,7 @@ from src_after.crypto_utils import data_key, encrypt
 from src_after.models import email_lookup
 
 
-def migrate(database=DB, fail_after=None):
+def migrate(database=DB, fail_after=None, report=lambda completed,total:None):
     database = Path(database)
     initialize(database)
     lock = DATA / '.migration.lock'
@@ -29,6 +29,7 @@ def migrate(database=DB, fail_after=None):
             if conn.execute("SELECT value FROM metadata WHERE key='mode'").fetchone()['value'] == 'after':
                 return {'status': 'already_after', 'customers': 0, 'durationMs': int((time.monotonic() - started) * 1000)}
             customers = conn.execute('SELECT * FROM customers ORDER BY id').fetchall()
+            report(0,len(customers))
             if any(row['password_scheme'] != 'md5' for row in customers):
                 raise ValueError('Before database contains unexpected password schemes')
             # Bounded concurrency: at most ~76 MiB of Argon2 working memory across four workers.
@@ -37,6 +38,7 @@ def migrate(database=DB, fail_after=None):
                 for index, (row, password_hash) in enumerate(zip(customers, wrapped), 1):
                     conn.execute('UPDATE customers SET phone=?,email=?,address=?,id_number=?,password_hash=?,password_scheme=?,email_lookup=? WHERE id=?',
                         (encrypt(row['phone']), encrypt(row['email']), encrypt(row['address']), encrypt(decrypt_id(row['id_number'])), password_hash, 'argon2id_md5', email_lookup(row['email']), row['id']))
+                    if index % 50 == 0 or index == len(customers): report(index,len(customers))
                     if fail_after is not None and index >= fail_after:
                         raise RuntimeError('Injected failure for rollback acceptance')
             conn.execute("UPDATE metadata SET value='after' WHERE key='mode'")

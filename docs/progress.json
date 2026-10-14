@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C15",
-  "next_task": "C15",
+  "current_task": "C16",
+  "next_task": "C16",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -326,8 +326,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "e45d492",
+      "publication": "pushed"
     },
     {
       "id": "C15",
@@ -337,14 +337,18 @@
       "depends_on": [
         "C14"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_reviews.py passed actual diffs, invalid selections, repeated/concurrent merge and injected failure",
+          "merge.spec.ts passed full browser migration of3000 fake customers in51s; protected storage confirmed; verified remained false",
+          "Production TypeScript/Vite build passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_checkpoint_commit"
     },
     {
       "id": "C16",
@@ -354,14 +358,19 @@
       "depends_on": [
         "C15"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
         "status": "not_run",
-        "evidence": []
+        "evidence": [
+          "Verification backend and UI implemented; production build passed",
+          "Live four-check acceptance command was not executed: automatic approval review failed due usage limit"
+        ]
       },
-      "blockers": [],
+      "blockers": [
+        "Run live verification acceptance, failure/publication gate, retry and stale-state tests before acceptance"
+      ],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_checkpoint_commit"
     },
     {
       "id": "C17",
