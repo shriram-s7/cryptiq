@@ -7,7 +7,8 @@ Updated: 14 October 2026, IST.
 C02/T01 is implemented and accepted. Core API, minimal web page and Flask shop entry point can run
 through one launcher. C01's exact-fixture summary and CORS still pass their checks.
 C02 commit cabd1d5 was successfully pushed to origin/main.
-All services were stopped cleanly after acceptance. Do not assume the old C01 server is still running.
+Latest regression: all existing checks passed; see TEST_RESULTS.md. All three scaffold services
+are currently running for inspection. Full product flow is not implemented.
 
 ## Completed
 

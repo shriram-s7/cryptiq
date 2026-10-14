@@ -540,5 +540,13 @@
       "commit": null,
       "publication": "not_committed"
     }
-  ]
+  ],
+  "last_regression": {
+    "at": "2026-10-14T16:18:29+05:30",
+    "scope": "C01/C02 scaffold only",
+    "status": "passed",
+    "report": "docs/TEST_RESULTS.md",
+    "full_demo": "not_implemented",
+    "services": "running at checkpoint"
+  }
 }
