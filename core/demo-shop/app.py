@@ -8,6 +8,7 @@ import sqlite3
 
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from catalog import PRODUCTS
+from demo_events import record as record_demo_event
 from storage import DB, DATA, connect, hash_password, initialize, mode, session_secret, verify_password, protect_contact, encrypt_id, lookup_email, implementation
 
 
@@ -79,6 +80,7 @@ def create_app(database=DB, testing=False):
                     cart = session.get('cart', {})
                     session.clear(); session.update(customer_id=customer_id, cart=cart)
                     flash('Your demo account is ready. No real payment or delivery will take place.')
+                    if not testing: record_demo_event('signup', customer_id)
                     return redirect(url_for('index'))
                 except sqlite3.IntegrityError:
                     errors['email'] = 'This email already has a demo account. Please log in.'
@@ -99,6 +101,7 @@ def create_app(database=DB, testing=False):
                 cart = session.get('cart', {})
                 session.clear(); session.update(customer_id=customer['id'], cart=cart)
                 flash('You are signed in to the demo store.')
+                if not testing: record_demo_event('login', customer['id'])
                 return redirect(url_for('index'))
             error = 'Email or password is incorrect.'
         return render_template('login.html', error=error), 401 if error else 200
@@ -136,6 +139,7 @@ def create_app(database=DB, testing=False):
                                       (customer['id'], json.dumps(lines), total, datetime.now(timezone.utc).isoformat()))
                 order_id = cursor.lastrowid
             session.pop('cart', None)
+            if not testing: record_demo_event('checkout', customer['id'], order_id)
             return redirect(url_for('order', order_id=order_id))
         return render_template('checkout.html', lines=lines, total=total)
 

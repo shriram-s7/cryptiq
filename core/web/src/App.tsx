@@ -1,12 +1,19 @@
 import { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowUpRight, Check, ChevronRight, CircleDot, FileCheck2,
+import { ArrowRight, ArrowUpRight, ChevronRight, FileCheck2,
   Fingerprint, LayoutDashboard, ListChecks, LockKeyhole, ScanLine, ShieldCheck, Wrench } from 'lucide-react';
 import { Link, Navigate, NavLink, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { config } from '@/lib/config';
 import { MockPreview } from '@/components/MockPreview';
-import { LiveScanPage, LiveProjectPage } from '@/pages/LiveWorkspace';
+import { LiveProjectPage } from '@/pages/LiveWorkspace';
+import { DemoEntrance } from '@/pages/DemoEntrance';
+import { ProjectSetup } from '@/pages/ProjectSetup';
+import { HackerObservatory } from '@/pages/HackerObservatory';
+import { PartnerPortfolio } from '@/pages/PartnerPortfolio';
+import { VerificationPanel } from '@/pages/VerificationPanel';
+import { currentPlan } from '@/lib/demoSession';
+import './experience.css';
 import logoUrl from '../../../shared/theme/logo.svg';
 
 const sections = [
@@ -16,7 +23,7 @@ const sections = [
     detail: 'Evidence, severity and guidance will appear here when the scanner is connected.', next: 'attack', nextLabel: 'Explore Attack Lab' },
   { title: 'Attack Lab', path: 'attack', icon: Fingerprint, description: 'See the risk. Understand the impact.',
     detail: 'Password attack results and the clearly labelled RSA simulation will appear here. No attacks are available yet.', next: 'fix', nextLabel: 'Explore Fix & Verify' },
-  { title: 'Fix & Verify', path: 'fix', icon: Wrench, description: 'Review the change. Verify the protection.',
+  { title: 'Fixes', path: 'fix', icon: Wrench, description: 'Review the change. Verify the protection.',
     detail: 'Reviewable fixes and four verification checks will appear here. No changes have been applied.', next: 'report', nextLabel: 'Explore reports' },
   { title: 'Report', path: 'report', icon: FileCheck2, description: 'Evidence you can take with you.',
     detail: 'Your evidence report and cryptographic inventory will be available after the underlying checks are implemented.', next: '', nextLabel: 'Back to overview' },
@@ -56,49 +63,23 @@ function Layout() {
       </Link>
       <div className="project-label"><span className="project-monogram">CO</span><div><strong>{projectName}</strong><span>Demo project</span></div></div>
       <nav aria-label="Project navigation">
-        {sections.map(({ title, path, icon: Icon }) => <NavLink key={title} end to={`${projectPath}${path ? `/${path}` : ''}`}
+        {sections.filter(s => s.path !== 'attack').map(({ title, path, icon: Icon }) => <NavLink key={title} end to={`${projectPath}${path ? `/${path}` : ''}`}
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <Icon size={18} aria-hidden="true" /><span>{title}</span>
         </NavLink>)}
-      </nav>
+      <NavLink className="nav-item" to={`${projectPath}/verify`}><ShieldCheck size={18}/>Verification</NavLink></nav>
+      <Link className="nav-item mt-5" to="/hacker"><Fingerprint size={18}/>Hacker observatory ↗</Link><Link className="nav-item" to="/">Demo experiences ↗</Link>
       <div className="sidebar-bottom"><ShieldCheck size={20} aria-hidden="true" /><p>Local by design<span>Security starts with your data.</span></p></div>
     </aside>
     <div className="workspace">
       <header className="topbar"><div className="breadcrumb">Workspace <ChevronRight size={14} aria-hidden="true" /><span>{isProject ? projectName : 'Start a scan'}</span></div>
-        <span className="status-badge"><span /> {config.useMocks ? 'Mock data · development preview' : 'Local workspace | live scans'}</span>
+        <Link to="/#plans" className="plan-pill">{currentPlan()} demo · change plan</Link><span className="status-badge"><span /> {config.useMocks ? 'Mock data · development preview' : 'Local workspace | live scans'}</span>
       </header>
       <main id="main-content" className="main-content" tabIndex={-1}><Outlet /></main>
       <footer className="footer"><span>Security-safeguard evidence, not legal certification.</span><span className="font-mono">CRYPTIQ / CORE</span></footer>
     </div>
     <RouteFocus />
   </div>;
-}
-
-function ScanPage() {
-  if (!config.useMocks) return <LiveScanPage />;
-  return <>
-    <div className="eyebrow"><span /> YOUR FIRST STEP</div>
-    <div className="page-heading"><h1 tabIndex={-1}>Know what your data is up against.</h1><p>One workspace to understand risk, review fixes and see the evidence.</p></div>
-    {config.useMocks ? <MockPreview page="Scan" /> : null}
-    <div className="scan-grid">
-      <Card className="demo-card">
-        <div className="flex items-center justify-between"><div className="icon-tile"><ScanLine size={24} aria-hidden="true" /></div><span className="small-badge">DEMO PROJECT</span></div>
-        <div className="demo-copy"><h2>Chennai Organics</h2><p>A local grocery shop. A practical place to explore how CryptIQ will protect customer data.</p></div>
-        <div className="project-facts"><span><CircleDot size={15} aria-hidden="true" /> E-commerce</span><span><LockKeyhole size={15} aria-hidden="true" /> Local environment</span></div>
-        <div className="preview-note"><strong>The workspace is ready to explore.</strong><p>Scanning is not connected yet. These screens contain no scan results.</p></div>
-        <Button asChild className="w-full"><Link to="/p/p_demo">Explore demo workspace <ArrowRight size={17} aria-hidden="true" /></Link></Button>
-      </Card>
-      <div className="journey"><span className="eyebrow">THE PATH TO PROTECTION</span><h2>From uncertainty<br />to evidence.</h2>
-        {[
-          ['01', 'Scan', 'Find weak cryptography and exposed personal data.'],
-          ['02', 'Attack', 'Understand the impact through controlled demonstrations.'],
-          ['03', 'Fix', 'Review the proposed changes before applying them.'],
-          ['04', 'Prove', 'Verify the result with four independent checks.'],
-        ].map(([number, title, text]) => <div className="journey-step" key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}
-      </div>
-    </div>
-    <div className="build-note"><Check size={17} aria-hidden="true" /><span>Core workspace navigation is available. Scan tools and data connections are coming next.</span></div>
-  </>;
 }
 
 function ProjectPage({ section }: { section: typeof sections[number] }) {
@@ -126,13 +107,14 @@ function NotFound() {
 }
 
 export default function App() {
+  useLocation(); // Re-evaluate demo plan gates after entering a new experience.
   return <Routes>
-    <Route path="/" element={<Navigate to="/scan" replace />} />
-    <Route element={<Layout />}><Route path="/scan" element={<ScanPage />} /><Route path="*" element={<NotFound />} /></Route>
+    <Route path="/" element={<DemoEntrance />} /><Route path="/hacker" element={<HackerObservatory />} /><Route path="/partner-demo" element={<PartnerPortfolio />} /><Route path="/scan" element={<ProjectSetup />} />
+    <Route element={<Layout />}><Route path="*" element={<NotFound />} /></Route>
     <Route path="/p/:id" element={<Layout />}>
-      {sections.map((section) => section.path === ''
+      <Route path="verify" element={currentPlan() === "free" ? <div className="lock-panel"><h1>Verification requires Starter</h1><Link to="/#plans">Explore plans</Link></div> : <><h1>Evidence, step by step.</h1><VerificationPanel /></>} />{sections.map((section) => section.path === ''
         ? <Route index key={section.title} element={<ProjectPage section={section} />} />
-        : <Route key={section.title} path={section.path} element={<ProjectPage section={section} />} />)}
+        : <Route key={section.title} path={section.path} element={section.path === 'attack' ? <Navigate to="/hacker" replace /> : <ProjectPage section={section} />} />)}
       <Route path="*" element={<NotFound />} />
     </Route>
   </Routes>;

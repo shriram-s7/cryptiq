@@ -635,5 +635,21 @@
     "services": "running; main fake shop reset before"
   },
   "execution_policy": "Batch related work; one meaningful acceptance gate per task, no redundant publication-only commits. User requested faster progress.",
-  "dependency_exception": "User requested usable frontend now: C18-C20 brought forward alongside C10. C19-C20 remain partial until attack/patch dependencies exist."
+  "dependency_exception": "User requested usable frontend now: C18-C20 brought forward alongside C10. C19-C20 remain partial until attack/patch dependencies exist.",
+  "ui_redesign": {
+    "status": "implemented_with_documented_limits",
+    "handoff": "docs/UI_SHOWCASE.md",
+    "date": "2026-10-14",
+    "acceptance": [
+      "TypeScript/Vite build passed",
+      "Connected browser experience and mobile checks passed; real scan/attack/migration/verification/partner updates/fresh protected signup"
+    ],
+    "remaining": [
+      "URL scanner service",
+      "individual repair application",
+      "real transaction protection test",
+      "commercial auth/billing/tenancy/quotas"
+    ],
+    "original_prompt_acceptance_unchanged": true
+  }
 }

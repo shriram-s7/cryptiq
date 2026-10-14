@@ -33,3 +33,13 @@ Hub-owned read-only Partner Console. Proposed Partner price is ₹1,199/month in
 client workspaces, then ₹500/month per additional active workspace. Billing, partner authorization/
 tenancy, plan enforcement, and public URL scanning remain unimplemented. No C prompt acceptance
 changed; next sequential prompt remains C19.
+
+
+Latest user-requested UI batch: see docs/UI_SHOWCASE.md. Entry /, guided /scan, standalone /hacker,
+read-only /partner-demo, separate /p/:id/verify. /attack redirects to /hacker. Shop redesigned with
+SVG produce, search/category filtering and fake checkout. Event feed /api/demo/activity contains no
+credentials; shop writes bounded local runtime JSON. Build and connected browser checks passed.
+No Hub edits; new Core demo entry/partner preview authorized by latest user scope. Local plan locks
+are not server enforcement. URL scan unavailable; transaction scenario labeled scripted; individual
+repairs still bundled. Main demo is reset BEFORE after acceptance for presentation. Launcher session
+35412 owns the running Core services. C19-C29 counts unchanged; engine reuse remains deferred.
