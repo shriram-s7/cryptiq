@@ -343,3 +343,8 @@ Prepared the 12-slide Prosculpt-format CryptIQ / Tech Squad deck and detailed pr
 ## 2026-10-15 — Visual deck revision
 
 Rebuilt the 12-section deck with current dashboard, shop, Hacker and partner screenshots, architecture/workflow visuals, native tables, links and the existing detailed speaker notes. Updated README to select the visual deck. Kept the original draft for history. No runtime reset or implementation change.
+
+
+## 2026-10-15 — Hosted demo release
+
+Prepared v0.1.0-demo with the complete sharing link explicitly requested by the owner. Verified remote main matched local code, untracked root decks matched committed copies, and demo plus API health returned HTTP 200. Updated README and hosting notes. No additional implementation acceptance or full regression run claimed. Next: remaining C19+ work and permanent hosting.

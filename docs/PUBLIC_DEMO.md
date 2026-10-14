@@ -1,7 +1,7 @@
 # Public demonstration — 15 October 2026
 
 Current origin: https://usual-orbit-national-mazda.trycloudflare.com/
-New reviewers require the complete private access link.
+New reviewers require the complete access link, now shared in the [demo release](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo) at the owner’s request.
 
 Presentation: [Tech Squad deck](presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx).
 Detailed notes: [Presenter guide](presentation/PRESENTER_GUIDE.md).
@@ -9,7 +9,7 @@ Detailed notes: [Presenter guide](presentation/PRESENTER_GUIDE.md).
 The prototype has a free temporary Cloudflare Tunnel link. This is a live link to the presenter PC,
 not permanent cloud hosting: keep the PC awake, connected and the services running. Restarting the
 tunnel produces a different address. The complete reviewer link is stored locally in
-`core/.runtime/public-demo-link.txt`; do not commit it or the access key.
+`core/.runtime/public-demo-link.txt`; do not commit the local key file. The complete sharing URL is intentionally included in the demo release.
 
 ## Start
 
