@@ -5,7 +5,7 @@
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
   "current_task": null,
-  "next_task": "C01",
+  "next_task": "C02",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -46,14 +46,17 @@
       "depends_on": [
         "PLAN"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "python core/api/check_public_stub.py: all 5 HTTP check groups passed against uvicorn on port 8000",
+          "Exact fixture equality; Hub GET and preflight CORS; unknown slug 404; unrelated origin denied CORS; health and no-store/stub headers"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C02",
