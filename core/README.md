@@ -1,0 +1,62 @@
+# Run CryptIQ Core locally
+
+C02 supplies three service entry points. Core web and the shop are scaffold pages; scanning and shop
+accounts are not implemented yet. The API retains the C01 fixture summary. Hub is never launched here.
+
+## First setup (PowerShell, from D:\cryptiq)
+
+Use Python 3.11+ and Node.js 20+. Python 3.14.0 / Node 20.20.2 were used for C02 acceptance.
+
+```powershell
+python -m venv core/.venv
+core/.venv/Scripts/python.exe -m pip install --cache-dir core/.runtime/pip-cache -r core/requirements.txt
+```
+
+The minimal web server uses only built-in Node modules. C03 adds React/Vite and npm dependencies.
+Runtime logs and cache stay under ignored core/.runtime/. Dependencies stay in core/.venv/.
+
+## Start and stop
+
+```powershell
+core/.venv/Scripts/python.exe core/scripts/dev.py
+```
+
+If the pinned Python dependencies are already installed, `python core/scripts/dev.py` also works.
+Use the same Python environment for both API and shop. Wait for all three Ready messages:
+
+| Service | URL | Log |
+|---|---|---|
+| Core web | http://localhost:5173 | core/.runtime/logs/web.log |
+| Core API | http://localhost:8000/api/health | core/.runtime/logs/api.log |
+| Demo shop | http://localhost:5050 | core/.runtime/logs/shop.log |
+
+Keep this terminal open. Press **Ctrl+C** in it to stop all three owned child processes.
+Do not forcibly close or kill the launcher: a hard kill cannot run cleanup. If that happens, identify
+the printed child PIDs and stop only those owned services before retrying. Normal stop, failed startup,
+readiness timeout and unexpected child exit all clean up the children that this invocation started.
+
+The launcher refuses occupied ports before starting anything. Stop standalone services in their
+original terminals first (including the C01 API). It never kills an existing process or chooses a
+different port. No Hub process is inspected, started or stopped. Logs are replaced on each launch.
+
+## Acceptance and diagnostics
+
+```powershell
+python core/scripts/dev.py --check
+```
+
+This starts all services, checks real HTTP responses and stops them. It exits nonzero if a required
+port is unavailable, a dependency/process fails, or a response never becomes ready (30-second timeout).
+
+With all Core services stopped, `python core/scripts/check_launcher.py` also checks port-conflict
+refusal, failed-child cleanup and startup timeout using real short-lived subprocesses. It replaces
+the launcher logs with each scenario; finish by starting normally for usable service logs.
+
+While the combined launcher is running, preserve C01's contract with:
+
+```powershell
+python core/api/check_public_stub.py
+```
+
+For standalone runs, see each service's README. If localhost sockets are blocked by an execution
+sandbox, run these commands in an allowed local terminal; do not treat a blocked check as a pass.
