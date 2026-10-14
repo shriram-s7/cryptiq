@@ -1,0 +1,25 @@
+/* CryptIQ "Quiet vault" theme tokens — see docs/SHARED_THEME_AND_CONTRACT.md §2.
+   Owned by the Core team. Hub: read-only (request changes in hub/REQUESTS.md). */
+:root {
+  /* Colour (§2.1) */
+  --ink-900: #0B2530;
+  --ink-700: #16404F;
+  --emerald-600: #059669;
+  --emerald-50: #E7F7F0;
+  --red-600: #DC2626;
+  --amber-600: #D97706;
+  --slate-900: #0F172A;
+  --slate-500: #64748B;
+  --slate-200: #E2E8F0;
+  --slate-50: #F8FAFC;
+  --terminal-bg: #0B1220;
+  --terminal-fg: #D1FAE5;
+
+  /* Type */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radius */
+  --radius-card: 12px;
+  --radius-btn: 10px;
+}
