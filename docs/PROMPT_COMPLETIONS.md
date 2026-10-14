@@ -308,3 +308,10 @@ Validation: all 23 exact-target recovery examples passed; live signup confirmed 
 
 ## 2026-10-15 — Prosculpt dictionary examples
 Added prosculpt@123 and prosculpt123, updated UI count to 25. All 25 exact-target recovery fixtures passed; API restarted to load the dictionary. No data reset.
+
+
+## 2026-10-15 — Consolidated current code publication
+Included existing uncommitted Core redesign, settings, confetti and public badge support.
+Restored strict RSA inventory/storage guard; updated default shell route test. Build, nine-route
+smoke, dictionary, RSA, Hub contract and notification tests passed. See CURRENT_SNAPSHOT.md.
+Confirmed root PPTX has 12 slides; presentation and lock remain local. Hub/history preserved.

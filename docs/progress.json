@@ -662,5 +662,12 @@
     "attack_scope": "selected customer in Hacker; whole database for verification",
     "demo_password": "Manual entry; 25 candidates, including prosculpt@123 and prosculpt123; no autofill button",
     "latest_validation": "20 known passwords + negative + weak Argon2 tests; toast browser and live target API passed"
+  },
+  "current_snapshot": {
+    "date": "2026-10-15",
+    "document": "docs/CURRENT_SNAPSHOT.md",
+    "scope": "all current Core source; Hub unchanged; presentation local",
+    "validation": "production build, route smoke, dictionary, RSA, Hub contract, toast test",
+    "remaining": "C19-C29 acceptance; legacy specialized UI test selectors; deferred reuse"
   }
 }

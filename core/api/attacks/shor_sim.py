@@ -33,7 +33,7 @@ def simulate(database,budget_seconds,report=lambda _:None,public_path=None):
     result['total']=len(rows)
     assets=scan(ROOT/f'core/demo-shop/src_{mode}')['assets']
     if not any(a['name']=='RSA' for a in assets):
-        if {'ML-KEM-768','AES-256-GCM'}<={a['name'] for a in assets} and all(value.startswith('pqc:v1:') for _,value in rows):
+        if {'ML-KEM-768','AES-256-GCM'} <= {a['name'] for a in assets} and all(value.startswith('pqc:v1:') for _,value in rows):
             result.update(verdict='not_applicable',lines=[DISCLAIMER,'No active RSA asset. Stored IDs use the ML-KEM + AES-GCM demo representation.'])
             result['durationMs']=round((time.monotonic()-started)*1000);return result
         raise ValueError('Active inventory/storage is unsupported or inconsistent')

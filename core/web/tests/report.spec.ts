@@ -1,8 +1,12 @@
 import {test,expect} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
 test('verified report downloads, then reset invalidates publication and restores38',async({page,request})=>{
- test.setTimeout(90000);
+ test.setTimeout(120000);
  await page.goto('/p/p_demo/fix');
+ await page.getByRole('button',{name:'Prepare fixes for review'}).click();
+ await page.getByRole('button',{name:/Apply all four demo fixes|Merge four demo fixes/}).click();
+ await expect(page.getByText('Migration complete. Verification is still required.')).toBeVisible({timeout:90000});
+ await page.getByRole('link',{name:/Continue to verification/}).click();
  await page.getByRole('button',{name:/Run four verification checks|Run verification again/}).click();
  await expect(page.getByText('Verified. 4 of 4 checks passed.',{exact:true})).toBeVisible({timeout:60000});
  await page.getByRole('link',{name:'View evidence report'}).click();
