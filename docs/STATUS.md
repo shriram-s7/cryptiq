@@ -1,5 +1,7 @@
 # Core status - 2026-10-15
 
+Latest: added prosculpt@123 and prosculpt123; dictionary now has 25 candidates.
+
 Latest update: dictionary now includes smit123, founder123 and shriram123 (23 candidates).
 Removed the signup demo-password autofill button. Enter the desired test password manually.
 

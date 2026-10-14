@@ -305,3 +305,6 @@ Services restarted; observed demo BEFORE, no reset performed here. Existing unre
 Added smit123, founder123, shriram123; removed signup autofill button and note.
 Updated displayed candidate count and existing regression checks.
 Validation: all 23 exact-target recovery examples passed; live signup confirmed autofill absent. API/shop restarted. No demo data reset.
+
+## 2026-10-15 — Prosculpt dictionary examples
+Added prosculpt@123 and prosculpt123, updated UI count to 25. All 25 exact-target recovery fixtures passed; API restarted to load the dictionary. No data reset.
