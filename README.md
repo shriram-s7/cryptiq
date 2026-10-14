@@ -8,7 +8,7 @@ CryptIQ demonstrates a security workflow for a small business: inspect supported
 
 New reviewers need the **complete access link supplied privately by the presenter**. The clean URL above does not grant access. The complete link and access key stay out of Git. This free temporary Cloudflare Tunnel depends on the presenter PC remaining awake, online, and running the services. Restarting the tunnel can change its address. All reviewers share one synthetic demonstration database.
 
-[Presentation (12 slides)](docs/presentation/CryptIQ_Tech_Squad_12_Slides.pptx) · [Speaker notes and Business demo script](docs/presentation/PRESENTER_GUIDE.md) · [Hosting and walkthrough](docs/PUBLIC_DEMO.md)
+[Presentation (12 slides)](docs/presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx) · [Speaker notes and Business demo script](docs/presentation/PRESENTER_GUIDE.md) · [Hosting and walkthrough](docs/PUBLIC_DEMO.md)
 
 ## What works today
 

@@ -686,9 +686,10 @@
     "date": "2026-10-15",
     "slides": 12,
     "team": "Tech Squad",
-    "deck": "docs/presentation/CryptIQ_Tech_Squad_12_Slides.pptx",
+    "deck": "docs/presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx",
     "guide": "docs/presentation/PRESENTER_GUIDE.md",
     "scope": "Presentation and documentation only; no additional C prompt acceptance",
-    "publication": "included in presentation documentation commit"
+    "publication": "included in presentation documentation commit",
+    "revision": "Visual redesign with current screenshots, editable diagrams/tables and hyperlinks"
   }
 }
