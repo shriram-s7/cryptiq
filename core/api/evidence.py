@@ -19,6 +19,15 @@ def demo_activity():
         events = json.loads(path.read_text(encoding='utf-8'))
     except (OSError, ValueError):
         events = []
+    # Verification removes its temporary customer/order; do not offer deleted targets.
+    if scan_jobs.SHOP.exists():
+        with closing(sqlite3.connect(f'{scan_jobs.SHOP.as_uri()}?mode=ro', uri=True)) as conn:
+            customers = {row[0] for row in conn.execute('SELECT id FROM customers')}
+            orders = {row[0] for row in conn.execute('SELECT id FROM orders')}
+        events = [event for event in events if event.get('customerId') in customers
+                  and (event.get('kind') != 'checkout' or event.get('orderId') in orders)]
+    else:
+        events = []
     return JSONResponse({'events': events, 'demoData': True}, headers={'Cache-Control': 'no-store'})
 
 
@@ -69,7 +78,7 @@ def export_cbom(scan_id: str):
     return JSONResponse(cbom(result), headers={'Content-Disposition': f'attachment; filename="cryptiq-{scan_id}.cdx.json"', 'Cache-Control': 'no-store'})
 
 
-def read_leak(database, limit):
+def read_leak(database, limit, customer_id=None):
     if not database.exists():
         raise HTTPException(409, 'Demo database is unavailable; seed the shop first')
     with closing(sqlite3.connect(f'{database.as_uri()}?mode=ro', uri=True)) as conn:
@@ -77,7 +86,7 @@ def read_leak(database, limit):
         conn.execute('BEGIN')
         mode = conn.execute("SELECT value FROM metadata WHERE key='mode'").fetchone()[0]
         total = conn.execute('SELECT count(*) FROM customers').fetchone()[0]
-        rows = conn.execute('SELECT id,name,phone,email,password_hash,id_number,created_at FROM customers ORDER BY id DESC LIMIT ?', (limit,)).fetchall()
+        rows = conn.execute('SELECT id,name,phone,email,password_hash,id_number,created_at FROM customers WHERE (? IS NULL OR id=?) ORDER BY id DESC LIMIT ?', (customer_id, customer_id, limit)).fetchall()
     return {'projectId': 'p_demo', 'demoData': True, 'mode': mode, 'total': total,
             'rows': [dict(row) for row in rows], 'newestCustomerId': rows[0]['id'] if rows else None,
             'capturedAt': datetime.now(timezone.utc).isoformat(),
@@ -85,10 +94,10 @@ def read_leak(database, limit):
 
 
 @router.get('/api/projects/{project_id}/leak-preview')
-def leak_preview(project_id: str, limit: int = Query(default=8, ge=1, le=20)):
+def leak_preview(project_id: str, limit: int = Query(default=8, ge=1, le=20), customer_id: int | None = Query(default=None, ge=1)):
     scan_jobs.project(project_id)
     if project_id != 'p_demo':
         raise HTTPException(422, 'Leak preview is only available for the local fake demo database')
     if (scan_jobs.SHOP.parent / '.migration.lock').exists():
         raise HTTPException(409, 'Migration in progress; refresh after it finishes')
-    return JSONResponse(read_leak(scan_jobs.SHOP, limit), headers={'Cache-Control': 'no-store'})
+    return JSONResponse(read_leak(scan_jobs.SHOP, limit, customer_id), headers={'Cache-Control': 'no-store'})

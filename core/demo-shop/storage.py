@@ -32,6 +32,9 @@ def initialize(db=DB):
             conn.execute("ALTER TABLE customers ADD COLUMN password_scheme TEXT NOT NULL DEFAULT 'md5'")
         if 'email_lookup' not in columns:
             conn.execute('ALTER TABLE customers ADD COLUMN email_lookup TEXT')
+        if 'phone_lookup' not in columns:
+            conn.execute('ALTER TABLE customers ADD COLUMN phone_lookup TEXT')
+        conn.execute('CREATE INDEX IF NOT EXISTS customer_phone_lookup ON customers(phone_lookup)')
         conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS customer_email_lookup ON customers(email_lookup)')
         conn.execute('CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)')
         conn.execute("INSERT OR IGNORE INTO metadata VALUES ('mode', 'before')")
@@ -96,3 +99,8 @@ def session_secret():
     except FileExistsError:
         pass
     return path.read_text(encoding='utf-8').strip()
+
+
+def lookup_phone(value):
+    import hmac
+    return hmac.new(session_secret().encode(), ("phone:" + value.strip()).encode(), "sha256").hexdigest()

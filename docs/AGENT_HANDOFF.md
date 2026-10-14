@@ -1,5 +1,10 @@
 # Core handoff - latest state
 
+2026-10-15: Signup now asks only name/phone/password. Phone login selects newest registration for
+a repeated phone. Live Hacker notifications open the exact account/module; never substitute another
+recovered credential. See STATUS.md and notifications.spec.ts. Current demo AFTER, verification passed.
+Other pre-existing UI edits remain uncommitted; preserve them.
+
 Read CORE_CONTEXT.md, CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, STATUS.md, progress.json.
 Accepted C01-C18. Next C19; C19-C23 partially built, C27 partial regression. T02/T09 deferred.
 Only D:/cryptiq access, never edit hub/. Stage only core/shared/docs; core: commits; push completed work.

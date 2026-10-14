@@ -1,6 +1,18 @@
-# Core status - 2026-10-14
+# Core status - 2026-10-15
 
-LATEST: connected UI redesign delivered. Start http://localhost:5173/ for demo plans and four
+LATEST TASK: Three-field shop registration (name/phone/password), phone login, animated signup/login/checkout
+notifications opening the matching Hacker module and exact account. Recovered values are account-scoped;
+removed fabricated password/ID fallbacks. Current demo is AFTER fixes, verified 91; no demo reset performed.
+Validation: production build, shop acceptance, 58-second connected browser journey through real migration
+and all four verification checks passed. Protected phone login also passed. Notifications omit deleted
+verification customer/order fixtures. Run services with core/.venv/Scripts/python.exe core/scripts/dev.py.
+Focused browser test: PLAYWRIGHT_BROWSERS_PATH=core/.runtime/playwright, notifications.spec.ts; requires
+an initialized BEFORE demo and leaves it AFTER. Old experience tests contain other stale UI selectors.
+Known limits: dictionary is bounded/dataset-wide; weak passwords can still crack after repair. Transaction
+module is a labeled simulation. Existing unrelated UI changes remain in the working tree. Next: C19
+acceptance against the latest UI; engine reuse remains deferred. Prompt acceptance counts unchanged.
+
+PREVIOUS LATEST: connected UI redesign delivered. Start http://localhost:5173/ for demo plans and four
 experiences. Read docs/UI_SHOWCASE.md for the current routes, presentation flow and limitations.
 Guided setup, separate Hacker/partner layouts, redesigned shop and separate verification now exist.
 Build and connected browser journey passed. Original C prompt counts below remain unchanged.
