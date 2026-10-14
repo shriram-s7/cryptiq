@@ -1,11 +1,10 @@
 """Local demo storage. Before-mode weaknesses are intentional, never production defaults."""
 from contextlib import contextmanager
 from pathlib import Path
-import hashlib
-import hmac
 import json
 import secrets
 import sqlite3
+from src_before import auth, models, crypto_utils
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / 'data'
@@ -53,11 +52,22 @@ def mode():
 
 def hash_password(password):
     mode()
-    return hashlib.md5(password.encode('utf-8')).hexdigest()  # Deliberate demo vulnerability.
+    return auth.hash_password(password)
 
 
 def verify_password(password, stored):
-    return hmac.compare_digest(hash_password(password), stored)
+    mode()
+    return auth.verify_password(password, stored)
+
+
+def protect_contact(value):
+    mode()
+    return models.protect_contact(value)
+
+
+def encrypt_id(value):
+    mode()
+    return crypto_utils.encrypt_id(value)
 
 
 def session_secret():

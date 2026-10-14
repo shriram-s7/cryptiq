@@ -7,7 +7,7 @@ import random
 from pathlib import Path
 import sqlite3
 
-from storage import DATA, DB, ROOT, connect, hash_password, initialize
+from storage import DATA, DB, ROOT, connect, hash_password, initialize, encrypt_id, protect_contact
 
 COMMON_PASSWORDS = ['priya@123', 'chennai123', 'password1', 'welcome123', 'india123', 'admin123', 'tamil123', 'summer2026', 'ravi@123', 'arjun123']
 FIRST_NAMES = ['Priya', 'Arjun', 'Kavya', 'Ravi', 'Meena', 'Suresh', 'Ananya', 'Vijay', 'Divya', 'Karthik', 'Lakshmi', 'Arun', 'Deepa', 'Nandini', 'Ganesh', 'Revathi', 'Hari', 'Sneha', 'Rohit', 'Asha']
@@ -22,7 +22,7 @@ def generate_rows():
         name = 'Priya S' if i == 0 else f'{rng.choice(FIRST_NAMES)} {rng.choice(LAST_NAMES)}'
         password = 'priya@123' if i == 0 else rng.choice(COMMON_PASSWORDS) if i < 1350 else hashlib.sha256(f'cryptiq-fake-only-{i}'.encode()).hexdigest()[:22]
         email = 'priya@example.test' if i == 0 else f'customer{i + 1:04d}@example.test'
-        rows.append((name, f'9{i:09d}', email, hash_password(password), f'DEMO-ID-{i + 1:06d}', f'{i + 1}, Fictional Demo Street, Chennai', (start + timedelta(seconds=i)).isoformat()))
+        rows.append((name, protect_contact(f'9{i:09d}'), protect_contact(email), hash_password(password), encrypt_id(f'DEMO-ID-{i + 1:06d}'), protect_contact(f'{i + 1}, Fictional Demo Street, Chennai'), (start + timedelta(seconds=i)).isoformat()))
         truth[str(i + 1)] = password
     return rows, truth
 

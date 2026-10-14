@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C07",
-  "next_task": "C07",
+  "current_task": "C08",
+  "next_task": "C08",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -139,8 +139,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "d13e7a7",
+      "publication": "pushed"
     },
     {
       "id": "C06",
@@ -159,8 +159,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "d13e7a7",
+      "publication": "pushed"
     },
     {
       "id": "C07",
@@ -170,14 +170,17 @@
       "depends_on": [
         "C06"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_discovery.py: exactly eight evidence-backed findings, MD5/RSA assets and cookie mutation sensitivity",
+          "check_shop.py passed with active src_before; RSA round trip passed; regenerated snapshot contains encrypted fake IDs"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C08",
