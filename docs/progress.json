@@ -5,7 +5,7 @@
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
   "current_task": null,
-  "next_task": "C11",
+  "next_task": "C13",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -244,8 +244,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "88889c3",
+      "publication": "pushed"
     },
     {
       "id": "C11",
@@ -255,14 +255,18 @@
       "depends_on": [
         "C10"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_evidence.py --live: official CycloneDX 1.6 schema validates before/after source and downloaded scan export; fresh signup newest-first, exact DB values, empty/limited data, migrated ciphertext",
+          "Playwright evidence.spec.ts: preview/mask/drawer/refresh, project and limit errors, 1280x800/mobile layout and actual download passed",
+          "TypeScript/Vite production build passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C12",
@@ -272,14 +276,18 @@
       "depends_on": [
         "C11"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_evidence.py --live: official CycloneDX 1.6 schema validates before/after source and downloaded scan export; fresh signup newest-first, exact DB values, empty/limited data, migrated ciphertext",
+          "Playwright evidence.spec.ts: preview/mask/drawer/refresh, project and limit errors, 1280x800/mobile layout and actual download passed",
+          "TypeScript/Vite production build passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C13",
@@ -386,8 +394,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "88889c3",
+      "publication": "pushed"
     },
     {
       "id": "C19",
@@ -439,10 +447,12 @@
       "depends_on": [
         "C20"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "partial",
+        "evidence": [
+          "Live leak preview in Attack Lab; downloadable cryptographic inventory on Report page. Attack execution and verified PDF remain unimplemented."
+        ]
       },
       "blockers": [],
       "commit": null,
@@ -473,10 +483,12 @@
       "depends_on": [
         "C22"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "partial",
+        "evidence": [
+          "Live leak preview in Attack Lab; downloadable cryptographic inventory on Report page. Attack execution and verified PDF remain unimplemented."
+        ]
       },
       "blockers": [],
       "commit": null,

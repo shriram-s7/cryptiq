@@ -43,3 +43,10 @@ GET /api/scans/{id} polls running/done/error and actual stages. GET /api/project
 Completed records persist in core/.runtime/api/jobs.db. Uploaded sources stay local under uploads/.
 Results are candidate evidence, verified=false. Python pattern coverage only; uploaded code never runs.
 Check with python core/api/check_scan_jobs.py (launcher active) and check_scan_persistence.py.
+
+## Inventory and fake-data preview
+GET /api/scans/{id}/cbom downloads CycloneDX1.6 JSON for a completed scan (409 otherwise).
+GET /api/projects/p_demo/leak-preview?limit=8 returns rows,total,mode,capturedAt,newestCustomerId.
+Limit1-20; other project IDs reject (404 unknown,422 non-demo). Values are stored representations;
+no decryption, keys or seed truth. Refresh after signup; no-store headers prevent browser caching.
+Install requirements-dev.txt and run check_evidence.py --live with the launcher active.

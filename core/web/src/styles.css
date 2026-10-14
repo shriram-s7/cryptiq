@@ -118,3 +118,20 @@
   .workspace:has(.overview-grid) .footer { padding:10px 0; }
 }
 @media (min-width:1001px) { .main-content:has(.overview-grid) { padding-top:12px; } }
+.leak-layout { display:grid; grid-template-columns:minmax(0,1.9fr) minmax(240px,1fr); gap:20px; }
+.leak-panel { padding:20px; min-width:0; }.leak-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.leak-table-scroll { overflow:auto; }.leak-table { width:100%; table-layout:fixed; border-collapse:collapse; text-align:left; }.leak-table th { font-size:10px; font-weight:500; color:#64748b; background:#f8fafc; padding:8px; }.leak-table th:first-child { width:24%; }.leak-table th:last-child { width:60px; }.leak-table td { padding:8px; border-top:1px solid #e2e8f0; font-size:10px; }.leak-table td span,.leak-table td strong { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.leak-table td strong { font-weight:500; }.leak-table td span+span { margin-top:2px; color:#64748b; }.newest-row { background:#effcf5; }.leak-table .newest-tag { font-size:8px; color:#047857; letter-spacing:.08em; margin-top:3px; }
+@media (min-width:1001px) { .main-content:has(.leak-layout) { padding-top:12px; }.main-content:has(.leak-layout) .page-heading { margin:14px 0 18px; }.main-content:has(.leak-layout) .page-heading p { margin-top:6px; }.workspace:has(.leak-layout) .footer { padding:10px 0; } }
+@media (max-width:1000px) { .leak-layout { grid-template-columns:1fr; } }
+@media (min-width:1001px) {
+ .leak-panel { padding:16px; }
+ .leak-table td { padding:4px 6px; line-height:1.35; }
+ .leak-table-scroll { max-height:310px; }
+ .leak-guide .space-y-3>li+li { margin-top:8px; }
+ .leak-guide ol { font-size:12px; }
+ .leak-guide>div { padding:16px; }
+ .main-content:has(.leak-layout) .page-heading { margin:10px 0 14px; }
+ .main-content:has(.leak-layout) .page-heading p { margin-top:4px; }
+}
+@media (min-width:1001px) { .main-content:has(.leak-layout) { padding-bottom:0; }.main-content:has(.leak-layout) .page-heading { margin-bottom:8px; } }
+@media (min-width:1001px) { .leak-table td { padding:2px 6px; } }

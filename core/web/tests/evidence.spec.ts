@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('live storage preview, masking, stored-value drawer and inventory download', async ({ page, request }) => {
+  const previewResponse=await request.get('http://localhost:8000/api/projects/p_demo/leak-preview?limit=8');
+  expect(previewResponse.headers()['cache-control']).toBe('no-store');
+  const preview=await previewResponse.json();
+  expect(preview.rows).toHaveLength(8);
+  expect(preview.rows[0].id).toBeGreaterThan(preview.rows[1].id);
+  for (const limit of ['0','21','bad']) expect((await request.get(`http://localhost:8000/api/projects/p_demo/leak-preview?limit=${limit}`)).status()).toBe(422);
+  expect((await request.get('http://localhost:8000/api/projects/missing/leak-preview')).status()).toBe(404);
+  const source=await (await request.post('http://localhost:8000/api/projects',{data:{name:'No database'}})).json();
+  expect((await request.get(`http://localhost:8000/api/projects/${source.id}/leak-preview`)).status()).toBe(422);
+  await page.goto('/p/p_demo/attack');
+  await expect(page.locator('.leak-table tbody tr')).toHaveCount(8);
+  await expect(page.locator('.newest-row')).toContainText(preview.rows[0].name);
+  await page.getByRole('checkbox',{name:'Show masked'}).check();
+  await expect(page.locator('.newest-row')).not.toContainText(preview.rows[0].name);
+  await page.getByRole('checkbox',{name:'Show masked'}).uncheck();
+  await page.getByRole('button',{name:`Inspect customer ${preview.rows[0].id}`,exact:true}).click();
+  await expect(page.getByRole('dialog')).toContainText(preview.rows[0].password_hash);
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.getByRole('button',{name:'Refresh',exact:true}).click();
+  await expect(page.locator('.leak-table tbody tr')).toHaveCount(8);
+  expect(await page.evaluate(()=>document.documentElement.scrollHeight)).toBeLessThanOrEqual(800);
+  await page.screenshot({path:'D:/cryptiq/core/.runtime/attack-preview.png'});
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.goto('/p/p_demo/report');
+  const downloaded=page.waitForEvent('download');
+  await page.getByRole('link',{name:'Download inventory (CycloneDX JSON)'}).click();
+  const download=await downloaded;
+  expect(download.suggestedFilename()).toMatch(/\.cdx\.json$/);
+  const project=await (await request.get('http://localhost:8000/api/projects/p_demo')).json();
+  const bom=await (await request.get(`http://localhost:8000/api/scans/${project.scan.id}/cbom`)).json();
+  expect(bom.components.map((c:{name:string})=>c.name).sort()).toEqual(['MD5','RSA']);
+});

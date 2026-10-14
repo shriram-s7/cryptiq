@@ -8,6 +8,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from scan_jobs import router, initialize, POOL
+from evidence import router as evidence_router
 
 
 SUMMARY_FIXTURE = (
@@ -30,6 +31,7 @@ app.add_middleware(
     allow_headers=["Accept", "Content-Type"],
 )
 app.include_router(router)
+app.include_router(evidence_router)
 
 
 @app.get("/api/health")

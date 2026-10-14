@@ -1,7 +1,8 @@
 # Core agent handoff
 
 Read CORE_CONTEXT.md, CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, STATUS.md and progress.json.
-Latest accepted: C10 scan jobs and C18 live scan screen. C19/C20 partial. Resume C11_T12.md.
+Latest accepted: C11 inventory and C12 leak preview. Resume C13_T14.md (dictionary attack).
+C19/C20/C21/C23 partially implemented; C18 accepted. Prior batch pushed as88889c3.
 User explicitly prioritized a usable frontend and larger batches; this authorizes bringing UI forward.
 Keep all functionality. Skip T02/T09 reuse until user releases it. Never modify hub/ or access outside
 D:/cryptiq. Stage only core/shared/docs, core: commits, push completed work to origin/main.
@@ -20,3 +21,13 @@ before-mode DB. For Playwright set PLAYWRIGHT_BROWSERS_PATH=D:/cryptiq/core/.run
 No attack endpoints, browser merge, four-check verification or PDF yet. Next C11 inventory export,
 then leak/attacks. Preserve honest candidate/verified distinction. Public fixture remains unchanged
 and inconsistent by original contract. Protected migration exists offline; kyber-py is educational.
+
+C11/C12 code: core/api/evidence.py, core/web/src/pages/LeakPreview.tsx. GET /api/scans/{id}/cbom
+returns attachment CycloneDX1.6 from persisted assets; GET /api/projects/p_demo/leak-preview?limit=8
+reads a consistent SQLite snapshot of allowlisted fake records, newest id first (1-20 rows). No keys
+or decryption. API no-store. Frontend refresh clears old data; drawer masks when masked view selected.
+API validation dependency: requirements-dev.txt. Official schema in api/schemas, no vendor engine.
+ML-KEM768 is parameter-set identifier, not key bits; discovery keySize now null for that asset.
+check_evidence.py --live and Playwright evidence.spec.ts passed. Services remain running. Before DB
+unchanged; migration test used isolated temporary DB. Next connect dictionary attack to this visible
+Attack Lab. Never use seed truth to produce attack results. User wants working visual product ASAP.
