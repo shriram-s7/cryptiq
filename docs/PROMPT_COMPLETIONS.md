@@ -158,3 +158,15 @@ Every Core route renders a labelled mock preview with scenario controls. Default
 no silent fallback. Build/typecheck passed and one browser test covered all six screens across three
 scenarios with zero API requests and API stopped. Live aggregation awaits backend implementation.
 C03 was pushed as 2e1c317. C04 is carried in this task commit. Batch continues with C05/C06.
+
+
+## 2026-10-14 - C05/C06 accepted together
+Working Flask grocery shop: six products, signup/login, session basket, server-priced fake checkout,
+persistent customers/orders, duplicate validation, CSRF forms and readable errors. Before mode uses
+real MD5 and plaintext PII intentionally. Local generated session key is ignored. Seed gives exactly
+3000 fake customers, 1350 common passwords, Priya S (priya@example.test / priya@123), and a SQLite
+reset snapshot. Used deterministic curated local names instead of Faker to avoid another dependency.
+check_shop.py passed; one live browser journey passed; screenshot inspected; actual reset restored
+3000 customers and zero orders. Sensitive runtime files confirmed ignored. No services left running.
+Current IDs are plaintext until C07 RSA planting; protected mode awaits C08. C04 pushed as b1b70d5.
+Next C07: active before source snapshot, eight planted issues and evidence-based local checker.
