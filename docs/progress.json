@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": null,
-  "next_task": "C03",
+  "current_task": "C04",
+  "next_task": "C04",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -89,14 +89,18 @@
       "depends_on": [
         "C02"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "TypeScript/Vite production build passed",
+          "Playwright: 2 tests passed covering six routes, missing routes, sidebar, keyboard, local fonts, desktop/mobile",
+          "Launcher failure suite and C01 API checks passed; screenshots inspected"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C04",
@@ -548,5 +552,6 @@
     "report": "docs/TEST_RESULTS.md",
     "full_demo": "not_implemented",
     "services": "running at checkpoint"
-  }
+  },
+  "execution_policy": "Batch related work; one meaningful acceptance gate per task, no redundant publication-only commits. User requested faster progress."
 }

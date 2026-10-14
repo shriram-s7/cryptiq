@@ -140,3 +140,13 @@ All existing C01/C02 HTTP and launcher failure-path checks passed. See TEST_RESU
 commands, limitations and live service details. No C03+ task is marked complete.
 Services left running for user inspection. Next implementation prompt is C03_T03.md.
 This checkpoint is carried in the regression-report commit; inspect Git history for its hash.
+
+
+## 2026-10-14 - C03 accepted
+React/Vite/TypeScript shell, shared theme and local fonts, six routes, exactly five project links,
+keyboard skip/focus, responsive layout, explicit empty states and configurable Hub/API URLs.
+Production build passed. Two browser tests passed after fixing Tailwind config resolution from the
+combined launcher working directory. 1280x800 and 390px screenshots inspected. Launcher failure
+checks and C01 API regression passed. No Hub/shared edits. Commit carrying this entry is C03.
+User now requests larger batches with fewer redundant tests/checkpoints; retain meaningful acceptance.
+Next batch: C04 contracts/mocks, C05 working shop, C06 seed.

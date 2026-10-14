@@ -1,0 +1,77 @@
+@import '../../../shared/theme/tokens.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply m-0 bg-slate-50 font-sans text-slate-900 antialiased; font-size: 15px; line-height: 1.6; }
+  h1,h2,h3 { @apply font-semibold text-ink-900; }
+  h1 { font-size: clamp(27px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.035em; }
+  h2 { font-size: 24px; line-height: 1.35; letter-spacing: -.025em; }
+  :focus-visible { outline: 3px solid var(--emerald-600); outline-offset: 4px; }
+  h1:focus, main:focus { outline: none; }
+}
+@layer components {
+  .app-shell { min-height: 100vh; display: grid; grid-template-columns: 232px minmax(0,1fr); }
+  .sidebar { @apply border-r border-slate-200 bg-white; display: flex; flex-direction: column; padding: 32px 20px 24px; }
+  .brand { display: inline-flex; width: fit-content; margin: 0 12px 44px; }
+  .brand img { width: 142px; height: auto; }
+  .workspace-label,.eyebrow { @apply font-mono text-slate-500; font-size: 10px; letter-spacing: .13em; }
+  .workspace-label { padding: 0 12px; margin-bottom: 12px; }
+  .scan-link { @apply text-slate-600; display:flex; align-items:center; gap:10px; border-radius:10px; padding:11px 12px; font-size:13px; font-weight:500; }
+  .scan-link:hover,.scan-link.is-current { @apply bg-emerald-50 text-emerald-700; }
+  .shortcut { @apply font-mono text-slate-400; margin-left:auto; font-size:10px; }
+  .project-label { @apply border-t border-slate-200; display:flex; gap:10px; align-items:center; margin:28px 0 18px; padding:24px 10px 0; min-width:0; }
+  .project-monogram { @apply bg-slate-100 font-mono text-ink-700; display:grid; place-items:center; width:30px; height:32px; border-radius:7px; font-size:10px; flex-shrink:0; }
+  .project-label div { min-width:0; }
+  .project-label strong { display:block; font-size:12px; font-weight:500; overflow-wrap:anywhere; }
+  .project-label div span { @apply text-slate-500; display:block; font-size:11px; }
+  .sidebar nav { display:flex; flex-direction:column; gap:4px; }
+  .nav-item { @apply text-slate-500; display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:9px; font-size:13px; transition:background .15s; }
+  .nav-item:hover { @apply bg-slate-50 text-ink-900; }
+  .nav-item.active { @apply bg-emerald-50 text-emerald-700; font-weight:500; }
+  .sidebar-bottom { @apply text-slate-400; margin-top:auto; padding:48px 12px 0; display:flex; align-items:flex-start; gap:9px; }
+  .sidebar-bottom p { @apply text-slate-600; font-size:11px; font-weight:500; }
+  .sidebar-bottom span { @apply text-slate-400; display:block; font-size:10px; font-weight:400; margin-top:3px; }
+  .workspace { display:flex; flex-direction:column; min-width:0; }
+  .topbar { @apply border-b border-slate-200 bg-white; min-height:72px; padding:0 40px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .breadcrumb { @apply text-slate-400; display:flex; align-items:center; gap:10px; font-size:12px; }
+  .breadcrumb span { @apply text-slate-600; }
+  .status-badge { @apply border border-slate-200 text-slate-500; display:flex; align-items:center; gap:7px; border-radius:999px; padding:5px 10px; font-size:10px; white-space:nowrap; }
+  .status-badge>span { @apply bg-amber-500; width:5px; height:5px; border-radius:100%; }
+  .main-content { width:100%; max-width:1200px; margin:0 auto; padding:40px 40px 24px; flex:1; }
+  .eyebrow { display:flex; align-items:center; gap:8px; }
+  .eyebrow>span:not(.eyebrow-divider) { @apply bg-emerald-600; width:6px; height:6px; border-radius:100%; }
+  .eyebrow-divider { margin:0 3px; opacity:.4; }
+  .page-heading { margin:12px 0 30px; }
+  .page-heading p { @apply text-slate-500; margin-top:12px; font-size:14px; }
+  .scan-grid { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:44px; }
+  .demo-card { padding:28px; }
+  .icon-tile { @apply bg-emerald-50 text-emerald-600; display:grid; place-items:center; width:48px; height:48px; border-radius:12px; }
+  .small-badge { @apply bg-slate-100 font-mono text-slate-500; border-radius:5px; padding:5px 8px; font-size:9px; letter-spacing:.07em; }
+  .demo-copy { margin:24px 0 20px; }
+  .demo-copy p { @apply text-slate-500; font-size:13px; margin-top:10px; max-width:350px; line-height:1.8; }
+  .project-facts { @apply text-slate-500; display:flex; gap:18px; flex-wrap:wrap; font-size:10px; }
+  .project-facts span { display:flex; align-items:center; gap:5px; }
+  .preview-note { @apply border-t border-slate-200; margin:24px 0 20px; padding-top:20px; }
+  .preview-note strong { @apply text-ink-700; font-weight:500; font-size:12px; }
+  .preview-note p { @apply text-slate-500; font-size:11px; margin-top:5px; }
+  .journey { padding:12px 0; }
+  .journey>h2 { margin:14px 0 24px; font-size:28px; }
+  .journey-step { display:flex; gap:16px; margin:0 0 20px; }
+  .journey-step>span { @apply font-mono text-emerald-600; font-size:11px; padding-top:3px; }
+  .journey-step h3 { font-size:13px; font-weight:500; }
+  .journey-step p { @apply text-slate-500; margin-top:4px; font-size:11px; max-width:290px; line-height:1.7; }
+  .build-note { @apply text-slate-500; margin-top:24px; display:flex; align-items:flex-start; gap:9px; font-size:11px; }
+  .build-note svg { flex-shrink:0; }
+  .empty-state { min-height:350px; padding:40px 28px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:18px; }
+  .empty-icon { @apply bg-emerald-50 text-emerald-600; width:64px; height:64px; border-radius:18px; display:grid; place-items:center; }
+  .empty-state>p { @apply text-slate-500; max-width:510px; font-size:14px; }
+  .secondary-link { @apply text-emerald-700; display:flex; align-items:center; gap:4px; font-size:12px; text-decoration:underline; text-underline-offset:4px; }
+  .footer { @apply text-slate-400; margin:0 40px; padding:20px 0; display:flex; justify-content:space-between; gap:12px; font-size:10px; }
+  .skip-link { @apply bg-ink-900 text-white; position:fixed; top:8px; left:8px; padding:12px; z-index:50; transform:translateY(-150%); }
+  .skip-link:focus { transform:translateY(0); }
+}
+@media (max-width:1000px) { .scan-grid { gap:24px; } .main-content { padding:32px 24px 24px; } .topbar { padding:0 24px; } .footer { margin:0 24px; } .app-shell { grid-template-columns:210px minmax(0,1fr); } .demo-card { padding:22px; } }
+@media (max-width:760px) { .app-shell { display:block; } .sidebar { padding:18px 20px; border-right:0; border-bottom:1px solid var(--slate-200); } .brand { margin:0 0 18px; } .workspace-label,.project-label,.sidebar-bottom { display:none; } .scan-link { margin-bottom:10px; width:fit-content; } .shortcut { display:none; } .sidebar nav { flex-direction:row; flex-wrap:wrap; gap:4px; } .nav-item { padding:8px 10px; font-size:12px; gap:6px; } .nav-item svg { width:15px; } .topbar { padding:16px 20px; min-height:60px; flex-wrap:wrap; } .main-content { padding:28px 20px; } .scan-grid { grid-template-columns:1fr; } .journey { padding:10px 4px; } .footer { margin:0 20px; flex-wrap:wrap; } .empty-state { padding:28px 18px; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
