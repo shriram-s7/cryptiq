@@ -217,3 +217,18 @@ check_public_stub.py PASS. Initial layout checks failed at917/809px, corrected t
 Services restarted with persisted results. No full verification claim. C19/C20 remain partial because
 attack-result integration and patch diff previews need backend work. Next C11. C09 pushed20152d8.
 This batch is committed and pushed as one coherent delivery; see Git log for its commit hash.
+
+
+## 2026-10-14 - C11 and C12 accepted; visible Attack Lab preview delivered
+C11: actual scan assets exported as CycloneDX1.6, unique references, source locations and truthful
+metadata. RSA is a small demo key; ML-KEM768 is parameter-set identifier, not key size. Official
+schema bundled unchanged; source-before/source-after and actual HTTP download validate.
+C12: bounded no-store preview reads actual fake database fields, newest-first, consistent snapshot.
+Fresh Flask signup appears first; exact values match DB; empty/limit and actual migrated ciphertext
+checked without changing main3000-row DB. Unknown project, unsupported ZIP project and invalid
+limits reject. Keys and seed truth are not read. Live Attack Lab supports refresh/masking/inspection,
+links to signup; Report has inventory download. These UI tasks remain partial pending attacks/PDF.
+Acceptance: check_evidence.py --live PASS; Playwright evidence.spec.ts PASS; production build PASS.
+Initial page-height checks exposed overflow; compact desktop layout corrected before acceptance.
+Next C13 real dictionary attack. Services running. Prior batch88889c3 pushed; this batch committed
+and pushed together (see Git log). No Hub edits; reuse stays deferred.

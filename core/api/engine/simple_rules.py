@@ -38,7 +38,7 @@ def discover(root: Path):
                     add('PLAINTEXT_PII', 'critical', 'Contact fields are stored as plain text', path, node.lineno, ast.get_source_segment(text, node) or '', 'fix_field_enc')
             if isinstance(node, ast.ImportFrom):
                 names = {alias.name for alias in node.names}
-                for symbol, name, bits in [('PasswordHasher', 'Argon2id', None), ('AESGCM', 'AES-256-GCM', 256), ('ML_KEM_768', 'ML-KEM-768', 768)]:
+                for symbol, name, bits in [('PasswordHasher', 'Argon2id', None), ('AESGCM', 'AES-256-GCM', 256), ('ML_KEM_768', 'ML-KEM-768', None)]:
                     if symbol in names:
                         assets.append({'id': 'a_' + symbol.lower(), 'type': 'algorithm', 'name': name, 'details': {'keySize': bits}, 'quantumVulnerable': False, 'locations': [{'file': path.name, 'line': node.lineno}]})
             if not isinstance(node, ast.Assign) or not isinstance(node.value, ast.Constant): continue
