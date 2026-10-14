@@ -655,8 +655,8 @@
   "registration_notification_workflow": {
     "status": "done",
     "test": "notifications.spec.ts passed in 58.1s; shop acceptance and build passed; four live verification checks passed",
-    "demo_state": "before observed; not reset by this task",
-    "limitations": "unknown passwords may not recover; weak passwords recover even after repair; transaction simulation",
+    "demo_state": "before",
+    "limitations": "25-word bounded database-only test. Repaired peppered passwords exclude trusted server secret; online guessing and host compromise out of scope. Transaction scenario scripted.",
     "accepted_prompt_count_changed": false,
     "notifications": "top-right transient toast; existing activity history",
     "attack_scope": "selected customer in Hacker; whole database for verification",
@@ -669,5 +669,16 @@
     "scope": "all current Core source; Hub unchanged; presentation local",
     "validation": "production build, route smoke, dictionary, RSA, Hub contract, toast test",
     "remaining": "C19-C29 acceptance; legacy specialized UI test selectors; deferred reuse"
+  },
+  "public_demo": {
+    "status": "live_temporary",
+    "instructions": "docs/PUBLIC_DEMO.md",
+    "link_file": "core/.runtime/public-demo-link.txt (ignored)",
+    "depends_on": "presenter PC, running local services, internet, tunnel process",
+    "validation": "public HTTPS full flow passed in 1.2 minutes; PDF exported; four verification checks passed",
+    "state": "before / score38 / 0 applied",
+    "independent_fixes": "not implemented; atomic bundle; per-card review selection only",
+    "password_protection": "server-held pepper + Argon2id; same password fails database-only reattack after migration",
+    "paid_resources": false
   }
 }

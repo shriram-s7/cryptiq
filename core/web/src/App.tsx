@@ -262,9 +262,15 @@ function NotFound() {
 }
 
 export default function App() {
-  useLocation();
-
-  return (
+  const location = useLocation();
+  useEffect(() => { if (location.pathname !== '/hacker') window.name = 'cryptiq-main'; }, [location.pathname]);
+  return (<>
+    {location.pathname !== '/hacker' && <nav className="demo-switcher" aria-label="Demo experiences">
+      <Link to="/">Home & plans</Link><Link to="/p/p_demo">Dashboard</Link>
+      <a href={config.shopUrl}>Chennai Organics</a>
+      <a href="/hacker" target="cryptiq-hacker" rel="noopener">Hacker console ↗</a>
+      <Link to="/partner-demo">Partner console</Link>
+    </nav>}
     <Routes>
       <Route path="/" element={<DemoEntrance />} />
       <Route path="/hacker" element={<HackerObservatory />} />
@@ -304,6 +310,6 @@ export default function App() {
         <Route path="attack" element={<Navigate to="/hacker" replace />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-    </Routes>
+    </Routes></>
   );
 }

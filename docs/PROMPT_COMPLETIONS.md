@@ -315,3 +315,21 @@ Included existing uncommitted Core redesign, settings, confetti and public badge
 Restored strict RSA inventory/storage guard; updated default shell route test. Build, nine-route
 smoke, dictionary, RSA, Hub contract and notification tests passed. See CURRENT_SNAPSHOT.md.
 Confirmed root PPTX has 12 slides; presentation and lock remain local. Hub/history preserved.
+
+
+## 2026-10-15 — Public demo, truthful repair state, report export and protected reattack
+State: done for public presentation flow; independent per-fix application remains unsupported.
+Gateway serves production frontend, mounted shop and API at one public origin behind reviewer access.
+Named Hacker tab; other views same tab. Report export/error handling, visible notes and reset contrast,
+Northstar rename, current report wording and correct Argon2 parameters. One migration bar from actual
+completed records; server mode determines applied count, stale browser flags discarded. Individual cards
+now explicitly select review items instead of timer-based fake fixes. 0/4 -> 4/4 atomic commit behavior.
+Added real server-held pepper before Argon2id, migration wrapping and backward compatibility. Database-only
+attack does not receive host secret. Existing and new same-password accounts failed recovery after repair;
+normal login succeeded. No invented attack results. Keys stay in ignored shop data.
+Validation: isolated dictionary and 3000-row migration/rollback/login passed; production build passed;
+public-demo.spec.ts passed in 1.2min through HTTPS, including PDF download (102262 bytes), four verification
+checks and partner view. Final report rendering/reset checked. Initial public routing/form-origin issues
+fixed. Concurrent interrupted migration checked for rollback and recovered. Live state left BEFORE38.
+Public URL is temporary and PC-dependent; access link stored only in ignored runtime. No paid resources.
+No Hub/root presentation edits; original C01-C18 acceptance remains unchanged.

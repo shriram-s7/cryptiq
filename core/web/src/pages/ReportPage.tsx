@@ -26,6 +26,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
   const [busy, setBusy] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [copy, setCopy] = useState('');
+  const [exporting, setExporting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +38,23 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
       });
     return () => abort.abort();
   }, [id]);
+
+  async function downloadReport() {
+    setExporting(true); setError('');
+    try {
+      const response = await fetch(`${config.apiUrl}/api/projects/${id}/report.pdf`);
+      if (!response.ok) {
+        const detail = await response.json().catch(() => ({}));
+        throw new Error(detail.detail || 'PDF export failed. Run verification again and retry.');
+      }
+      if (!response.headers.get('content-type')?.includes('application/pdf')) throw new Error('The server did not return a PDF. Retry verification.');
+      const url = URL.createObjectURL(await response.blob());
+      const anchor = document.createElement('a'); anchor.href = url;
+      anchor.download = 'cryptiq-chennai-organics-evidence.pdf'; anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (reason) { setError(reason instanceof Error ? reason.message : 'PDF export failed.'); }
+    finally { setExporting(false); }
+  }
 
   async function reset() {
     setBusy(true);
@@ -84,7 +102,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
   const scoreAfter = data?.verification?.scoreAfter ?? (isVerified ? 91 : 38);
 
   return (
-    <div className="space-y-6">
+    <div className="report-page space-y-6">
       {/* Executive Security Report Shell */}
       <div className="report-executive-shell">
         {/* Executive Header */}
@@ -97,14 +115,14 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
               <div className="flex items-center gap-2">
                 <span className="micro-label">EXECUTIVE SECURITY EVALUATION</span>
                 <span className={`live-pill ${isVerified ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40' : 'bg-amber-950/80 text-amber-300 border-amber-500/40'}`}>
-                  {isVerified ? 'VERIFIED & CERTIFIED' : 'AUDIT ASSESSMENT'}
+                  {isVerified ? 'VERIFICATION PASSED' : 'AUDIT ASSESSMENT'}
                 </span>
               </div>
               <h1 className="text-2xl font-bold text-slate-100 mt-1">
                 Chennai Organics Pvt Ltd
               </h1>
               <p className="text-xs text-slate-400 mt-0.5">
-                Target: chennaiorganics.demo.test · Scope: 127.0.0.1:5050 · CryptIQ Cryptographic Engine
+                Target: Chennai Organics · Scope: bundled fake shop · CryptIQ demo engine
               </p>
             </div>
           </div>
@@ -118,13 +136,9 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
             >
               <Printer size={15} /> Print Summary
             </button>
-            {isVerified && (
-              <Button asChild className="btn-review-findings-bright">
-                <a href={`${config.apiUrl}/api/projects/${id}/report.pdf`}>
-                  <FileText size={15} /> Export PDF Report
-                </a>
-              </Button>
-            )}
+            <Button disabled={!isVerified || exporting} onClick={downloadReport} className="btn-review-findings-bright">
+              <FileText size={15} /> {exporting ? 'Preparing PDF…' : isVerified ? 'Export PDF Report' : 'Verify to unlock PDF'}
+            </Button>
           </div>
         </header>
 
@@ -158,17 +172,17 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
               {isVerified ? 'ML-KEM-768' : 'RSA-64 (BROKEN)'}
             </strong>
             <span className="text-[11px]">
-              {isVerified ? 'NIST FIPS 203 compliant' : 'Classical factor vulnerable'}
+              {isVerified ? 'Educational implementation' : 'Classical factor vulnerable'}
             </span>
           </div>
 
           <div className="report-score-stat">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Statutory DPDP Act</span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Safeguard evidence</span>
             <strong className={isVerified ? 'text-emerald-400' : 'text-rose-400'}>
-              {isVerified ? 'COMPLIANT' : 'NON-COMPLIANT'}
+              {isVerified ? 'CHECKED' : 'NOT VERIFIED'}
             </strong>
             <span className="text-[11px]">
-              {isVerified ? 'Section 8 Safeguards Met' : 'Vulnerable MD5 password hash'}
+              {isVerified ? 'Bounded technical checks passed' : 'Vulnerable MD5 password hash'}
             </span>
           </div>
         </div>
@@ -184,7 +198,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
             <p className="text-xs text-slate-300 mt-2 leading-relaxed">
               This cryptographic evaluation report documents the security posture of Chennai Organics. The audit evaluated
               authentication primitives, post-quantum resilience, secret hygiene, and transport protections against both
-              automated adversary attacks (dictionary wordlist collisions and classical Pollard-rho factorization) and
+              automated adversary attacks (dictionary guesses and classical Pollard-rho factorization) and
               real-time AST scanning.
             </p>
           </div>
@@ -221,16 +235,16 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
                   </td>
                   <td>
                     <span className="text-emerald-400 font-mono text-[11px] font-semibold">
-                      Argon2id (m=64MB, t=3, salt=16B)
+                      Argon2id (19 MiB, t=2) + server-held pepper
                     </span>
                   </td>
                   <td>
                     <span className="text-slate-300 text-[11px]">
-                      Dictionary attack yielded 0 cracked passwords under bounded work budget.
+                      {isVerified ? 'No recovery in the recorded database-only check; server pepper excluded.' : 'Not verified. Run all four checks after applying repairs.'}
                     </span>
                   </td>
                   <td>
-                    <span className="text-indigo-300 font-mono text-[11px]">DPDP Act §8(4) Compliant</span>
+                    <span className="text-indigo-300 font-mono text-[11px]">Password-storage evidence</span>
                   </td>
                 </tr>
 
@@ -333,7 +347,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
                 Verification Required for Formal PDF Evidence Certification
               </strong>
               <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                A current successful verification run is required to issue the signed evidence PDF and verified trust badge.
+                A current successful verification run is required to issue the evidence PDF and verified trust badge.
                 Your cryptographic scan inventory and CBOM are available below.
               </p>
               {id === 'p_demo' && (
@@ -347,20 +361,19 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
           {/* Statutory Regulatory Compliance Grid */}
           <div>
             <span className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-wider block mb-3">
-              Statutory &amp; Industry Compliance Standards Alignment
+              Technical safeguards and review scope
             </span>
 
             <div className="report-compliance-grid">
               <div className="report-compliance-card">
                 <div className="flex items-center justify-between">
-                  <strong className="text-sm text-slate-100">Digital Personal Data Protection Act (DPDP)</strong>
+                  <strong className="text-sm text-slate-100">Personal-data protection</strong>
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${isVerified ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}`}>
-                    {isVerified ? 'COMPLIANT' : 'ACTION REQUIRED'}
+                    {isVerified ? 'CHECKED' : 'ACTION REQUIRED'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  Section 8(4) requires data fiduciaries to protect personal data by taking reasonable security safeguards
-                  to prevent personal data breach. Argon2id salt hashing satisfies mandatory technical safeguards.
+                  This demo records selected technical safeguards. It does not assess legal compliance, consent, retention obligations, or organizational controls.
                 </p>
               </div>
 
@@ -368,7 +381,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
                 <div className="flex items-center justify-between">
                   <strong className="text-sm text-slate-100">NIST Post-Quantum Cryptography Standard</strong>
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${isVerified ? 'bg-cyan-950 text-cyan-300 border border-cyan-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}`}>
-                    {isVerified ? 'FIPS 203 READY' : 'NON-COMPLIANT'}
+                    {isVerified ? 'DEMO IMPLEMENTATION' : 'NOT VERIFIED'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
@@ -381,7 +394,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
                 <div className="flex items-center justify-between">
                   <strong className="text-sm text-slate-100">Payment Card Industry Data Security (PCI-DSS)</strong>
                   <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${isVerified ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-rose-950 text-rose-300 border border-rose-800'}`}>
-                    {isVerified ? 'REQ 8.3 ALIGNED' : 'NON-COMPLIANT'}
+                    {isVerified ? 'SOURCE CHECKED' : 'NOT VERIFIED'}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
@@ -424,7 +437,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
               </div>
               <p className="text-xs text-slate-400 mt-1">
                 {isVerified
-                  ? 'Your post-quantum evidence certificate is live on the public verification registry.'
+                  ? 'Your current technical verification evidence is available on the badge page.'
                   : 'Pass all 4 live verification checks to unlock and assign your public CryptIQ trust badge.'}
               </p>
             </div>
@@ -487,7 +500,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
             {/* Hidden link for backwards compatibility with tests requiring Open Hub badge page */}
             <a
               className="sr-only"
-              href="http://localhost:5174/badge/chennai-organics"
+              href={`${config.hubUrl}/badge/chennai-organics`}
             >
               Open Hub badge page (separate app)
             </a>
@@ -497,17 +510,9 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
         {/* Global Export Footer */}
         <footer className="report-actions-container">
           <div className="flex items-center gap-3 flex-wrap">
-            {isVerified && (
-              <Button asChild className="btn-review-findings-bright">
-                <a
-                  href={`${config.apiUrl}/api/projects/${id}/report.pdf`}
-                  download="cryptiq-chennai-organics-evidence.pdf"
-                  className="flex items-center gap-1.5"
-                >
-                  <Download size={14} /> Download evidence PDF
-                </a>
-              </Button>
-            )}
+            <Button disabled={!isVerified || exporting} onClick={downloadReport} className="btn-review-findings-bright">
+              <Download size={14} /> {exporting ? 'Preparing PDF…' : 'Download evidence PDF'}
+            </Button>
 
             <Button asChild variant="outline" className="btn-partner-outline">
               <a
@@ -521,13 +526,13 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
           </div>
 
           <div className="text-slate-500 font-mono text-xs">
-            Revision: {data?.verification?.status || 'rev.75'} · Local Core Engine
+            Evidence: {data?.verification?.status || 'not yet verified'} · Core Engine
           </div>
         </footer>
       </div>
 
       {/* Disclaimers & Methodology */}
-      <details className="text-xs text-slate-500 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
+      <details className="report-readable-panel text-xs p-4 rounded-xl">
         <summary className="font-semibold text-slate-400 cursor-pointer">What this evidence means</summary>
         <p className="mt-2 leading-relaxed">
           Security-safeguard evidence, not legal certification. Password tests have a time budget and limited
@@ -538,7 +543,7 @@ export function ReportPage({ id, scanId }: { id: string; scanId: string }) {
 
       {/* Demo Reset Panel */}
       {id === 'p_demo' && (
-        <Card className="p-5 bg-slate-900/60 border-slate-800">
+        <Card className="report-readable-panel p-5">
           <h2 className="text-base font-semibold text-slate-200">Prepare another demonstration</h2>
           <p className="text-xs text-slate-400 mt-2">
             Reset restores 3,000 original fake customers, removes demo orders and signups, and invalidates attack and

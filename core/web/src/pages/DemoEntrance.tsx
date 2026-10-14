@@ -1,3 +1,4 @@
+import { config } from '@/lib/config';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, ShieldCheck, Building2, ShoppingBag, ArrowRight, Check, Cpu } from 'lucide-react';
 import { currentPlan, type Plan } from '@/lib/demoSession';
@@ -78,7 +79,7 @@ export function DemoEntrance() {
               icon: ShoppingBag,
               name: 'Chennai Organics Store',
               text: 'Working e-commerce storefront with live signups, checkout sessions, and local database storage.',
-              url: 'http://localhost:5050',
+              url: config.shopUrl,
               tag: 'LIVE APPLICATION NODE',
               isExternal: true,
             },
@@ -95,8 +96,8 @@ export function DemoEntrance() {
               className="perspective"
               href={p.url}
               key={p.name}
-              target={p.isExternal ? '_blank' : undefined}
-              rel={p.isExternal ? 'noreferrer' : undefined}
+
+
             >
               <span className="perspective-number">0{i + 1}</span>
               <Icon size={28} className="text-indigo-400" />

@@ -75,8 +75,8 @@ def work(value):
   check(3,'running','Inspecting new signup storage')
   with connect(scan_jobs.SHOP) as conn:
    row=conn.execute('SELECT * FROM customers WHERE email_lookup=?',(lookup_email(email,scan_jobs.SHOP),)).fetchone()
-   protected=bool(browser['signup']['pass'] and row and row['password_scheme']=='argon2id' and row['password_hash'].startswith('$argon2id$') and all(row[k].startswith('pqc:v1:') for k in ('phone','email','address','id_number')))
-  check(3,'pass' if protected else 'fail','New live signup stored as Argon2id and encrypted fields.' if protected else browser.get('error','New record protection did not pass'))
+   protected=bool(browser['signup']['pass'] and row and row['password_scheme']=='argon2id_peppered' and row['password_hash'].startswith('$argon2id$') and all(row[k].startswith('pqc:v1:') for k in ('phone','email','address','id_number')))
+  check(3,'pass' if protected else 'fail','New live signup stored as peppered Argon2id and encrypted fields.' if protected else browser.get('error','New record protection did not pass'))
  except Exception as error:
   value['error']=str(error)
   for item in value['checks']:

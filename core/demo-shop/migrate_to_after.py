@@ -7,7 +7,7 @@ import time
 
 from storage import DATA, DB, ROOT, connect, initialize
 from src_before.crypto_utils import decrypt_id
-from src_after.auth import wrap_existing_hash
+from src_after.auth import wrap_existing_hash, pepper_key
 from src_after.crypto_utils import data_key, encrypt
 from src_after.models import email_lookup
 
@@ -21,6 +21,7 @@ def migrate(database=DB, fail_after=None, report=lambda completed,total:None):
         lock.open('x').close()
     except FileExistsError:
         raise RuntimeError('Migration already active or interrupted. Check no migration is running before removing its lock.')
+    pepper_key()  # Create once before concurrent password wrapping.
     started = time.monotonic()
     try:
         data_key()  # Persist key material before any ciphertext can be committed.
@@ -37,7 +38,7 @@ def migrate(database=DB, fail_after=None, report=lambda completed,total:None):
                 wrapped = pool.map(wrap_existing_hash, [row['password_hash'] for row in customers])
                 for index, (row, password_hash) in enumerate(zip(customers, wrapped), 1):
                     conn.execute('UPDATE customers SET phone=?,email=?,address=?,id_number=?,password_hash=?,password_scheme=?,email_lookup=? WHERE id=?',
-                        (encrypt(row['phone']), encrypt(row['email']), encrypt(row['address']), encrypt(decrypt_id(row['id_number'])), password_hash, 'argon2id_md5', email_lookup(row['email']), row['id']))
+                        (encrypt(row['phone']), encrypt(row['email']), encrypt(row['address']), encrypt(decrypt_id(row['id_number'])), password_hash, 'argon2id_md5_peppered', email_lookup(row['email']), row['id']))
                     if index % 50 == 0 or index == len(customers): report(index,len(customers))
                     if fail_after is not None and index >= fail_after:
                         raise RuntimeError('Injected failure for rollback acceptance')

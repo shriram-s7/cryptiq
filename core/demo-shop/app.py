@@ -35,12 +35,14 @@ def create_app(database=DB, testing=False):
         lines = cart_lines()
         return {'customer': current_user(), 'csrf_token': session['csrf_token'],
                 'cart_count': sum(p['quantity'] for p in lines), 'mode': mode(app.config['DATABASE']),
+                'core_url': '' if request.script_root else 'http://localhost:5173',
                 'money': lambda paise: f'₹{paise / 100:,.2f}'}
 
     @app.before_request
     def guard_forms():
         if (DATA / '.migration.lock').exists():
             return 'Demo maintenance in progress. Retry shortly.', 503
+        app.config['SESSION_COOKIE_PATH'] = request.script_root or '/'
         app.config['SESSION_COOKIE_SECURE'] = implementation('config', app.config['DATABASE']).SESSION_COOKIE_SECURE
         if request.method == 'POST':
             supplied = request.form.get('csrf_token', '')
@@ -75,7 +77,7 @@ def create_app(database=DB, testing=False):
                         conn.execute('BEGIN IMMEDIATE')
                         current_mode = mode(db)
                         cursor = conn.execute('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at,password_scheme,email_lookup,phone_lookup) VALUES (?,?,?,?,?,?,?,?,?,?)',
-                            (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id' if current_mode == 'after' else 'md5', lookup_email(values['email'], db), lookup_phone(values['phone'])))
+                            (values['name'], protect_contact(values['phone'], db), protect_contact(values['email'], db), hash_password(password, db), encrypt_id(values['id_number'], db), protect_contact(values['address'], db), datetime.now(timezone.utc).isoformat(), 'argon2id_peppered' if current_mode == 'after' else 'md5', lookup_email(values['email'], db), lookup_phone(values['phone'])))
                         customer_id = cursor.lastrowid
                     cart = session.get('cart', {})
                     session.clear(); session.update(customer_id=customer_id, cart=cart)

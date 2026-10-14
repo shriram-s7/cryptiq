@@ -136,7 +136,7 @@ export function PublicBadgePage() {
               : 'bg-amber-950/80 text-amber-300 border-amber-500/40'
           }`}>
             <span className={`w-2 h-2 rounded-full ${isVerified ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-            {isVerified ? 'LIVE CERTIFIED RECORD' : 'AUDIT PENDING'}
+            {isVerified ? 'LIVE VERIFIED RECORD' : 'AUDIT PENDING'}
           </span>
 
           <Link
@@ -234,7 +234,7 @@ export function PublicBadgePage() {
               </span>
             </div>
             <div>
-              <span className="text-slate-400 block text-[10px] uppercase">Statutory Compliance</span>
+              <span className="text-slate-400 block text-[10px] uppercase">Technical evidence</span>
               <span className={`font-semibold mt-0.5 block ${isVerified ? 'text-indigo-300' : 'text-rose-400'}`}>
                 {isVerified ? 'DPDP Act 2023 §8(4) Met' : 'Vulnerable MD5 Hashing'}
               </span>

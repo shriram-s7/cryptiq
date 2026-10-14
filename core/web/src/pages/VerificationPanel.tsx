@@ -42,7 +42,7 @@ const STEP_DIALOGS: Record<string, { icon: any; title: string; dialogue: string[
     title: 'Adversary Re-Attack Defense Evaluation',
     dialogue: [
       'Re-initializing attack engine against SQLite customer database...',
-      'Injecting 20 common passwords dictionary with 5.0s CPU budget...',
+      'Testing 25 known password candidates with 5.0s CPU budget...',
       'Evaluating Argon2id memory-hard hash derivation. Hash verification rate throttled by memory cost.',
       'Factoring engine tests ML-KEM encrypted ID fields: Classical factoring attempt rejected.',
       'Result: 0 of 3,000 passwords cracked. Cryptographic safeguards held successfully.',

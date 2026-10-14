@@ -2,7 +2,7 @@
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from scan_jobs import router, initialize, POOL
@@ -49,11 +49,13 @@ def health() -> dict[str, bool]:
 
 
 @app.get("/api/public/projects/{slug}/summary")
-def public_summary(slug: str) -> JSONResponse:
+def public_summary(slug: str, request: Request) -> JSONResponse:
     """Keep frozen public fields; values now come from actual scan/verification evidence."""
     if slug != "chennai-organics":
         raise HTTPException(status_code=404, detail="Project not found")
     payload = results.summary()
+    if request.url.hostname not in ("localhost", "127.0.0.1"):
+        payload["coreProjectUrl"] = str(request.base_url).rstrip("/") + "/p/p_demo"
     return JSONResponse(
         payload,
         headers={"Cache-Control": "no-store", "X-CryptIQ-Data-Source": "live"},
@@ -89,3 +91,10 @@ def public_badge_svg(slug: str) -> Response:
   </g>
 </svg>"""
     return Response(content=svg, media_type="image/svg+xml", headers={"Cache-Control": "no-store"})
+
+
+# Opt-in gateway: built frontend and shop share the API origin for public demos.
+import os
+if os.environ.get("CRYPTIQ_PUBLIC_DEMO") == "1":
+    from public_demo import install
+    install(app)

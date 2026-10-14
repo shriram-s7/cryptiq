@@ -393,7 +393,7 @@ export function PartnerPortfolio() {
 
         <div className="partner-identity">
           <div className="partner-avatar">IA</div>
-          <strong>Iyer &amp; Associates Advisory</strong>
+          <strong>Northstar Security Advisory</strong>
           <span>Enterprise Partner Tier · 7 Clients</span>
         </div>
 

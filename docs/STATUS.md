@@ -1,5 +1,32 @@
 # Core status - 2026-10-15
 
+LATEST — 2026-10-15: Public demo live through a free temporary Cloudflare Tunnel; reviewer link in
+core/.runtime/public-demo-link.txt (ignored). This depends on the presenter PC being awake/online,
+not permanent hosting. Instructions: docs/PUBLIC_DEMO.md. Current demo reset to BEFORE, score38,
+0/4 applied; backup of prior database retained in core/.runtime/pre-public-demo.db.
+
+Completed: same-origin built dashboard + /shop + API, access-link cookie gate, named Hacker tab,
+same-tab navigation for other views, Northstar Security Advisory rename, report contrast and real PDF
+blob download with error handling. Repair UI now uses server state, discards stale browser fixed flags,
+and has ONE actual migrated-record bar. Four dependent repairs remain an atomic bundle; individual
+cards select for review, not fake independent success. True independent 1/4 application is not implemented.
+
+Passwords: repaired records now use a server-held HMAC pepper before Argon2id. Actual database-only
+attack recovered prosculpt123 before, failed on SAME account after, failed on fresh same-password signup;
+normal phone login still passed. This supersedes earlier notes about plain Argon2id after-mode behavior.
+Legacy non-peppered hashes remain supported. Host-secret compromise and online guessing are outside scope.
+
+Validation: isolated dictionary + 3000-row migration/rollback/login checks passed; production build passed;
+public HTTPS browser journey passed in 1.2min including plans, notifications, counts, one progress bar,
+same-account reattack, four live verification checks, PDF download and partner rename. Final public report
+contrast and reset-to-before state checked. PDF at core/.runtime/public-evidence.pdf is a historical sample.
+One interrupted migration lock from a concurrent open tab was cleared only after checking all jobs idle,
+SQLite integrity and full rollback to MD5. Avoid changing shared demo state from multiple tabs during tests.
+Next: C19+ remaining prototype acceptance; independent fix execution if requested; persistent cloud hosting
+requires a hosting account. Engine reuse T02/T09 remains deferred. Accepted C01-C18 count unchanged.
+
+--- Prior checkpoints (historical) ---
+
 Latest publication: all current Core UI/backend changes consolidated. See CURRENT_SNAPSHOT.md
 for routes, validation and remaining limitations. Hub and root presentation remain unchanged.
 Restored RSA storage/inventory consistency guard. Default shell test uses current product routes.

@@ -27,28 +27,28 @@ const names: Record<string, string> = {
 
 const fixDetails: Record<string, { desc: string; target: string; impact: string; snippet: string }> = {
   fix_argon2: {
-    desc: 'Replaces legacy MD5 hashing with memory-hard Argon2id key stretching. Preserves existing customer passwords via transparent migration.',
-    target: 'core/store/auth.py',
-    impact: 'Stops GPU-accelerated dictionary and rainbow table attacks.',
-    snippet: `-import hashlib\n-import hmac\n+from argon2 import PasswordHasher\n+from argon2.exceptions import InvalidHashError, VerificationError\n+\n+HASHER = PasswordHasher(time_cost=2, memory_cost=19456, parallelism=1)\n \ndef hash_password(password):\n-    return hashlib.md5(password.encode('utf-8')).hexdigest()\n+    return HASHER.hash(password)\n \ndef verify_password(password, stored, scheme='argon2id'):\n-    return hmac.compare_digest(hash_password(password), stored)\n+    try:\n+        return HASHER.verify(stored, password)\n+    except (VerificationError, InvalidHashError):\n+        return False`,
+    desc: 'Replaces legacy MD5 hashing with memory-hard Argon2id key stretching. Adds a server-held pepper and preserves existing customer passwords via migration.',
+    target: 'core/demo-shop/src_after/auth.py',
+    impact: 'Argon2id with a server-held pepper protects against this database-only dictionary test.',
+    snippet: `-import hashlib\n-import hmac\n+from argon2 import PasswordHasher\n+from argon2.exceptions import InvalidHashError, VerificationError\n+\n+HASHER = PasswordHasher(time_cost=2, memory_cost=19456, parallelism=1)\n \ndef hash_password(password):\n-    return hashlib.md5(password.encode('utf-8')).hexdigest()\n+    return HASHER.hash(pepper(password))\n \ndef verify_password(password, stored, scheme='argon2id'):\n-    return hmac.compare_digest(hash_password(password), stored)\n+    try:\n+        return HASHER.verify(stored, password)\n+    except (VerificationError, InvalidHashError):\n+        return False`,
   },
   fix_field_enc: {
     desc: 'Encapsulates fake ID numbers and contact info using post-quantum ML-KEM-768 and AES-256-GCM authenticated encryption.',
-    target: 'core/store/models.py & crypto_utils.py',
+    target: 'core/demo-shop/src_after/models.py & crypto_utils.py',
     impact: 'Protects customer PII against quantum decryption and plain database dumps.',
     snippet: `-"""Tiny textbook RSA for fake ID numbers only. Deliberately weak simulation target."""\n+"""Real ML-KEM-768 key encapsulation with AES-256-GCM field encryption for this demo."""\n+import base64\n+from kyber_py.ml_kem import ML_KEM_768\n+\n+def encrypt(value):\n+    nonce = secrets.token_bytes(12)\n+    ciphertext = AESGCM(data_key()).encrypt(nonce, value.encode('utf-8'), b'cryptiq-field-v1')\n+    return 'pqc:v1:' + b64(nonce + ciphertext)\n \ndef protect_contact(value):\n-    # Intentional plaintext storage, detected from this active function.\n-    return value\n+    return encrypt(value)`,
   },
   fix_secret_env: {
     desc: 'Extracts hardcoded payment provider credentials from application source files into environment configurations.',
-    target: 'core/store/config.py',
+    target: 'core/demo-shop/src_after/config.py',
     impact: 'Eliminates repository credential leak exposure.',
     snippet: `-# Deliberately fake, nonfunctional payment key for source discovery. Never sent to a provider.\n-PAYMENT_KEY = 'rzp_live_demo_NOT_A_REAL_KEY'\n+import os\n+\n+PAYMENT_KEY = os.environ.get('PAYMENT_KEY', '')`,
   },
   fix_cookie: {
     desc: 'Enforces Secure and HttpOnly flags on session cookies to prevent transport interception.',
-    target: 'core/store/config.py',
+    target: 'core/demo-shop/src_after/config.py',
     impact: 'Prevents session token interception over unencrypted channels.',
-    snippet: `-SESSION_COOKIE_SECURE = False\n+SESSION_COOKIE_SECURE = True\n+ACCESS_LOGGING_ENABLED = True`,
+    snippet: `-SESSION_COOKIE_SECURE = False\n+SESSION_COOKIE_SECURE = True\n+ACCESS_LOGGING_ENABLED = False`,
   },
 };
 
@@ -57,50 +57,30 @@ export function FixWorkflow({ id }: { id: string }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [actionNotice, setActionNotice] = useState('');
-  const [reviewId, setReviewId] = useState(() => localStorage.getItem(`cryptiq-review-${id}`) || '');
+  const [, setReviewId] = useState(() => localStorage.getItem(`cryptiq-review-${id}`) || '');
 
-  // Independent component fixing state
-  const [fixedKeys, setFixedKeys] = useState<Set<string>>(() => {
-    const saved = localStorage.getItem(`cryptiq-fixed-parts-${id}`);
-    return saved ? new Set(JSON.parse(saved)) : new Set();
-  });
-  const [loadingKey, setLoadingKey] = useState<string | null>(null);
-  const [fastProgress, setFastProgress] = useState(0);
+  const [fixedKeys, setFixedKeys] = useState<Set<string>>(new Set());
+  const [mode, setMode] = useState('before');
+  const [loadingState, setLoadingState] = useState(true);
+  const loadingKey: string | null = null;
   const [pollTrigger, setPollTrigger] = useState(0);
-
   useEffect(() => {
-    if (!reviewId) return;
-    const abort = new AbortController();
-    let timer: ReturnType<typeof setTimeout>;
-
+    const abort = new AbortController(); let timer: ReturnType<typeof setTimeout>;
     async function poll() {
       try {
-        const value = await requestJson<Review>(`/api/reviews/${reviewId}`, { signal: abort.signal });
-        setReview(value);
-        if (value.status === 'merging') timer = setTimeout(poll, 300);
-        if (value.status === 'merged') {
-          setFixedKeys(new Set(Object.keys(names)));
-          setFastProgress(100);
-        }
-      } catch (e) {
-        if (!abort.signal.aborted) {
-          setError(e instanceof Error ? e.message : 'Could not load review');
-          setReview(null);
-          localStorage.removeItem(`cryptiq-review-${id}`);
-        }
-      }
+        const value = await requestJson<{project: {mode:string}; review:Review|null}>(`/api/projects/${id}/workflow`, {signal:abort.signal});
+        if (abort.signal.aborted) return;
+        setMode(value.project.mode);
+        setReview(value.review);
+        setReviewId(value.review?.id || '');
+        setLoadingState(false);
+        localStorage.removeItem(`cryptiq-fixed-parts-${id}`);
+        if (!value.review) setFixedKeys(new Set());
+      } catch (e) { if (!abort.signal.aborted) setError(e instanceof Error ? e.message : 'Could not load current repair state'); }
+      finally { if (!abort.signal.aborted) timer=setTimeout(poll, 750); }
     }
-
-    void poll();
-    return () => {
-      abort.abort();
-      clearTimeout(timer);
-    };
-  }, [reviewId, id, pollTrigger]);
-
-  useEffect(() => {
-    localStorage.setItem(`cryptiq-fixed-parts-${id}`, JSON.stringify(Array.from(fixedKeys)));
-  }, [fixedKeys, id]);
+    void poll(); return () => {abort.abort();clearTimeout(timer);};
+  }, [id,pollTrigger]);
 
   async function create() {
     setBusy(true);
@@ -127,12 +107,9 @@ export function FixWorkflow({ id }: { id: string }) {
     setBusy(true);
     setError('');
     setActionNotice('');
-    setFastProgress(25);
 
-    // Smooth progress indicator under 6 seconds
-    const progTimer = setInterval(() => {
-      setFastProgress(p => (p < 95 ? p + 18 : 95));
-    }, 400);
+
+
 
     try {
       const value = await requestJson<Review>(`/api/reviews/${review.id}/merge`, { method: 'POST' });
@@ -142,9 +119,9 @@ export function FixWorkflow({ id }: { id: string }) {
       setPollTrigger(n => n + 1);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Merge failed');
-      setFastProgress(0);
+
     } finally {
-      clearInterval(progTimer);
+
       setBusy(false);
     }
   }
@@ -153,11 +130,9 @@ export function FixWorkflow({ id }: { id: string }) {
     if (review?.status === 'merged' || review?.status === 'merging') return;
     setBusy(true);
     setError('');
-    setFastProgress(25);
 
-    const progTimer = setInterval(() => {
-      setFastProgress(p => (p < 95 ? p + 20 : 95));
-    }, 400);
+
+
 
     try {
       let r = review;
@@ -178,32 +153,17 @@ export function FixWorkflow({ id }: { id: string }) {
       setPollTrigger(n => n + 1);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Fix It Now failed');
-      setFastProgress(0);
+
     } finally {
-      clearInterval(progTimer);
+
       setBusy(false);
     }
   }
 
   async function handleSingleFix(key: string, label: string) {
-    if (fixedKeys.has(key) || loadingKey) return;
-    setLoadingKey(key);
-    setActionNotice(`Applying patch to ${fixDetails[key]?.target || key}...`);
-
-    // Individual component loading simulation (1.4 seconds)
-    await new Promise(r => setTimeout(r, 1400));
-
-    setFixedKeys(prev => {
-      const next = new Set(prev);
-      next.add(key);
-      if (next.size === 4 && review && review.status === 'open') {
-        void merge();
-      }
-      return next;
-    });
-
-    setLoadingKey(null);
-    setActionNotice(`✓ Component patch successfully hardened for: ${label}`);
+    setFixedKeys(previous => new Set([...previous, key]));
+    setActionNotice(`Selected for review: ${label}. Apply the four dependent repairs together to change the shop.`);
+    if (!review) await create();
   }
 
   if (id !== 'p_demo') {
@@ -215,9 +175,9 @@ export function FixWorkflow({ id }: { id: string }) {
     );
   }
 
-  const isAllMerged = review?.status === 'merged' || fixedKeys.size === 4;
+  const isAllMerged = mode === 'after';
   const isMerging = review?.status === 'merging';
-  const completedCount = isAllMerged ? 4 : fixedKeys.size;
+  const completedCount = isAllMerged ? 4 : 0;
 
   return (
     <>
@@ -226,14 +186,14 @@ export function FixWorkflow({ id }: { id: string }) {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className={`counter-badge ${isAllMerged ? 'done' : completedCount > 0 ? 'partial' : 'pending'}`}>
-              {isAllMerged ? '4 / 4 Applied' : `${completedCount} / 4 Done Yet`}
+              {isAllMerged ? '4 / 4 Applied' : `${completedCount} / 4 Applied`}
             </div>
             <div>
               <h2 className="text-base font-semibold text-slate-900 m-0">Recommended Fixes Backlog</h2>
               <p className="text-xs text-slate-500 m-0 mt-0.5">
                 {isAllMerged
                   ? 'All 4 cryptographic remediations applied to the demo shop. Verification ready.'
-                  : `${completedCount} of 4 components patched. Fix individual components or apply all four at once.`}
+                  : `${fixedKeys.size} of 4 selected for review. The dependent repairs are applied together; selection does not change storage.`}
               </p>
             </div>
           </div>
@@ -241,7 +201,7 @@ export function FixWorkflow({ id }: { id: string }) {
           <div className="flex items-center gap-2">
             <Button
               className="btn-fix-it-now font-semibold"
-              disabled={busy || isMerging || isAllMerged}
+              disabled={loadingState || busy || isMerging || isAllMerged}
               onClick={handleFixItNow}
             >
               <Sparkles size={16} className="mr-1.5" />
@@ -261,7 +221,7 @@ export function FixWorkflow({ id }: { id: string }) {
       {/* 4 Suggestion Cards - .repair-option count must be 4 for Playwright */}
       <div className="repair-catalogue">
         {Object.entries(names).map(([key, label], i) => {
-          const isFixed = isAllMerged || fixedKeys.has(key);
+          const isFixed = isAllMerged;
           const isLoadingThis = loadingKey === key;
 
           return (
@@ -280,7 +240,7 @@ export function FixWorkflow({ id }: { id: string }) {
                       : 'bg-amber-50 text-amber-700 border-amber-200 font-semibold'
                   }`}
                 >
-                  {isFixed ? '✓ FIXED' : 'PENDING'}
+                  {isFixed ? '✓ FIXED' : fixedKeys.has(key) ? 'SELECTED' : 'PENDING'}
                 </span>
               </summary>
 
@@ -336,7 +296,7 @@ export function FixWorkflow({ id }: { id: string }) {
                 <button
                   type="button"
                   className={`single-part-fix-btn ${isFixed ? 'btn-applied' : ''}`}
-                  disabled={busy || isMerging || isFixed || Boolean(loadingKey)}
+                  disabled={loadingState || busy || isMerging || isFixed || fixedKeys.has(key)}
                   onClick={(e) => {
                     e.stopPropagation();
                     void handleSingleFix(key, label);
@@ -349,7 +309,7 @@ export function FixWorkflow({ id }: { id: string }) {
                   ) : isLoadingThis ? (
                     'Applying…'
                   ) : (
-                    'Fix this part alone'
+                    fixedKeys.has(key) ? 'Selected for review' : 'Select for review'
                   )}
                 </button>
               </div>
@@ -471,25 +431,6 @@ export function FixWorkflow({ id }: { id: string }) {
               </div>
             </details>
 
-            {/* Fast 100% Progress Bar */}
-            {(isMerging || (fastProgress > 0 && fastProgress < 100)) && (
-              <div role="status" className="p-4 rounded-xl bg-slate-900 border border-slate-700 my-4 text-white">
-                <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-indigo-300 font-semibold">Applying Cryptographic Migration…</span>
-                  <span className="text-emerald-400 font-bold">{fastProgress}%</span>
-                </div>
-                <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-500 via-emerald-400 to-emerald-500 transition-all duration-300"
-                    style={{ width: `${fastProgress}%` }}
-                  />
-                </div>
-                <p className="text-[11px] text-slate-400 mt-2">
-                  Upgrading database storage to Argon2id and ML-KEM-768 ciphertext (under 6 seconds).
-                </p>
-              </div>
-            )}
-
             {review.status === 'open' ? (
               <Button disabled={busy || isMerging} onClick={merge} className="btn-apply-all">
                 Apply all four demo fixes
@@ -511,7 +452,7 @@ export function FixWorkflow({ id }: { id: string }) {
                 </strong>
                 <progress className="block w-full mt-3 h-2 rounded overflow-hidden" max={review.total || 1} value={review.completed} />
                 <p className="text-xs text-slate-500 mt-2">
-                  Real completed records.
+                  Actual migrated records. The four fixes become applied only when the transaction commits.
                 </p>
               </div>
             ) : (
@@ -552,7 +493,7 @@ export function FixWorkflow({ id }: { id: string }) {
           <strong className="text-slate-900">Next: prove the result.</strong>
           <p className="text-xs text-slate-600 mt-0.5">Re-scan, re-attack, exercise the app and inspect fresh storage.</p>
         </div>
-        <Link className="action-primary" to="/p/p_demo/verify">
+        <Link aria-disabled={!isAllMerged} onClick={event => { if (!isAllMerged) event.preventDefault(); }} className="action-primary" to="/p/p_demo/verify">
           Continue to verification →
         </Link>
       </div>
