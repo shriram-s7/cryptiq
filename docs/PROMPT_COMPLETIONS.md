@@ -235,3 +235,5 @@ and pushed together (see Git log). No Hub edits; reuse stays deferred.
 
 ## C13 accepted - 2026-10-14
 Real persistent local-only dictionary jobs and browser terminal. No seed-truth reads. check_dictionary.py passed actual signup, migrated recovery and timeout (118ms/3 evaluations); attacks.spec.ts passed1350/3000 recovery and API validation. Build passed. Services running; next C14. C11/C12 pushed6326026.
+
+C14 accepted2026-10-14: bounded classical Pollard-rho simulation factors only <=64-bit public demo key, never reads private-key file. Recovered3000 IDs in201ms; protected actual inventory returns not_applicable. Timeout/unsupported checks and live browser RSA test passed. Next C15 review/merge. C13 pushed e4fb68a.

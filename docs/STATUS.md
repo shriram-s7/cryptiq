@@ -1,7 +1,7 @@
 # Core status
 
-14/29 prompts accepted: C01-C13 and C18. C19/C20/C21/C23 have working portions but remain partial.
-15 prompts remain unfinished, plus deferred engine reuse T02/T09.
+15/29 prompts accepted: C01-C14 and C18. C19/C20/C21/C23 have working portions but remain partial.
+14 prompts remain unfinished, plus deferred engine reuse T02/T09.
 
 Working browser flow: Start scan -> live source/database scan -> score 38 and six-field data map ->
 eight findings -> owner/developer views, filters, evidence drawer and guidance. Real bounded ZIP
@@ -32,3 +32,5 @@ customer rows were added by tests. Visit /p/p_demo/attack; open demo signup, ret
 Schema reference: https://cyclonedx.org/schema/bom-1.6.schema.json (bundled unchanged for checks).
 
 C13 complete: real dictionary attack is live in Attack Lab. 1350/3000 before passwords recovered from20 common guesses. Five-second default budget,max60. Argon2 slows guessing but known weak passwords can still recover: isolated migrated test recovered2/2 in98ms. No scripted zero-crack claim. Next C14, then review/merge.
+
+C14 accepted2026-10-14: bounded classical Pollard-rho simulation factors only <=64-bit public demo key, never reads private-key file. Recovered3000 IDs in201ms; protected actual inventory returns not_applicable. Timeout/unsupported checks and live browser RSA test passed. Next C15 review/merge. C13 pushed e4fb68a.
