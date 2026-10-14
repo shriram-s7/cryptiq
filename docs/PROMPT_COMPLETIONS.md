@@ -180,3 +180,16 @@ and MD5/RSA assets without importing vendor code. Missing-policy findings disclo
 lower confidence. check_discovery.py passed exact findings and cookie-source mutation test;
 check_shop.py regression and RSA round trip passed. C05/C06 pushed as d13e7a7.
 Next C08: real protected mode and transactional migration; T02/T09 remain deferred.
+
+
+## 2026-10-14 - C08 accepted
+Real ML-KEM-768 encapsulation protects AES-256-GCM field key; kyber-py is educational, not production
+hardened. Argon2id wraps old MD5 hashes with explicit scheme metadata; new users use pure Argon2id.
+HMAC email lookup preserves login and uniqueness. SQLite mode/data commit atomically. Offline migration
+uses maintenance lock; repeat is no-op; failure rolls back. Secure cookies in after mode.
+Core-local venv installed pinned Python requirements. check_migration.py passed full 3000 rows in
+24737ms on successful rerun (initial 40143ms); initial cleanup exposed SQLite handles, fixed with closing.
+Test covered rollback, ciphertext, tampering, nonce uniqueness, old/new login, signup, duplicate email,
+checkout and restore. HTTPS test client used; live remote HTTP after-mode not supported.
+No keys/truth/live DB/venv staged. Main demo remains before; tests used isolated databases.
+C07 pushed as f9510e9. Next C09/T10 rules+score, then C10/T11 scan jobs. Deferred engine unchanged.

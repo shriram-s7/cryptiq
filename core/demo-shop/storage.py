@@ -1,10 +1,9 @@
 """Local demo storage. Before-mode weaknesses are intentional, never production defaults."""
 from contextlib import contextmanager
 from pathlib import Path
-import json
 import secrets
 import sqlite3
-from src_before import auth, models, crypto_utils
+from importlib import import_module
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / 'data'
@@ -28,6 +27,14 @@ def initialize(db=DB):
             FOREIGN KEY(customer_id) REFERENCES customers(id)
         );
         ''')
+        columns = {r['name'] for r in conn.execute('PRAGMA table_info(customers)')}
+        if 'password_scheme' not in columns:
+            conn.execute("ALTER TABLE customers ADD COLUMN password_scheme TEXT NOT NULL DEFAULT 'md5'")
+        if 'email_lookup' not in columns:
+            conn.execute('ALTER TABLE customers ADD COLUMN email_lookup TEXT')
+        conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS customer_email_lookup ON customers(email_lookup)')
+        conn.execute('CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)')
+        conn.execute("INSERT OR IGNORE INTO metadata VALUES ('mode', 'before')")
 
 
 @contextmanager
@@ -42,32 +49,42 @@ def connect(db=DB):
         conn.close()
 
 
-def mode():
-    path = ROOT / 'state.json'
-    value = json.loads(path.read_text())['mode'] if path.exists() else 'before'
-    if value != 'before':
-        raise RuntimeError('Protected mode is not implemented yet; refusing to write unprotected data.')
+def mode(db=DB):
+    with connect(db) as conn:
+        value = conn.execute("SELECT value FROM metadata WHERE key='mode'").fetchone()['value']
+    if value not in ('before', 'after'):
+        raise RuntimeError('Unknown storage mode')
     return value
 
 
-def hash_password(password):
-    mode()
-    return auth.hash_password(password)
+def implementation(module, db=DB):
+    return import_module(f'src_{mode(db)}.{module}')
 
 
-def verify_password(password, stored):
-    mode()
-    return auth.verify_password(password, stored)
+def hash_password(password, db=DB):
+    return implementation('auth', db).hash_password(password)
 
 
-def protect_contact(value):
-    mode()
-    return models.protect_contact(value)
+def verify_password(password, stored, scheme='md5', db=DB):
+    auth = implementation('auth', db)
+    return auth.verify_password(password, stored, scheme) if mode(db) == 'after' else auth.verify_password(password, stored)
 
 
-def encrypt_id(value):
-    mode()
-    return crypto_utils.encrypt_id(value)
+def protect_contact(value, db=DB):
+    return implementation('models', db).protect_contact(value)
+
+
+def reveal_contact(value, db=DB):
+    return implementation('models', db).reveal_contact(value)
+
+
+def encrypt_id(value, db=DB):
+    crypto = implementation('crypto_utils', db)
+    return crypto.encrypt(value) if mode(db) == 'after' else crypto.encrypt_id(value)
+
+
+def lookup_email(value, db=DB):
+    return implementation('models', db).email_lookup(value) if mode(db) == 'after' else value.strip().lower()
 
 
 def session_secret():

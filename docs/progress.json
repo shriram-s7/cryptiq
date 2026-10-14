@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C08",
-  "next_task": "C08",
+  "current_task": "C09",
+  "next_task": "C09",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -179,8 +179,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "f9510e9",
+      "publication": "pushed"
     },
     {
       "id": "C08",
@@ -190,14 +190,18 @@
       "depends_on": [
         "C07"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_migration.py completed successfully: 3000 rows in 24737ms; initial run 40143ms",
+          "Rollback injection; real ML-KEM-768/AES-GCM; Argon2id wrapping; old/new login; duplicate detection; encrypted signup; checkout; tamper rejection; repeat migration; restore all passed",
+          "Fixed SQLite backup connection leak discovered during initial test cleanup"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C09",

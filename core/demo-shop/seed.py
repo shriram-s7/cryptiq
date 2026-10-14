@@ -1,5 +1,6 @@
 """Deterministic fake-only demo data; never read real customer datasets."""
 import argparse
+from contextlib import closing
 from datetime import datetime, timedelta, timezone
 import hashlib
 import json
@@ -7,7 +8,10 @@ import random
 from pathlib import Path
 import sqlite3
 
-from storage import DATA, DB, ROOT, connect, hash_password, initialize, encrypt_id, protect_contact
+from storage import DATA, DB, ROOT, connect, initialize
+from src_before.auth import hash_password
+from src_before.crypto_utils import encrypt_id
+from src_before.models import protect_contact
 
 COMMON_PASSWORDS = ['priya@123', 'chennai123', 'password1', 'welcome123', 'india123', 'admin123', 'tamil123', 'summer2026', 'ravi@123', 'arjun123']
 FIRST_NAMES = ['Priya', 'Arjun', 'Kavya', 'Ravi', 'Meena', 'Suresh', 'Ananya', 'Vijay', 'Divya', 'Karthik', 'Lakshmi', 'Arun', 'Deepa', 'Nandini', 'Ganesh', 'Revathi', 'Hari', 'Sneha', 'Rohit', 'Asha']
@@ -38,11 +42,12 @@ def seed(force=False, database=DB, snapshot=None, truth_path=None):
         conn.execute('DELETE FROM orders')
         conn.execute('DELETE FROM customers')
         conn.execute("DELETE FROM sqlite_sequence WHERE name IN ('customers','orders')")
+        conn.execute("UPDATE metadata SET value='before' WHERE key='mode'")
         conn.executemany('INSERT INTO customers(name,phone,email,password_hash,id_number,address,created_at) VALUES (?,?,?,?,?,?,?)', rows)
     if snapshot:
         snapshot = Path(snapshot)
         snapshot.parent.mkdir(parents=True, exist_ok=True)
-        with sqlite3.connect(database) as source, sqlite3.connect(snapshot) as target:
+        with closing(sqlite3.connect(database)) as source, closing(sqlite3.connect(snapshot)) as target:
             source.backup(target)
     if truth_path:
         Path(truth_path).write_text(json.dumps(truth, indent=2), encoding='utf-8')
