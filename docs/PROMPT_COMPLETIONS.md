@@ -124,3 +124,11 @@ clean-environment install not performed. C03 replaces the Node bootstrap with Vi
 only the launcher web command as necessary. Engine reuse is still deferred.
 Commit: this entry is included in the task commit; publication checkpoint follows.
 Next: C03_T03.md. Read handoff; implement React shell and preserve the C01 endpoint.
+
+
+## 2026-10-14 - C02 publication checkpoint
+
+Commit cabd1d5: core: scaffold services with checked startup and shutdown.
+Successful git push origin main advanced GitHub from 62cbd57 to cabd1d5.
+C02 acceptance passed before commit. Hub/shared unchanged. All Core services are stopped.
+Next task: C03/T03 React shell.
