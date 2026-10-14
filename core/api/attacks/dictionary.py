@@ -98,7 +98,9 @@ def work(value):
     try:
         def report(progress):
             value.update(progress); save(value)
-        result=dictionary(scan_jobs.SHOP,value['budgetSeconds'],report)
+        from attacks.shor_sim import simulate
+        attack = dictionary if value['kind']=='dictionary' else simulate
+        result=attack(scan_jobs.SHOP,value['budgetSeconds'],report)
         if scan_jobs.SHOP.stat().st_mtime_ns!=value['databaseVersion'] or (scan_jobs.SHOP.parent/'.migration.lock').exists():
             raise ValueError('Demo storage changed. Refresh and run a new attack.')
         value.update(result,status='done'); save(value)
@@ -116,13 +118,13 @@ class AttackRequest(BaseModel):
 def start(project_id: str,body: AttackRequest):
     scan_jobs.project(project_id)
     if project_id!='p_demo': raise HTTPException(422,'Attacks are restricted to the local fake demo shop')
-    if body.kind!='dictionary': raise HTTPException(422,'Only the dictionary demonstration is implemented')
+    if body.kind not in ('dictionary','shor_sim'): raise HTTPException(422,'Unknown attack kind')
     if not scan_jobs.SHOP.exists() or (scan_jobs.SHOP.parent/'.migration.lock').exists(): raise HTTPException(409,'Demo storage unavailable or migrating')
     with LOCK:
         with closing(scan_jobs.connection()) as conn:
             if any(json.loads(row['payload'])['status']=='running' for row in conn.execute('SELECT payload FROM attacks')):
                 raise HTTPException(409,'An attack is already running. Wait for completion.')
-        value={'id':'a_'+uuid.uuid4().hex,'projectId':project_id,'kind':'dictionary','status':'running','budgetSeconds':body.budgetSeconds,'databaseVersion':scan_jobs.SHOP.stat().st_mtime_ns,'lines':['Reading local fake demo hashes.'],'tried':0,'cracked':0,'total':0,'revealed':[],'durationMs':0}
+        value={'id':'a_'+uuid.uuid4().hex,'projectId':project_id,'kind':body.kind,'status':'running','budgetSeconds':body.budgetSeconds,'databaseVersion':scan_jobs.SHOP.stat().st_mtime_ns,'lines':['Reading local fake demo hashes.'],'tried':0,'cracked':0,'total':0,'revealed':[],'durationMs':0}
         save(value); POOL.submit(work,value)
     return {'attackId':value['id']}
 

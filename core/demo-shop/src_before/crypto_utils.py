@@ -27,7 +27,9 @@ def prime(candidate):
 
 def demo_key():
     if KEY_PATH.exists():
-        return json.loads(KEY_PATH.read_text(encoding='utf-8'))
+        key = json.loads(KEY_PATH.read_text(encoding='utf-8'))
+        publish_public_key(key)
+        return key
     # Fixed seed makes the fake snapshot decryptable after checkout/reset. NOT secure key generation.
     rng = random.Random(20261014)
     primes = []
@@ -39,7 +41,15 @@ def demo_key():
     key = {'algorithm': 'RSA', 'demo': True, 'n': p * q, 'e': 65537, 'd': pow(65537, -1, (p - 1) * (q - 1)), 'p': p, 'q': q}
     KEY_PATH.parent.mkdir(parents=True, exist_ok=True)
     KEY_PATH.write_text(json.dumps(key), encoding='utf-8')
+    publish_public_key(key)
     return key
+
+
+def publish_public_key(key):
+    public = {k: key[k] for k in ('algorithm', 'demo', 'n', 'e')}
+    path = KEY_PATH.with_name('demo_rsa_public.json')
+    if not path.exists():
+        path.write_text(json.dumps(public), encoding='utf-8')
 
 
 def encrypt_id(value):

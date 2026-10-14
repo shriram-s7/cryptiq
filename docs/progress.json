@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C14",
-  "next_task": "C14",
+  "current_task": "C15",
+  "next_task": "C15",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -306,8 +306,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_current_commit"
+      "commit": "e4fb68a",
+      "publication": "pushed"
     },
     {
       "id": "C14",
@@ -317,14 +317,17 @@
       "depends_on": [
         "C13"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "check_shor.py:3000 fake IDs recovered from factored public key in201ms; migrated inventory not_applicable; timeout and oversized keys rejected",
+          "Browser RSA simulation test passed; build passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C15",
