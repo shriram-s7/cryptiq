@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
 import hashlib,json,os,secrets,shutil,sqlite3,subprocess,threading,uuid
+from datetime import datetime, timezone
 from fastapi import APIRouter,HTTPException
 import scan_jobs
 from engine.pipeline import scan
@@ -53,6 +54,7 @@ def browser_check(email,password):
  return json.loads(completed.stdout.strip())
 
 def work(value):
+ baseline=None
  browser=None;email='verify-'+uuid.uuid4().hex+'@example.test';password=secrets.token_urlsafe(24)
  def check(index,status,detail):
   value['checks'][index].update(status=status,detail=detail);save(value)
@@ -97,6 +99,7 @@ def work(value):
     conn.execute('INSERT INTO scans VALUES(?,?,?,?)',(scan_id,'p_demo',value['revision'],json.dumps(result)))
     conn.execute('UPDATE projects SET latest_scan=? WHERE id=? AND revision=?',(scan_id,'p_demo',value['revision']))
    value['scanId']=scan_id
+  value['finishedAt']=datetime.now(timezone.utc).isoformat()
   save(value)
 
 @router.post('/api/projects/{project_id}/verifications',status_code=202)
@@ -107,8 +110,10 @@ def start(project_id:str):
  with LOCK:
   active=latest()
   if active and active['status']=='running':raise HTTPException(409,'Verification already running')
-  scan_before=scan_jobs.get_scan(project['latest_scan']) if project['latest_scan'] else None
-  value={'id':'v_'+uuid.uuid4().hex,'projectId':project_id,'revision':project['revision'],'sourceDigest':source_diff()[1],'status':'running','scoreBefore':active.get('scoreBefore',38) if active else (scan_before.get('score',38) if scan_before else 38),'checks':[{'key':key,'label':label,'status':'pending','detail':''} for key,label in [('rescan','Re-scan'),('reattack','Re-attack'),('app','App still works'),('new_data','New data protected')]]}
+  with closing(scan_jobs.connection()) as conn:
+   previous=[json.loads(r['payload']) for r in conn.execute('SELECT payload FROM scans WHERE project_id=? ORDER BY rowid DESC',('p_demo',))]
+  scan_before=next((s for s in previous if s.get('mode')=='before' and s['status']=='done'),None)
+  value={'id':'v_'+uuid.uuid4().hex,'projectId':project_id,'revision':project['revision'],'sourceDigest':source_diff()[1],'status':'running','scoreBefore':scan_before['score'] if scan_before else None,'checks':[{'key':key,'label':label,'status':'pending','detail':''} for key,label in [('rescan','Re-scan'),('reattack','Re-attack'),('app','App still works'),('new_data','New data protected')]]}
   save(value);POOL.submit(work,value);return {'verificationId':value['id']}
 
 @router.get('/api/verifications/{run_id}')

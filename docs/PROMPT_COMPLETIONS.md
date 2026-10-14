@@ -245,3 +245,6 @@ full3000-row browser merge in51s. Build passed. Main demo remains AFTER mode.
 C16 four-check worker and UI implemented but live acceptance NOT executed: approval-review
 usage limit rejected the tool invocation. No verification completion claimed. User requested stop.
 Changes preserved in checkpoint commit; resume C16 then C17. C14 pushed e45d492.
+
+## C16 accepted - 2026-10-14
+verify.spec.ts passed actual re-scan/re-attack/HTTP login-checkout/new storage and verified91 overview. check_verification_gates.py passed injected failures and stale revision/storage rejection. Retry UI clears old success. Previous checkpoint3fcef01 pushed. Next C17. Main shop AFTER; tests clean their own records.

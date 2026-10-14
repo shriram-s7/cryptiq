@@ -48,3 +48,6 @@ retry and stale-state publication. Do not claim C16 complete from a successful b
 Review worker cleanup/fingerprint and publication race handling before final acceptance.
 C17 PDF/live summary/reset not implemented. Do not reset main shop without accounting for
 current after-mode evidence. Preserve all work. Last completed pushed commit before checkpoint:e45d492.
+
+## C16 accepted - 2026-10-14
+verify.spec.ts passed actual re-scan/re-attack/HTTP login-checkout/new storage and verified91 overview. check_verification_gates.py passed injected failures and stale revision/storage rejection. Retry UI clears old success. Previous checkpoint3fcef01 pushed. Next C17. Main shop AFTER; tests clean their own records.

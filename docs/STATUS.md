@@ -1,8 +1,8 @@
 # Core checkpoint - 2026-10-14
 
-Stopped at the user's request. 16/29 prompts accepted: C01-C15 and C18.
-13 prompts remain unfinished, plus deferred engine reuse T02/T09.
-C16 verification is implemented but NOT accepted. C19-C23 have partial UI work.
+Resumed. 17/29 prompts accepted: C01-C16 and C18.
+12 prompts remain unfinished, plus deferred engine reuse T02/T09.
+C16 verification is now accepted. C19-C23 have partial UI work.
 
 Working: live scan and ZIP upload, score/data map/findings, inventory download, real dictionary
 attack and tiny-public-key RSA simulation, source diff review and browser merge/migration.
@@ -24,3 +24,5 @@ Main data was intentionally migrated by the acceptance test; it has not been res
 Known limits: bounded dictionary outcomes are not exhaustive security proof; migrated weak
 passwords can still recover (isolated test recovered2/2). ML-KEM library is educational.
 No Hub changes. Reuse stays deferred. See progress.json and AGENT_HANDOFF.md.
+
+C16 acceptance2026-10-14: four live browser checks passed and overview publishes91 only after success. Retry stale-display fixed. Injected failure/stale revision/storage gates passed. Next C17 reports/public summary/reset. Earlier blocked-run notes above are historical.
