@@ -4,12 +4,22 @@ from datetime import datetime, timezone
 import json
 import sqlite3
 import uuid
+from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import JSONResponse
 import scan_jobs
 
 router = APIRouter()
+
+@router.get('/api/demo/activity')
+def demo_activity():
+    path = Path(__file__).resolve().parents[1] / '.runtime' / 'shop-events.json'
+    try:
+        events = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        events = []
+    return JSONResponse({'events': events, 'demoData': True}, headers={'Cache-Control': 'no-store'})
 
 
 def cbom(result):

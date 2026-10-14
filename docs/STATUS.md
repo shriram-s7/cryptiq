@@ -1,5 +1,11 @@
 # Core status - 2026-10-14
 
+LATEST: connected UI redesign delivered. Start http://localhost:5173/ for demo plans and four
+experiences. Read docs/UI_SHOWCASE.md for the current routes, presentation flow and limitations.
+Guided setup, separate Hacker/partner layouts, redesigned shop and separate verification now exist.
+Build and connected browser journey passed. Original C prompt counts below remain unchanged.
+The previous baseline description below is historical; use the latest UI_SHOWCASE handoff.
+
 18/29 prompts accepted: C01-C18. 11 prompts remain unfinished, including partially implemented
 C19-C23 frontend acceptance and C27 final regression. Engine reuse T02/T09 remains deferred.
 

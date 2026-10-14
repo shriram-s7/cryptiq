@@ -100,6 +100,7 @@ def reset_demo(body:ResetRequest):
   try:
    from reset import reset
    reset()
+   (scan_jobs.ROOT/'core/.runtime/shop-events.json').unlink(missing_ok=True)
    with closing(scan_jobs.connection()) as conn,conn:
     conn.execute("UPDATE projects SET revision=revision+1,latest_scan=NULL WHERE id='p_demo'")
     conn.execute("DELETE FROM scans WHERE project_id='p_demo'")

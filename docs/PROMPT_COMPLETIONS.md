@@ -266,3 +266,12 @@ partner read-only portfolio; sample content; and truthful prototype boundaries. 
 Partner base price to ₹1,199/month including three active client workspaces, then ₹500/month for
 each additional active workspace. This is a design handoff, not a completed C prompt; C19-C29
 acceptance remains unchanged.
+
+
+## UI experience redesign - 2026-10-14
+User requested substantial UI improvements before returning to remaining sequential prompts.
+Delivered four distinct demo experiences, guided setup, browser plan locks/meters, refined fixes and
+animated separate verification, real shop activity feed, actual selected-account password results,
+labeled transaction sandbox, and redesigned storefront. Production build and connected experience
+browser checks passed, including real migration, verified91, and protected fresh signup attempt.
+See UI_SHOWCASE.md for limitations. This is a separate UI delivery, not C19-C29 full acceptance.
