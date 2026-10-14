@@ -1,5 +1,8 @@
 # Core handoff - latest state
 
+Latest update: dictionary now includes smit123, founder123 and shriram123 (23 candidates).
+Removed the signup demo-password autofill button. Enter the desired test password manually.
+
 Latest: Top-right transient toasts replace the banner. Hacker sends customerId for targeted dictionary
 attempts; verification still tests whole database. Signup offers known chennai123 demo fill. No guarantee
 for arbitrary passwords; weak passwords also recover after fixes. Latest tests: toast-notifications.spec.ts

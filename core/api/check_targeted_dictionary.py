@@ -17,9 +17,8 @@ with tempfile.TemporaryDirectory(dir=root/'core/.runtime') as folder:
   assert result['total']==1 and result['revealed']==[{'customerId':i,'field':'password','value':word}]
  assert dictionary(db,5,customer_id=101)['cracked']==0
  assert dictionary(db,5,customer_id=102)['revealed'][0]['value']=='chennai123'
- assert dictionary(db,5)['total']==22
+ assert dictionary(db,5)['total']==len(WORDS)+2
  try: dictionary(db,5,customer_id=999)
  except ValueError: pass
  else: raise AssertionError('Missing target must error')
-print('PASS: all 20 known examples recovered for exact target; strong password no recovery; weak Argon2 example honestly recovered; whole-database compatibility; missing target rejected')
-
+print('PASS: all known examples recovered for exact target; strong password no recovery; weak Argon2 example honestly recovered; whole-database compatibility; missing target rejected')
