@@ -1,0 +1,19 @@
+{
+  "slug": "chennai-organics",
+  "name": "Chennai Organics",
+  "industry": "E-commerce",
+  "score": 91,
+  "scoreBefore": 38,
+  "counts": { "critical": 0, "high": 1, "medium": 0, "low": 2 },
+  "checks": { "passed": 4, "total": 4 },
+  "verified": true,
+  "lastScanAt": "2026-10-15T08:42:00+05:30",
+  "dataProtection": [
+    { "dataType": "phone", "status": "ok" },
+    { "dataType": "email", "status": "ok" },
+    { "dataType": "password", "status": "ok" },
+    { "dataType": "id_number", "status": "ok" }
+  ],
+  "quantumReady": true,
+  "coreProjectUrl": "http://localhost:5173/p/p_demo"
+}

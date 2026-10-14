@@ -1,0 +1,30 @@
+# Dependencies & builds
+node_modules/
+dist/
+build/
+coverage/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Env files (keep examples)
+.env
+.env.*
+!.env.example
+
+# Databases (keep the demo shop "before" snapshot)
+*.db
+!core/demo-shop/data/shop_before.db
+
+# Editors & OS
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Reuse-step scratch
+.reuse/
