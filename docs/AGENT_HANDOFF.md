@@ -1,24 +1,22 @@
 # Core agent handoff
 
-Read CORE_CONTEXT.md first, then CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, CORE_BUILD_PLAN.md,
-STATUS.md, progress.json and latest PROMPT_COMPLETIONS.md.
+Read CORE_CONTEXT.md, CRYPTIQ_PLAN.md, SHARED_THEME_AND_CONTRACT.md, STATUS.md and progress.json.
+Latest accepted: C10 scan jobs and C18 live scan screen. C19/C20 partial. Resume C11_T12.md.
+User explicitly prioritized a usable frontend and larger batches; this authorizes bringing UI forward.
+Keep all functionality. Skip T02/T09 reuse until user releases it. Never modify hub/ or access outside
+D:/cryptiq. Stage only core/shared/docs, core: commits, push completed work to origin/main.
 
-C01-C09 accepted. Next prompt C10_T11.md: persistent scan jobs and polling.
-Use core/.venv/Scripts/python.exe; current dependencies include real Argon2, cryptography and kyber-py.
-Node packages are in core/web. Services stopped. Main shop has 3000 before-mode customers; tests use
-isolated databases. API still serves the original inconsistent public stub; live API integration awaits C10+.
+Services running using core/.venv/Scripts/python.exe core/scripts/dev.py. Stop the launcher before
+restarting. Main shop remains before mode, 3000 fake rows. Python and node dependencies installed.
+Live UI scan/overview/findings in core/web/src/pages/LiveWorkspace.tsx. Mocks remain opt-in.
+API scan_jobs.py uses core/.runtime/api/jobs.db; project latest scan persists; background stages,
+interruption recovery, project revision and shop mtime guards reject obsolete results. Reset API
+must invalidate jobs explicitly when implemented; file-change gate is current fallback.
+ZIP POST uses raw application/zip, not multipart. Project GET embeds latest scan. No code executed.
 
-User explicitly requests larger implementation batches, fewer redundant tests/checkpoints, all features
-retained. Use one meaningful acceptance pass per task, commit completed units and push; no extra
-publication-only commits. Record prior commit hashes in the next task entry.
-Only core/shared/docs staging, core: commits; never modify hub/ or read outside D:/cryptiq.
-T02/T09 engine reuse remains deferred. No vendor engine copied.
-
-C09 engine.pipeline.scan(root,database,report) provides candidate score, findings/assets/map/warnings.
-Database inconsistencies override protected-looking source; MD5 compatibility verification is recognized.
-Scans must not publish verified score until later four-check gate.
-Shop migration requires offline run; SQLite metadata mode is atomic, state.json is informational.
-Protected cookie needs localhost-supporting browser or HTTPS; acceptance used HTTPS.
-Do not weaken crypto to meet timing: measured full migration 24.7-40 seconds. kyber-py is educational.
-Keys/truth/runtime DB are ignored. Shared before fixture remains inconsistent and must not be silently
-changed. No actual attacks, scan-job API, patch API, verification API or PDF exist yet.
+Acceptance: build passed; 5 browser tests, check_scan_jobs.py, check_scan_persistence.py and public
+stub check passed. Screenshot core/.runtime/overview-live.png inspected at1280x800. Tests require
+before-mode DB. For Playwright set PLAYWRIGHT_BROWSERS_PATH=D:/cryptiq/core/.runtime/playwright.
+No attack endpoints, browser merge, four-check verification or PDF yet. Next C11 inventory export,
+then leak/attacks. Preserve honest candidate/verified distinction. Public fixture remains unchanged
+and inconsistent by original contract. Protected migration exists offline; kyber-py is educational.

@@ -1,19 +1,26 @@
 # Core status
 
-9/29 prompts accepted (C01-C09). C01-C08 pushed; C09 in this checkpoint commit.
-20 planned prompts remain, plus two deferred engine-reuse tasks T02/T09.
+11/29 prompts accepted: C01-C10 and C18. C19/C20 have working UI but remain partial.
+18 prompts remain unfinished, plus deferred engine reuse T02/T09.
 
-Working: six-route React shell, labelled before/after/error mocks, summary stub, shop signup/login/cart/
-checkout, 3000 fake customers (45% common passwords), reset snapshot, eight source findings, real
-ML-KEM/AES-GCM protected fields, Argon2id migration and actual source/database score calculation.
-Before score 38; protected source + migrated database score 91. These are candidate scan scores,
-not verified/published results. Full 3000-row migration acceptance passed in 24.737 seconds.
+Working browser flow: Start scan -> live source/database scan -> score 38 and six-field data map ->
+eight findings -> owner/developer views, filters, evidence drawer and guidance. Real bounded ZIP
+scans also work. Results persist in SQLite. Failed requests show retry guidance; no mock fallback.
+Overview fits 1280x800; mobile has no horizontal overflow. Workflow navigation states what is ready.
 
-Next: C10 persistent scan jobs; then CBOM, leak preview, attacks, fixes/merge, verification and reports.
-Full scan-to-report demo is NOT complete. Hub unchanged. T02/T09 remain deferred.
+Run from D:/cryptiq: core/.venv/Scripts/python.exe core/scripts/dev.py
+Services running: http://localhost:5173/scan, API :8000, demo shop :5050.
+Click Start security scan, then Review 8 findings. Shop has 3000 fake before-mode customers.
 
-Run: core/.venv/Scripts/python.exe core/scripts/dev.py. Services currently stopped.
-Shop localhost:5050; Priya login priya@example.test / priya@123. UI localhost:5173/scan.
-Main database stays before mode; protected-mode tests use isolated databases.
-Migration is offline only until API coordination exists; educational ML-KEM library limitation applies.
-See core/README.md, core/demo-shop/README.md, progress.json and PROMPT_COMPLETIONS.md.
+Next C11 cryptographic inventory export, then C12 leak preview, C13/C14 attacks, C15/C16 review,
+merge and verification, C17 reports/public summary. Full scan-to-report product is NOT complete.
+Attack Lab, Fix & Verify and Report currently explain their unavailable actions honestly.
+C19/C20 still need attack outcomes and patch previews. Candidate scores are NOT verified results.
+The public Hub summary remains its original stub. Hub unchanged; reuse remains deferred.
+
+Checks passed: production build; 5 focused browser tests; live scan/ZIP API checks; persistence and
+stale-storage checks; public stub regression. Two layout failures were fixed before acceptance.
+ZIP accepts raw application/zip; source inspection is Python-pattern best effort, never execution.
+Uploads/results remain in ignored core/.runtime; no retention cleanup UI yet. Offline migration
+remains a script; educational ML-KEM limitation and 24.7-40 second migration timing still apply.
+See progress.json and PROMPT_COMPLETIONS.md for portable task handoff.

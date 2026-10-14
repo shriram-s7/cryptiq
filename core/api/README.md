@@ -33,3 +33,13 @@ X-CryptIQ-Data-Source: stub and Cache-Control: no-store; the JSON is unchanged f
 The existing before fixture is inconsistent: score 38 and verified=false accompany post-fix counts,
 four passed checks and protected data flags. Its timestamp is illustrative. These are fixture values,
 not evidence. Do not display them as a verified scan. Correction is tracked in docs/CORE_BUILD_PLAN.md.
+
+## Live scan API
+POST /api/projects with JSON {"name":"My source"} creates a ZIP project.
+POST /api/projects/p_demo/scans with JSON {"source":"demo"} returns202 {"scanId":"..."}.
+POST /api/projects/{id}/scans with Content-Type application/zip and raw ZIP bytes scans uploaded source.
+Limits:20MB upload,2000 entries,100MB expanded,20MB per file; traversal/symlinks/encryption rejected.
+GET /api/scans/{id} polls running/done/error and actual stages. GET /api/projects/{id} embeds latest scan.
+Completed records persist in core/.runtime/api/jobs.db. Uploaded sources stay local under uploads/.
+Results are candidate evidence, verified=false. Python pattern coverage only; uploaded code never runs.
+Check with python core/api/check_scan_jobs.py (launcher active) and check_scan_persistence.py.

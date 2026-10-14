@@ -5,7 +5,7 @@
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
   "current_task": null,
-  "next_task": "C10",
+  "next_task": "C11",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -221,8 +221,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "pending"
+      "commit": "20152d8",
+      "publication": "pushed"
     },
     {
       "id": "C10",
@@ -232,14 +232,20 @@
       "depends_on": [
         "C09"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "Production TypeScript/Vite build passed",
+          "5 browser checks passed across live.spec.ts and shell.spec.ts: scan, findings, filters, drawer, refresh, mobile, errors, ZIP rejection and polling cancellation",
+          "check_scan_jobs.py passed real scan and bounded ZIP cases",
+          "check_scan_persistence.py passed completed/interrupted recovery and stale storage publication gate",
+          "Local services restarted successfully; persisted project results available; public stub checks passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C11",
@@ -368,14 +374,20 @@
       "depends_on": [
         "C17"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "Production TypeScript/Vite build passed",
+          "5 browser checks passed across live.spec.ts and shell.spec.ts: scan, findings, filters, drawer, refresh, mobile, errors, ZIP rejection and polling cancellation",
+          "check_scan_jobs.py passed real scan and bounded ZIP cases",
+          "check_scan_persistence.py passed completed/interrupted recovery and stale storage publication gate",
+          "Local services restarted successfully; persisted project results available; public stub checks passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C19",
@@ -385,12 +397,16 @@
       "depends_on": [
         "C18"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "partial",
+        "evidence": [
+          "Live overview score/counts/data map and findings owner/developer filters/evidence drawer implemented and browser checked. Overview fits 1280x800."
+        ]
       },
-      "blockers": [],
+      "blockers": [
+        "Attack outcomes and reviewed patch diffs await backend implementation; do not mark complete."
+      ],
       "commit": null,
       "publication": "not_committed"
     },
@@ -402,12 +418,16 @@
       "depends_on": [
         "C19"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "partial",
+        "evidence": [
+          "Live overview score/counts/data map and findings owner/developer filters/evidence drawer implemented and browser checked. Overview fits 1280x800."
+        ]
       },
-      "blockers": [],
+      "blockers": [
+        "Attack outcomes and reviewed patch diffs await backend implementation; do not mark complete."
+      ],
       "commit": null,
       "publication": "not_committed"
     },
@@ -573,5 +593,6 @@
     "full_demo": "not_implemented",
     "services": "running at checkpoint"
   },
-  "execution_policy": "Batch related work; one meaningful acceptance gate per task, no redundant publication-only commits. User requested faster progress."
+  "execution_policy": "Batch related work; one meaningful acceptance gate per task, no redundant publication-only commits. User requested faster progress.",
+  "dependency_exception": "User requested usable frontend now: C18-C20 brought forward alongside C10. C19-C20 remain partial until attack/patch dependencies exist."
 }
