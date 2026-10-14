@@ -10,8 +10,8 @@
 
 ## Resume point
 
-C01 is implemented and passed real HTTP checks.
-Next prompt: [C02 Core service scaffolding](prompts/C02_T01.md).
+C02 is implemented and accepted; C01 contract checks still pass.
+Next prompt: [C03 Core React shell](prompts/C03_T03.md).
 First inspect Git status and latest history, then implement that prompt only through its acceptance gate.
 If this checkout already has later completion entries, follow those instead of this baseline paragraph.
 
@@ -30,13 +30,19 @@ If this checkout already has later completion entries, follow those instead of t
 
 Repository: https://github.com/shriram-s7/cryptiq, branch main.
 Local shell: PowerShell. Python was available as `python` (3.14.0 during planning).
-Core API was started at 127.0.0.1:8000 (process 4868 during this session) and left running.
-Check current process/port state before launching another server; do not assume it survives sessions.
-FastAPI 0.127.0 and uvicorn 0.40.0 were already installed; no installation was needed.
-All five check groups in python core/api/check_public_stub.py passed against the live service.
+All Core services were stopped cleanly after C02 acceptance. The old C01 API was stopped through
+its original session before running the combined launcher. Check current ports before assuming state.
+Python 3.14.0, Node 20.20.2, FastAPI 0.127.0, uvicorn 0.40.0 and Flask 3.0.3 were available.
+No dependency installation was needed; fresh-environment setup is documented but not exercised.
 
-Planning commit 3ee40f8 was pushed successfully to origin/main after an allowed network retry.
-The latest completion entry records C01 implementation and publication state.
+Run: python core/scripts/dev.py (or core/.venv/Scripts/python.exe after setup).
+Check with services stopped: python core/scripts/check_launcher.py.
+Logs: core/.runtime/logs/ (ignored). All three service responses, failure cleanup, Ctrl+C cleanup
+and the existing public-summary HTTP checks passed. See the completion log for exact evidence.
+
+C03 must replace core/web/dev-server.mjs with React/Vite and update the launcher accordingly.
+The C03 prompt's web scope is extended only to the launcher's web command for that required adaptation.
+Do not keep launching the temporary page after adding the React shell.
 
 ## Known first-task trap
 

@@ -92,3 +92,35 @@ Next prompt: C02_T01.md. Scaffold Core entry points and launcher, preserve this 
 Commit 512f23f: core: serve public summary stub with verified Hub CORS.
 Successful git push origin main advanced GitHub from b6180e2 to 512f23f.
 All C01 acceptance checks passed before commit. No Hub/shared edits. Next task: C02/T01.
+
+
+## 2026-10-14 - C02/T01: Core service scaffolding
+
+State: done; publication pending task commit.
+What changed: minimal Node web page on 5173; Flask shop page and health on 5050; shared Core Python
+requirements; launcher for API/web/shop with separate ignored logs, readiness checks, port-conflict
+refusal and owned-child cleanup. Added setup/run/stop guides and a repeatable failure-path checker.
+The API implementation and shared fixture are unchanged. Hub was not inspected or modified.
+
+Files: core/README.md, core/.gitignore, core/requirements.txt; core/web/{package.json,dev-server.mjs,
+index.html,README.md}; core/demo-shop/{app.py,requirements.txt,templates/index.html,README.md};
+core/scripts/{dev.py,check_launcher.py}; docs progress/status/completion/handoff records.
+
+Acceptance commands and actual outcomes:
+- python core/scripts/dev.py --check initially rejected occupied API port 8000 without starting children.
+  Stopped the known C01 server via its original session, not by terminating an arbitrary port owner.
+- python core/scripts/check_launcher.py passed real three-service HTTP startup and cleanup; occupied
+  listener refusal; injected child exit 7 with sibling cleanup; non-listening child startup timeout.
+- python core/scripts/dev.py reached all three Ready states in an interactive terminal.
+- python core/api/check_public_stub.py passed all five HTTP check groups against that combined run.
+- GET /health on port 5050 matched {ok:true,service:demo-shop,stage:scaffold}.
+- Ctrl+C printed owned-service cleanup. A following python core/scripts/dev.py --check passed and
+  stopped again, confirming all required ports were released. No services are left running.
+- node --check core/web/dev-server.mjs; Python compilation; git diff --check passed.
+
+How to run: follow core/README.md; python core/scripts/dev.py when dependencies are installed.
+Known limitations: these are scaffold pages, not finished UI/shop. Python dependencies existed already;
+clean-environment install not performed. C03 replaces the Node bootstrap with Vite/React and updates
+only the launcher web command as necessary. Engine reuse is still deferred.
+Commit: this entry is included in the task commit; publication checkpoint follows.
+Next: C03_T03.md. Read handoff; implement React shell and preserve the C01 endpoint.

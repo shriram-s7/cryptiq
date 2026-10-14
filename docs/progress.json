@@ -5,7 +5,7 @@
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
   "current_task": null,
-  "next_task": "C02",
+  "next_task": "C03",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -66,14 +66,20 @@
       "depends_on": [
         "C01"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
-        "evidence": []
+        "status": "passed",
+        "evidence": [
+          "python core/scripts/check_launcher.py: real startup, three HTTP responses, released ports, occupied-port refusal, failed-child cleanup and timeout cleanup passed",
+          "python core/api/check_public_stub.py: all five C01 check groups passed while all services ran",
+          "GET http://127.0.0.1:5050/health: exact scaffold health JSON passed",
+          "Interactive launcher Ctrl+C printed cleanup; subsequent python core/scripts/dev.py --check passed, proving ports were released",
+          "node --check core/web/dev-server.mjs and Python compilation passed"
+        ]
       },
       "blockers": [],
       "commit": null,
-      "publication": "not_committed"
+      "publication": "pending"
     },
     {
       "id": "C03",
