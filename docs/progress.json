@@ -1,0 +1,534 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-14",
+  "timezone": "Asia/Calcutta",
+  "repository": "https://github.com/shriram-s7/cryptiq",
+  "branch": "main",
+  "current_task": "PLAN",
+  "next_task": "C01",
+  "workflow": "Sequential portable prompts with a separate append-only completion log",
+  "planning": {
+    "status": "done",
+    "acceptance": "Prompt inventory and JSON validated before commit",
+    "publication": "pending"
+  },
+  "deferred": [
+    {
+      "original_task": "T02",
+      "reason": "Awaiting user confirmation that reuse step is done"
+    },
+    {
+      "original_task": "T09",
+      "reason": "Awaiting user confirmation that reuse step is done"
+    }
+  ],
+  "excluded": [
+    {
+      "original_task": "T19",
+      "reason": "Hub owned"
+    },
+    {
+      "original_task": "T26",
+      "reason": "Hub owned"
+    },
+    {
+      "original_task": "T29",
+      "reason": "Hub owned"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "C01",
+      "original_task": "PUBLIC-STUB",
+      "title": "Public summary stub",
+      "prompt": "docs/prompts/C01_PUBLIC-STUB.md",
+      "depends_on": [
+        "PLAN"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C02",
+      "original_task": "T01",
+      "title": "Core service scaffolding",
+      "prompt": "docs/prompts/C02_T01.md",
+      "depends_on": [
+        "C01"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C03",
+      "original_task": "T03",
+      "title": "Core React shell",
+      "prompt": "docs/prompts/C03_T03.md",
+      "depends_on": [
+        "C02"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C04",
+      "original_task": "T04",
+      "title": "Core contracts and mocks",
+      "prompt": "docs/prompts/C04_T04.md",
+      "depends_on": [
+        "C03"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C05",
+      "original_task": "T05",
+      "title": "Before-mode shop",
+      "prompt": "docs/prompts/C05_T05.md",
+      "depends_on": [
+        "C04"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C06",
+      "original_task": "T06",
+      "title": "Repeatable customer seed",
+      "prompt": "docs/prompts/C06_T06.md",
+      "depends_on": [
+        "C05"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C07",
+      "original_task": "T07",
+      "title": "Planted issues and independent checker",
+      "prompt": "docs/prompts/C07_T07.md",
+      "depends_on": [
+        "C06"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C08",
+      "original_task": "T08",
+      "title": "Protected mode and migration",
+      "prompt": "docs/prompts/C08_T08.md",
+      "depends_on": [
+        "C07"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C09",
+      "original_task": "T10",
+      "title": "Rules and score pipeline",
+      "prompt": "docs/prompts/C09_T10.md",
+      "depends_on": [
+        "C08"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C10",
+      "original_task": "T11",
+      "title": "Scan jobs and polling API",
+      "prompt": "docs/prompts/C10_T11.md",
+      "depends_on": [
+        "C09"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C11",
+      "original_task": "T12",
+      "title": "CBOM export",
+      "prompt": "docs/prompts/C11_T12.md",
+      "depends_on": [
+        "C10"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C12",
+      "original_task": "T13",
+      "title": "Leak preview",
+      "prompt": "docs/prompts/C12_T13.md",
+      "depends_on": [
+        "C11"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C13",
+      "original_task": "T14",
+      "title": "Dictionary attack",
+      "prompt": "docs/prompts/C13_T14.md",
+      "depends_on": [
+        "C12"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C14",
+      "original_task": "T15",
+      "title": "RSA factoring simulation",
+      "prompt": "docs/prompts/C14_T15.md",
+      "depends_on": [
+        "C13"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C15",
+      "original_task": "T16",
+      "title": "Patch review and merge",
+      "prompt": "docs/prompts/C15_T16.md",
+      "depends_on": [
+        "C14"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C16",
+      "original_task": "T17",
+      "title": "Verification publication gate",
+      "prompt": "docs/prompts/C16_T17.md",
+      "depends_on": [
+        "C15"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C17",
+      "original_task": "T18",
+      "title": "Evidence and public results",
+      "prompt": "docs/prompts/C17_T18.md",
+      "depends_on": [
+        "C16"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C18",
+      "original_task": "T20",
+      "title": "Live scan screen",
+      "prompt": "docs/prompts/C18_T20.md",
+      "depends_on": [
+        "C17"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C19",
+      "original_task": "T21",
+      "title": "Overview screen",
+      "prompt": "docs/prompts/C19_T21.md",
+      "depends_on": [
+        "C18"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C20",
+      "original_task": "T22",
+      "title": "Findings screen",
+      "prompt": "docs/prompts/C20_T22.md",
+      "depends_on": [
+        "C19"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C21",
+      "original_task": "T23",
+      "title": "Attack Lab screen",
+      "prompt": "docs/prompts/C21_T23.md",
+      "depends_on": [
+        "C20"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C22",
+      "original_task": "T24",
+      "title": "Fix and Verify screen",
+      "prompt": "docs/prompts/C22_T24.md",
+      "depends_on": [
+        "C21"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C23",
+      "original_task": "T25",
+      "title": "Core Report screen",
+      "prompt": "docs/prompts/C23_T25.md",
+      "depends_on": [
+        "C22"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C24",
+      "original_task": "T27",
+      "title": "Core polish",
+      "prompt": "docs/prompts/C24_T27.md",
+      "depends_on": [
+        "C23"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C25",
+      "original_task": "T28",
+      "title": "Finding language audit",
+      "prompt": "docs/prompts/C25_T28.md",
+      "depends_on": [
+        "C24"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C26",
+      "original_task": "T30",
+      "title": "Core demo and Q&A",
+      "prompt": "docs/prompts/C26_T30.md",
+      "depends_on": [
+        "C25"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C27",
+      "original_task": "T31",
+      "title": "Full Core regression",
+      "prompt": "docs/prompts/C27_T31.md",
+      "depends_on": [
+        "C26"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C28",
+      "original_task": "T32",
+      "title": "Backup demo recording",
+      "prompt": "docs/prompts/C28_T32.md",
+      "depends_on": [
+        "C27"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    },
+    {
+      "id": "C29",
+      "original_task": "T33",
+      "title": "Submission and final handoff",
+      "prompt": "docs/prompts/C29_T33.md",
+      "depends_on": [
+        "C28"
+      ],
+      "status": "todo",
+      "acceptance": {
+        "status": "not_run",
+        "evidence": []
+      },
+      "blockers": [],
+      "commit": null,
+      "publication": "not_committed"
+    }
+  ]
+}
