@@ -31,11 +31,14 @@ def services():
     node = shutil.which("node")
     if not node:
         raise RuntimeError("Node.js is missing. Install Node 20+ before starting Core.")
+    vite = ROOT / "core/web/node_modules/vite/bin/vite.js"
+    if not vite.is_file():
+        raise RuntimeError("Core web dependencies are missing. Run npm ci inside core/web first.")
     return [
         Service("api", [sys.executable, "-m", "uvicorn", "main:app", "--app-dir",
                         str(ROOT / "core/api"), "--host", "127.0.0.1", "--port", "8000"],
                 8000, "/api/health", b'"ok":true'),
-        Service("web", [node, str(ROOT / "core/web/dev-server.mjs")],
+        Service("web", [node, str(vite), str(ROOT / "core/web"), "--host", "127.0.0.1", "--port", "5173", "--strictPort"],
                 5173, "/", b"CryptIQ Core"),
         Service("shop", [sys.executable, str(ROOT / "core/demo-shop/app.py")],
                 5050, "/", b"Chennai Organics"),
@@ -61,7 +64,12 @@ def check_ports(specs):
 def stop_children(children):
     for _, child in reversed(children):
         if child.poll() is None:
-            child.terminate()
+            if os.name == "nt":
+                # Vite owns an esbuild subprocess; stop this child's entire owned tree.
+                subprocess.run(["taskkill", "/PID", str(child.pid), "/T", "/F"],
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+            else:
+                os.killpg(child.pid, signal.SIGTERM)
     for _, child in reversed(children):
         try:
             child.wait(timeout=5)
@@ -87,7 +95,7 @@ def run(specs, check_only=False, timeout=30):
         try:
             for service in specs:
                 log = stack.enter_context((LOGS / f"{service.name}.log").open("w", encoding="utf-8"))
-                kwargs = {"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {}
+                kwargs = {"creationflags": subprocess.CREATE_NO_WINDOW} if os.name == "nt" else {"start_new_session": True}
                 child = subprocess.Popen(
                     service.command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
                     stdin=subprocess.DEVNULL, env={**os.environ, "PYTHONUNBUFFERED": "1"}, **kwargs,

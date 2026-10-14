@@ -1,19 +1,21 @@
 # Run CryptIQ Core locally
 
-C02 supplies three service entry points. Core web and the shop are scaffold pages; scanning and shop
-accounts are not implemented yet. The API retains the C01 fixture summary. Hub is never launched here.
+Core web is the C03 React navigation shell; the shop is still a scaffold. Scanning and shop accounts
+are not implemented yet. The API retains the C01 fixture summary. Hub is never launched here.
 
 ## First setup (PowerShell, from D:\cryptiq)
 
-Use Python 3.11+ and Node.js 20+. Python 3.14.0 / Node 20.20.2 were used for C02 acceptance.
+Use Python 3.11+ and Node.js 20.19+ (or a supported newer LTS). Python 3.14.0 / Node 20.20.2 were tested.
 
 ```powershell
 python -m venv core/.venv
 core/.venv/Scripts/python.exe -m pip install --cache-dir core/.runtime/pip-cache -r core/requirements.txt
+npm --prefix core/web ci --cache D:/cryptiq/core/.runtime/npm-cache
 ```
 
-The minimal web server uses only built-in Node modules. C03 adds React/Vite and npm dependencies.
-Runtime logs and cache stay under ignored core/.runtime/. Dependencies stay in core/.venv/.
+The web shell uses React/Vite, Tailwind and shared theme files. Fonts are bundled locally.
+Runtime logs and cache stay under ignored core/.runtime/. Dependencies stay in core/.venv/ and
+core/web/node_modules/. Vite's helper processes are stopped with its owned process tree.
 
 ## Start and stop
 
