@@ -288,3 +288,14 @@ before recovery, strong-account negative regression, login/checkout routing, rea
 result and four live verification checks. Additional protected phone login passed. Demo left AFTER (91).
 Known limits: 5-second dataset-wide dictionary; no guarantee all guesses reach each account. Common
 passwords may still crack after fixes. Transaction animation is scripted. Other UI suites need selector refresh.
+
+
+## 2026-10-15 — Email-style notifications and repeatable selected-account recovery
+State: done. Replaced banner with top-right transient/dismissible toasts; history remains in activity feed.
+Hacker dictionary requests scope to customerId; absent id preserves full-database verification behavior.
+Signup offers chennai123 demo autofill. Does not retain passwords or fabricate recovery. Arbitrary unknown
+passwords may fail before fixes; known weak passwords can recover after fixes. Missing targets error.
+Validation: build passed; all 20 supported password examples recovered in isolated exact-target tests;
+strong negative, weak Argon2 positive and dataset-wide backward compatibility passed. Browser toast
+navigation/dismissal, autofill, target payload and real live target recovery passed in 8.6 seconds.
+Services restarted; observed demo BEFORE, no reset performed here. Existing unrelated changes preserved.

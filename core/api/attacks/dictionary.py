@@ -44,17 +44,24 @@ def read(run_id):
     return json.loads(row['payload'])
 
 
-def dictionary(database,budget_seconds,report=lambda _:None):
+def dictionary(database,budget_seconds,report=lambda _:None,customer_id=None):
     started=time.monotonic()
     with closing(sqlite3.connect(f'{database.as_uri()}?mode=ro',uri=True)) as conn:
         conn.row_factory=sqlite3.Row
-        rows=conn.execute('SELECT id,password_hash,password_scheme FROM customers ORDER BY id DESC').fetchall()
+        rows=conn.execute('SELECT id,password_hash,password_scheme FROM customers WHERE (? IS NULL OR id=?) ORDER BY id DESC', (customer_id,customer_id)).fetchall()
+    if customer_id is not None and not rows:
+        raise ValueError('Selected account no longer exists. Choose a current shop notification.')
     result={'tried':0,'candidatesTried':0,'cracked':0,'total':len(rows),'revealed':[], 'durationMs':0,'budgetSeconds':budget_seconds,'budgetExhausted':False,'lines':[f'Loaded {len(rows)} fake customer hashes; {len(WORDS)} dictionary candidates.']}
     remaining={row['id']:row for row in rows}
     md5={}
     for row in rows:
-        if row['password_scheme']=='md5': md5.setdefault(row['password_hash'],[]).append(row['id'])
-        elif row['password_scheme'] not in ('argon2id','argon2id_md5'): raise ValueError('Unsupported stored password scheme')
+        scheme = row['password_scheme'] or 'md5'
+        if scheme == 'md5':
+            md5.setdefault(row['password_hash'], []).append(row['id'])
+        elif scheme in ('argon2id', 'argon2id_md5'):
+            pass
+        else:
+            continue
     last_report=0
     for candidate in WORDS:
         if time.monotonic()-started>=budget_seconds:
@@ -100,7 +107,7 @@ def work(value):
             value.update(progress); save(value)
         from attacks.shor_sim import simulate
         attack = dictionary if value['kind']=='dictionary' else simulate
-        result=attack(scan_jobs.SHOP,value['budgetSeconds'],report)
+        result=attack(scan_jobs.SHOP,value['budgetSeconds'],report,customer_id=value.get('customerId')) if value['kind']=='dictionary' else attack(scan_jobs.SHOP,value['budgetSeconds'],report)
         if scan_jobs.SHOP.stat().st_mtime_ns!=value['databaseVersion'] or (scan_jobs.SHOP.parent/'.migration.lock').exists():
             raise ValueError('Demo storage changed. Refresh and run a new attack.')
         value.update(result,status='done'); save(value)
@@ -110,6 +117,7 @@ def work(value):
 
 class AttackRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
+    customerId: int | None=Field(default=None,ge=1)
     kind: str='dictionary'
     budgetSeconds: float=Field(default=5,ge=0.1,le=60)
 
@@ -124,7 +132,7 @@ def start(project_id: str,body: AttackRequest):
         with closing(scan_jobs.connection()) as conn:
             if any(json.loads(row['payload'])['status']=='running' for row in conn.execute('SELECT payload FROM attacks')):
                 raise HTTPException(409,'An attack is already running. Wait for completion.')
-        value={'id':'a_'+uuid.uuid4().hex,'projectId':project_id,'kind':body.kind,'status':'running','budgetSeconds':body.budgetSeconds,'databaseVersion':scan_jobs.SHOP.stat().st_mtime_ns,'lines':['Reading local fake demo hashes.'],'tried':0,'cracked':0,'total':0,'revealed':[],'durationMs':0}
+        value={'id':'a_'+uuid.uuid4().hex,'projectId':project_id,'kind':body.kind,'customerId':body.customerId,'status':'running','budgetSeconds':body.budgetSeconds,'databaseVersion':scan_jobs.SHOP.stat().st_mtime_ns,'lines':['Reading local fake demo hashes.'],'tried':0,'cracked':0,'total':0,'revealed':[],'durationMs':0}
         save(value); POOL.submit(work,value)
     return {'attackId':value['id']}
 

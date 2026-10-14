@@ -655,8 +655,12 @@
   "registration_notification_workflow": {
     "status": "done",
     "test": "notifications.spec.ts passed in 58.1s; shop acceptance and build passed; four live verification checks passed",
-    "demo_state": "after",
-    "limitations": "bounded dictionary; common passwords can still crack after repair; transaction simulation",
-    "accepted_prompt_count_changed": false
+    "demo_state": "before observed; not reset by this task",
+    "limitations": "unknown passwords may not recover; weak passwords recover even after repair; transaction simulation",
+    "accepted_prompt_count_changed": false,
+    "notifications": "top-right transient toast; existing activity history",
+    "attack_scope": "selected customer in Hacker; whole database for verification",
+    "demo_password": "chennai123 via signup helper",
+    "latest_validation": "20 known passwords + negative + weak Argon2 tests; toast browser and live target API passed"
   }
 }

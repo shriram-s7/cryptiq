@@ -1,6 +1,18 @@
 # Core status - 2026-10-15
 
-LATEST TASK: Three-field shop registration (name/phone/password), phone login, animated signup/login/checkout
+LATEST: Notifications are now top-right email-style pop-ups (15s auto-dismiss, explicit close, click to
+open the matching workbench). Existing activity feed retains history; initial load does not replay it.
+Password attempts from Hacker now target only the selected customer; verification retains dataset-wide
+checks. Signup has a Use crackable demo password button filling chennai123. Any fake name/valid phone
+works with that known example. Arbitrary passwords are not guaranteed crackable, even before fixes;
+known weak passwords remain guessable after fixes. No fake success or saved plaintext is used.
+Checks: production build, all 20 exact-target dictionary fixtures, strong negative, weak Argon2 recovery,
+missing target, dataset-wide compatibility, and toast browser test with real targeted API call passed.
+Run: core/.venv/Scripts/python.exe core/api/check_targeted_dictionary.py; Playwright toast-notifications.spec.ts.
+Services restarted with these changes. No reset performed by this task; observed demo currently BEFORE.
+Next: remaining C19 acceptance against current UI. Other uncommitted UI work preserved.
+
+PREVIOUS TASK: Three-field shop registration (name/phone/password), phone login, animated signup/login/checkout
 notifications opening the matching Hacker module and exact account. Recovered values are account-scoped;
 removed fabricated password/ID fallbacks. Current demo is AFTER fixes, verified 91; no demo reset performed.
 Validation: production build, shop acceptance, 58-second connected browser journey through real migration
@@ -8,7 +20,7 @@ and all four verification checks passed. Protected phone login also passed. Noti
 verification customer/order fixtures. Run services with core/.venv/Scripts/python.exe core/scripts/dev.py.
 Focused browser test: PLAYWRIGHT_BROWSERS_PATH=core/.runtime/playwright, notifications.spec.ts; requires
 an initialized BEFORE demo and leaves it AFTER. Old experience tests contain other stale UI selectors.
-Known limits: dictionary is bounded/dataset-wide; weak passwords can still crack after repair. Transaction
+Historical limit (now fixed for Hacker): dictionary was dataset-wide; weak passwords can still crack after repair. Transaction
 module is a labeled simulation. Existing unrelated UI changes remain in the working tree. Next: C19
 acceptance against the latest UI; engine reuse remains deferred. Prompt acceptance counts unchanged.
 

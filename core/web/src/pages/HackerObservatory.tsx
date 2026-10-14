@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Activity, ArrowLeft, ArrowUpRight, CheckCircle2, ChevronRight,
   Database, Eye, EyeOff, Fingerprint, KeyRound, Lock, Radio, Shield,
-  ShieldAlert, Terminal, Wallet, Copy, Check, Flame, AlertTriangle
+  ShieldAlert, Terminal, Wallet, Copy, Check, Flame, AlertTriangle, Bell, X
 } from 'lucide-react';
 import { requestJson } from '@/lib/api';
 import type { Attack } from './DictionaryAttack';
@@ -40,7 +40,13 @@ export function HackerObservatory() {
   const running = useRef(false);
   const workbench = useRef<HTMLElement>(null);
   const [selectedRow, setSelectedRow] = useState<RecordRow | null>(null);
-  const [openedEvents, setOpenedEvents] = useState<string[]>([]);
+  const [notifications, setNotifications] = useState<Event[]>([]);
+  const seenEvents = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (!notifications.length || busy) return;
+    const timer = setTimeout(() => setNotifications([]), 15000);
+    return () => clearTimeout(timer);
+  }, [notifications, busy]);
   useEffect(() => {
     const abort = new AbortController();
     setSelectedRow(null);
@@ -65,6 +71,11 @@ export function HackerObservatory() {
           requestJson<Snapshot>('/api/projects/p_demo/leak-preview?limit=20', { signal: abort.signal }),
         ]);
         if (abort.signal.aborted) return;
+        if (seenEvents.current) {
+          const arrivals = a.events.filter(event => !seenEvents.current!.has(event.id));
+          if (arrivals.length) setNotifications(current => [...arrivals, ...current].slice(0, 3));
+        }
+        seenEvents.current = new Set(a.events.map(event => event.id));
         setEvents(a.events);
         setSnapshot(b);
         setOnline(true);
@@ -129,7 +140,7 @@ export function HackerObservatory() {
       const { attackId } = await requestJson<{ attackId: string }>('/api/projects/p_demo/attacks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kind, budgetSeconds: 5 }),
+        body: JSON.stringify({ kind, budgetSeconds: 5, ...(kind === 'dictionary' ? {customerId: target} : {}) }),
         signal: abort.signal,
       });
 
@@ -201,16 +212,19 @@ export function HackerObservatory() {
         </div>
       </header>
 
-      <section className="hacker-panel shop-notifications" aria-label="Shop activity notifications" aria-live="polite">
-        <div className="hacker-panel-head"><Radio size={18} /><strong>LIVE SHOP NOTIFICATIONS</strong></div>
-        {!events.length && <p>Waiting for a registration, sign-in or checkout in Chennai Organics.</p>}
-        {events.slice(0, 5).map(event => <button key={event.id} disabled={busy} className={`shop-notification ${openedEvents.includes(event.id) ? "opened" : "unread"}`} onClick={() => {
-          setOpenedEvents(current => [...current, event.id]);
-          select(event.customerId, event.kind === 'checkout' ? 'transaction' : 'password');
-        }}>
-          <span>{openedEvents.includes(event.id) ? 'OPENED' : 'NEW'} - {event.kind === 'signup' ? 'New registration' : event.kind === 'login' ? 'New sign-in' : 'New checkout'} - Account #{event.customerId}</span>
-          <span> - {new Date(event.at).toLocaleTimeString()} - Open {event.kind === 'checkout' ? 'transaction' : 'password'} workbench</span>
-        </button>)}
+      <section className="shop-notifications" aria-label="Shop activity notifications" aria-live="polite">
+        {notifications.map(event => <article className="shop-notification" key={event.id}>
+          <Bell size={20} className="notification-bell" />
+          <button disabled={busy} className="notification-open" onClick={() => {
+            select(event.customerId, event.kind === 'checkout' ? 'transaction' : 'password');
+            setNotifications(current => current.filter(item => item.id !== event.id));
+          }}>
+            <strong>{event.kind === 'signup' ? 'New registration' : event.kind === 'login' ? 'New sign-in' : 'New checkout'} - Account #{event.customerId}</strong>
+            <span>Chennai Organics · {new Date(event.at).toLocaleTimeString()}</span>
+            <span>Open {event.kind === 'checkout' ? 'transaction' : 'password'} workbench</span>
+          </button>
+          <button className="notification-dismiss" aria-label="Dismiss notification" onClick={() => setNotifications(current => current.filter(item => item.id !== event.id))}><X size={16} /></button>
+        </article>)}
       </section>
       {/* Main Grid */}
       <div className="hacker-main">
@@ -463,7 +477,7 @@ export function HackerObservatory() {
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">
                     {module === 'password'
-                      ? 'Applies 20 common Indian passwords against stored database hashes within a 5.0s budget.'
+                      ? 'Tests 20 known passwords against this selected account only. For a repeatable demo, register with chennai123. Arbitrary passwords may not match.'
                       : module === 'rsa'
                       ? 'Factors the deliberate demo public key and decrypts fake national IDs.'
                       : 'Replays a captured order request with modified payload to test integrity.'}

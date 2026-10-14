@@ -1,0 +1,28 @@
+import {test,expect} from '@playwright/test';
+test('email-style popups only for new activity and target-scoped attack',async({page,request})=>{
+ let events:any[]=[];let payload:any;
+ await page.route('**/api/demo/activity',route=>route.fulfill({json:{events}}));
+ await page.route('**/api/projects/p_demo/attacks',async route=>{payload=route.request().postDataJSON();await route.fulfill({json:{attackId:'toast-test'}})});
+ await page.route('**/api/attacks/toast-test',route=>route.fulfill({json:{status:'done',kind:'dictionary',cracked:1,total:1,tried:2,durationMs:5,lines:[],revealed:[{customerId:1,field:'password',value:'priya@123'}]}}));
+ await page.goto('/hacker');await expect(page.getByText('INTERCEPT FEED ACTIVE')).toBeVisible();
+ const region=page.getByRole('region',{name:'Shop activity notifications'});
+ await expect(region.locator('article')).toHaveCount(0);
+ events=[{id:'new-login',kind:'login',customerId:1,at:new Date().toISOString()}];
+ const alert=region.getByRole('button',{name:/New sign-in/});await expect(alert).toBeVisible({timeout:8000});
+ expect(await region.evaluate(el=>getComputedStyle(el).position)).toBe('fixed');
+ const box=await region.boundingBox();expect(box!.x).toBeGreaterThan(800);
+ await page.screenshot({path:'D:/cryptiq/core/.runtime/toast-notification.png'});
+ await alert.click();await expect(region.locator('article')).toHaveCount(0);
+ await page.getByRole('button',{name:'Run attempt',exact:true}).click();
+ await expect(page.locator('.attack-verdict')).toContainText('priya@123');expect(payload.customerId).toBe(1);
+ events=[{id:'checkout',kind:'checkout',customerId:1,at:new Date().toISOString()},...events];
+ await expect(region.getByRole('button',{name:/New checkout/})).toBeVisible({timeout:8000});
+ await region.getByRole('button',{name:'Dismiss notification'}).click();await expect(region.locator('article')).toHaveCount(0);
+ await page.goto('http://localhost:5050/signup');await page.getByRole('button',{name:'Use crackable demo password'}).click();
+ await expect(page.getByLabel('Test password')).toHaveValue('chennai123');
+ await expect(page.locator('form input:not([type=hidden])')).toHaveCount(3);
+ const started=await (await request.post('http://localhost:8000/api/projects/p_demo/attacks',{data:{kind:'dictionary',customerId:1,budgetSeconds:5}})).json();
+ await expect.poll(async()=> (await (await request.get(`http://localhost:8000/api/attacks/${started.attackId}`)).json()).status).toBe('done');
+ const actual=await (await request.get(`http://localhost:8000/api/attacks/${started.attackId}`)).json();
+ expect(actual.total).toBe(1);expect(actual.revealed).toEqual([{customerId:1,field:'password',value:'priya@123'}]);
+});
