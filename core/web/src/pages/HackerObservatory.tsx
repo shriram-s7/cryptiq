@@ -477,7 +477,7 @@ export function HackerObservatory() {
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">
                     {module === 'password'
-                      ? 'Tests 23 known passwords against this selected account only. For a repeatable demo, register with chennai123. Arbitrary passwords may not match.'
+                      ? 'Tests 25 known passwords against this selected account only. For a repeatable demo, register with chennai123. Arbitrary passwords may not match.'
                       : module === 'rsa'
                       ? 'Factors the deliberate demo public key and decrypts fake national IDs.'
                       : 'Replays a captured order request with modified payload to test integrity.'}
