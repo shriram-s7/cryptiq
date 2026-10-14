@@ -4,8 +4,8 @@
   "timezone": "Asia/Calcutta",
   "repository": "https://github.com/shriram-s7/cryptiq",
   "branch": "main",
-  "current_task": "C16",
-  "next_task": "C16",
+  "current_task": "C17",
+  "next_task": "C17",
   "workflow": "Sequential portable prompts with a separate append-only completion log",
   "planning": {
     "status": "done",
@@ -347,8 +347,8 @@
         ]
       },
       "blockers": [],
-      "commit": null,
-      "publication": "included_in_checkpoint_commit"
+      "commit": "3fcef01",
+      "publication": "pushed"
     },
     {
       "id": "C16",
@@ -358,19 +358,18 @@
       "depends_on": [
         "C15"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": {
-        "status": "not_run",
+        "status": "passed",
         "evidence": [
-          "Verification backend and UI implemented; production build passed",
-          "Live four-check acceptance command was not executed: automatic approval review failed due usage limit"
+          "verify.spec.ts passed all four live checks, retry and verified91 overview",
+          "check_verification_gates.py passed injected failure and stale revision/storage invalidation",
+          "Fixed stale previous-success display during retry; original before score drawn from actual before scan"
         ]
       },
-      "blockers": [
-        "Run live verification acceptance, failure/publication gate, retry and stale-state tests before acceptance"
-      ],
+      "blockers": [],
       "commit": null,
-      "publication": "included_in_checkpoint_commit"
+      "publication": "included_in_current_commit"
     },
     {
       "id": "C17",
