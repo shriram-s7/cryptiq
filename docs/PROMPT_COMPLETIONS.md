@@ -338,3 +338,8 @@ No Hub/root presentation edits; original C01-C18 acceptance remains unchanged.
 ## 2026-10-15 — Presentation and repository documentation
 
 Prepared the 12-slide Prosculpt-format CryptIQ / Tech Squad deck and detailed presenter guide. Updated README with actual scanner scope, current pricing, temporary live origin and setup. Hash Patch remains deferred; no C19+ acceptance claimed. Validation: reviewed all 12 rendered slides, package/layout validation and financial arithmetic checks. Access token excluded from tracked files.
+
+
+## 2026-10-15 — Visual deck revision
+
+Rebuilt the 12-section deck with current dashboard, shop, Hacker and partner screenshots, architecture/workflow visuals, native tables, links and the existing detailed speaker notes. Updated README to select the visual deck. Kept the original draft for history. No runtime reset or implementation change.

@@ -3,7 +3,7 @@
 Current origin: https://usual-orbit-national-mazda.trycloudflare.com/
 New reviewers require the complete private access link.
 
-Presentation: [Tech Squad deck](presentation/CryptIQ_Tech_Squad_12_Slides.pptx).
+Presentation: [Tech Squad deck](presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx).
 Detailed notes: [Presenter guide](presentation/PRESENTER_GUIDE.md).
 
 The prototype has a free temporary Cloudflare Tunnel link. This is a live link to the presenter PC,

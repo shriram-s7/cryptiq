@@ -1,5 +1,7 @@
 # Core status - 2026-10-15
 
+Visual presentation revision: use docs/presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx. Replaces the text-heavy deck with four current product screenshots, editable workflow/architecture and five tables. Keeps the 12-section sequence and detailed notes. Demo and GitHub hyperlinks on closing slide. No live app state reset or repair performed.
+
 Presentation update — 15 October 2026: prepared the 12-slide Tech Squad / CryptIQ deck in docs/presentation, with detailed speaker notes and Business demo script. Updated root README and temporary live-origin instructions. Hash Patch remains deferred, pricing and financial assumptions are distinguished from validated results. No application state changed. Run: open the PPTX; hosting instructions in PUBLIC_DEMO.md. Next: C19 remains pending, plus production hosting and pilot validation.
 
 LATEST — 2026-10-15: Public demo live through a free temporary Cloudflare Tunnel; reviewer link in
