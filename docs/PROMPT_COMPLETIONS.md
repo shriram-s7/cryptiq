@@ -61,3 +61,27 @@ credential-helper warning, but the push itself completed successfully.
 
 This follow-up checkpoint updates publication state only. No implementation task was started.
 Next action remains C01_PUBLIC-STUB.md. No services are running from this task.
+
+
+## 2026-10-14 - C01: public summary stub
+
+State: done; publication pending the task commit.
+What changed: FastAPI health and public summary routes, Core/Hub localhost CORS, explicit stub/no-store
+headers, unknown-slug 404, pinned direct dependencies, setup instructions and HTTP acceptance checker.
+Files changed: core/api/main.py, requirements.txt, README.md, check_public_stub.py; progress records.
+Shared fixture and Hub files are unchanged.
+
+Acceptance commands:
+`python -m uvicorn main:app --app-dir core/api --host 127.0.0.1 --port 8000`
+`python core/api/check_public_stub.py`
+
+Actual results: PASS health; PASS exact fixture JSON + Hub GET CORS + stub headers; PASS Hub preflight;
+PASS unrelated origin receives no allow-origin; PASS unknown slug 404 with Hub CORS. Checker exited 0.
+Initial sandbox socket attempt failed with WinError 10013; the allowed local-network retry passed.
+
+How to run: core/api/README.md includes virtual environment setup and both commands above.
+Known issues: fixture intentionally unchanged and internally inconsistent; not live scan results.
+Core web/shop and report endpoint are not implemented. Engine reuse remains deferred.
+Commit: this entry is included in the C01 task commit; publication checkpoint follows.
+Active services: uvicorn on 127.0.0.1:8000, process 4868 during this session; left running for local use.
+Next prompt: C02_T01.md. Scaffold Core entry points and launcher, preserve this stub.

@@ -4,43 +4,50 @@ Updated: 14 October 2026, IST.
 
 ## Current checkpoint
 
-Planning is complete. Application implementation has not started. Core directories still contain only
-their placeholders, apart from the prompt-generation helper under core/scripts/.
+C01 is implemented and all five live HTTP acceptance check groups passed.
+The API is running locally on port 8000. Core web and demo shop are not implemented.
+Publication of this task is pending; see the latest completion log entry for confirmation.
 
-Completed:
-- Detailed build architecture, ordered task mapping, acceptance gates and risk decisions.
-- 29 individually exportable prompts, preserving the original order and Core-only ownership.
-- Structured progress database and separate append-only prompt completion log.
-- Agent handoff with the exact next action.
+## Completed
 
-## Read these files
-
-- [Build plan](CORE_BUILD_PLAN.md): full scope, architecture, order and acceptance strategy.
-- [Prompt index](CORE_PROMPTS.md): ordered links to every task prompt.
-- [Progress database](progress.json): machine-readable states and acceptance/publication records.
-- [Completion log](PROMPT_COMPLETIONS.md): what was actually finished and checked.
-- [Agent handoff](AGENT_HANDOFF.md): resume instructions for a replacement agent.
+- Detailed Core plan and 29 portable sequential prompts.
+- Separate completion log, JSON progress database and agent handoff.
+- C01: health endpoint, exact-fixture public summary, Core/Hub CORS and repeatable HTTP checks.
 
 ## How to run
 
-No Core application is runnable yet. Do not infer readiness from this planning checkpoint.
-Start implementation with [C01: public summary stub](prompts/C01_PUBLIC-STUB.md).
-That task must add the API's installation/run instructions and verify it on port 8000.
-Future tasks add Core web on 5173 and the demo shop on 5050; Hub remains independently owned on 5174.
+From D:\cryptiq with dependencies installed:
 
-## Known issues and decisions
+```powershell
+python -m uvicorn main:app --app-dir core/api --host 127.0.0.1 --port 8000
+```
 
-- T02/T09 are deferred until the user confirms the engine reuse step is done.
-- The before-summary fixture contains post-fix counts/checks despite score 38 and verified=false.
-  C01 must return it exactly; truthful live results require an explicit later correction.
-- No prior prompt/progress workflow existed in this checkout. The new records implement the user's
-  clarified portable-handoff method, rather than pretending an older database was found.
-- Current deadlines from the brief: summary stub 18:30 IST; real summary target 23:30 IST.
-- Hub implementation and its later integration are outside the current build tasks.
-- Planning commit 3ee40f8 was successfully pushed to origin/main. An allowed network retry resolved
-  the initial restricted connectivity failure. No application task has started.
+In a second terminal:
+
+```powershell
+python core/api/check_public_stub.py
+```
+
+See core/api/README.md for virtual-environment installation. The public summary is at
+/api/public/projects/chennai-organics/summary. Stop the server with Ctrl+C.
+
+## Known issues
+
+- Summary is a stub, not scan evidence. The unchanged before fixture mixes score 38/unverified with
+  post-fix counts and passed checks. Its example timestamp is not a real scan timestamp.
+- No scanning, live verification or PDF endpoint yet.
+- T02/T09 remain deferred until the user confirms engine reuse is done.
+- Hub remains untouched and will be integrated separately if desired.
+- Initial sandbox socket checks failed; allowed retries passed all acceptance checks.
 
 ## Next task
 
-C01 â€” implement and check the public summary stub, update all progress records, commit and push.
-After C01 passes, continue with C02/T01. Do not skip acceptance failures or resume deferred reuse work.
+[C02/T01](prompts/C02_T01.md): scaffold Core's three services and launcher, preserve the working stub.
+
+## Portable records
+
+- [Detailed plan](CORE_BUILD_PLAN.md)
+- [Sequential prompts](CORE_PROMPTS.md)
+- [Progress database](progress.json)
+- [Actual completion log](PROMPT_COMPLETIONS.md)
+- [Agent handoff](AGENT_HANDOFF.md)

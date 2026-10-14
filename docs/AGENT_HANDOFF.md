@@ -10,8 +10,8 @@
 
 ## Resume point
 
-Planning is complete; no application code has been implemented.
-Next prompt: [C01 public summary stub](prompts/C01_PUBLIC-STUB.md).
+C01 is implemented and passed real HTTP checks.
+Next prompt: [C02 Core service scaffolding](prompts/C02_T01.md).
 First inspect Git status and latest history, then implement that prompt only through its acceptance gate.
 If this checkout already has later completion entries, follow those instead of this baseline paragraph.
 
@@ -30,11 +30,13 @@ If this checkout already has later completion entries, follow those instead of t
 
 Repository: https://github.com/shriram-s7/cryptiq, branch main.
 Local shell: PowerShell. Python was available as `python` (3.14.0 during planning).
-No Core servers were started. No dependency installation was attempted.
-No local code behavior or application acceptance check has passed because implementation has not begun.
+Core API was started at 127.0.0.1:8000 (process 4868 during this session) and left running.
+Check current process/port state before launching another server; do not assume it survives sessions.
+FastAPI 0.127.0 and uvicorn 0.40.0 were already installed; no installation was needed.
+All five check groups in python core/api/check_public_stub.py passed against the live service.
 
 Planning commit 3ee40f8 was pushed successfully to origin/main after an allowed network retry.
-The progress publication checkpoint records that result; no Core application is implemented yet.
+The latest completion entry records C01 implementation and publication state.
 
 ## Known first-task trap
 
