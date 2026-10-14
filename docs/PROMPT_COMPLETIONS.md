@@ -45,3 +45,19 @@ Commit: this entry is carried in the planning commit; resolve with git log.
 GitHub publication: pending verification. Initial restricted network probe failed.
 Active services: none started by this task.
 Next: docs/prompts/C01_PUBLIC-STUB.md. Read fixture, build minimal FastAPI app and run its HTTP checks.
+
+## 2026-10-14 — PLAN publication checkpoint
+
+State: done.
+Acceptance results: Python validation passed for JSON parsing, 29 unique existing prompts, the entire
+dependency chain, all T01–T33 mappings and the absence of false implementation completion states.
+`git diff --cached --check` passed before the planning commit. Staged paths were restricted to core/
+and docs/; hub/ and shared/ were unchanged.
+
+Planning commit: 3ee40f8 (`core: plan sequential build prompts and portable progress tracking`).
+GitHub publication: confirmed by successful `git push origin main`, updating d788a67 to 3ee40f8.
+The restricted initial network/Git-metadata attempts failed; allowed retries succeeded. Git printed a
+credential-helper warning, but the push itself completed successfully.
+
+This follow-up checkpoint updates publication state only. No implementation task was started.
+Next action remains C01_PUBLIC-STUB.md. No services are running from this task.

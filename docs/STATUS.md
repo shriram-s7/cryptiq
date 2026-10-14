@@ -37,10 +37,10 @@ Future tasks add Core web on 5173 and the demo shop on 5050; Hub remains indepen
   clarified portable-handoff method, rather than pretending an older database was found.
 - Current deadlines from the brief: summary stub 18:30 IST; real summary target 23:30 IST.
 - Hub implementation and its later integration are outside the current build tasks.
-- Initial GitHub connectivity check failed in the restricted environment. Publication must be verified
-  before claiming this checkpoint is available remotely.
+- Planning commit 3ee40f8 was successfully pushed to origin/main. An allowed network retry resolved
+  the initial restricted connectivity failure. No application task has started.
 
 ## Next task
 
-C01 — implement and check the public summary stub, update all progress records, commit and push.
+C01 â€” implement and check the public summary stub, update all progress records, commit and push.
 After C01 passes, continue with C02/T01. Do not skip acceptance failures or resume deferred reuse work.

@@ -33,8 +33,8 @@ Local shell: PowerShell. Python was available as `python` (3.14.0 during plannin
 No Core servers were started. No dependency installation was attempted.
 No local code behavior or application acceptance check has passed because implementation has not begun.
 
-The initial restricted GitHub probe failed with a name-resolution/thread error. See the newest
-publication checkpoint for whether an allowed network retry subsequently succeeded.
+Planning commit 3ee40f8 was pushed successfully to origin/main after an allowed network retry.
+The progress publication checkpoint records that result; no Core application is implemented yet.
 
 ## Known first-task trap
 
