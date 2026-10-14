@@ -203,3 +203,17 @@ Contradictory database storage reintroduces risks; deduplication, floor-at-zero 
 passed. Unknown data protection is an additive explicit value rather than invented protection.
 C08 pushed as 7f8852c. C09 is in this task commit. Next C10 persistent scan jobs.
 No published score upgrade or verified claim is made by these candidate scan results.
+
+
+## 2026-10-14 - C10 and C18 accepted; C19/C20 partial
+User requested substantial usable frontend progress; recorded exception brings C18-C20 forward.
+Persistent SQLite projects/scan jobs, background real stages, safe bounded ZIP input, interrupted-job
+recovery and stale-storage publication guard implemented. Live scan -> overview -> findings now works.
+Overview displays measured score, severity counts, customer sampling and data map. Findings support
+owner/developer mode, filters and evidence drawer. Later screens disclose unavailable actions.
+Acceptance: npm --prefix core/web run build PASS; Playwright live.spec.ts + shell.spec.ts 4 PASS,
+then remaining ZIP/navigation test 1 PASS. check_scan_jobs.py, check_scan_persistence.py and
+check_public_stub.py PASS. Initial layout checks failed at917/809px, corrected to fit800px.
+Services restarted with persisted results. No full verification claim. C19/C20 remain partial because
+attack-result integration and patch diff previews need backend work. Next C11. C09 pushed20152d8.
+This batch is committed and pushed as one coherent delivery; see Git log for its commit hash.

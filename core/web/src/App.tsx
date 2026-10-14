@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { config } from '@/lib/config';
 import { MockPreview } from '@/components/MockPreview';
+import { LiveScanPage, LiveProjectPage } from '@/pages/LiveWorkspace';
 import logoUrl from '../../../shared/theme/logo.svg';
 
 const sections = [
@@ -64,7 +65,7 @@ function Layout() {
     </aside>
     <div className="workspace">
       <header className="topbar"><div className="breadcrumb">Workspace <ChevronRight size={14} aria-hidden="true" /><span>{isProject ? projectName : 'Start a scan'}</span></div>
-        <span className="status-badge"><span /> {config.useMocks ? 'Mock data · development preview' : 'Development preview'}</span>
+        <span className="status-badge"><span /> {config.useMocks ? 'Mock data · development preview' : 'Local workspace | live scans'}</span>
       </header>
       <main id="main-content" className="main-content" tabIndex={-1}><Outlet /></main>
       <footer className="footer"><span>Security-safeguard evidence, not legal certification.</span><span className="font-mono">CRYPTIQ / CORE</span></footer>
@@ -74,6 +75,7 @@ function Layout() {
 }
 
 function ScanPage() {
+  if (!config.useMocks) return <LiveScanPage />;
   return <>
     <div className="eyebrow"><span /> YOUR FIRST STEP</div>
     <div className="page-heading"><h1 tabIndex={-1}>Know what your data is up against.</h1><p>One workspace to understand risk, review fixes and see the evidence.</p></div>
@@ -102,6 +104,7 @@ function ScanPage() {
 function ProjectPage({ section }: { section: typeof sections[number] }) {
   const { id } = useParams();
   const Icon = section.icon;
+  if (!config.useMocks) return <LiveProjectPage page={section.title} />;
   return <>
     <div className="eyebrow">PROJECT WORKSPACE <span className="eyebrow-divider">/</span> DEMO DATA</div>
     <div className="page-heading"><h1 tabIndex={-1}>{section.title}</h1><p>{section.description}</p></div>
