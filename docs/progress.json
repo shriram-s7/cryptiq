@@ -686,11 +686,11 @@
     "date": "2026-10-15",
     "slides": 12,
     "team": "Tech Squad",
-    "deck": "docs/presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx",
+    "deck": "docs/presentation/CryptIQ_TechSquad_Review_Ready.pptx",
     "guide": "docs/presentation/PRESENTER_GUIDE.md",
     "scope": "Presentation and documentation only; no additional C prompt acceptance",
     "publication": "included in presentation documentation commit",
-    "revision": "Visual redesign with current screenshots, editable diagrams/tables and hyperlinks"
+    "revision": "User-supplied blue deck enhanced with named team, workflows, references and live links"
   },
   "release": {
     "tag": "v0.1.0-demo",
