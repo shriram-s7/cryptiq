@@ -686,7 +686,7 @@
     "date": "2026-10-15",
     "slides": 12,
     "team": "Tech Squad",
-    "deck": "docs/presentation/CryptIQ_TechSquad_Pitch_QA.pptx",
+    "deck": "docs/presentation/CryptIQ_TechSquad_Centered_Final.pptx",
     "guide": "docs/presentation/PRESENTER_GUIDE.md",
     "scope": "Presentation and documentation only; no additional C prompt acceptance",
     "publication": "included in presentation documentation commit",
@@ -699,7 +699,8 @@
       "reimport": "passed",
       "demo_http_status": 200,
       "note": "Rendered visual review; native PowerPoint Slide Show not executed."
-    }
+    },
+    "alignment_revision": "All 12 slides visually checked; slide 4 numbers removed; cards, table cells and arrows aligned."
   },
   "release": {
     "tag": "v0.1.0-demo",
