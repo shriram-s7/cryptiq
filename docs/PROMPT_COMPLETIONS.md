@@ -353,3 +353,8 @@ Prepared v0.1.0-demo with the complete sharing link explicitly requested by the 
 ## 2026-10-15 — Demo recovery
 
 Restarted stopped local services and Cloudflare tunnel. Verified new public page and authenticated API. Updated GitHub About, release and current documentation with replacement origin. No database reset. Previously downloaded PPT demo hyperlinks point at the expired tunnel; GitHub About is the current entry point.
+
+
+## 2026-10-15 — Supplied pitch deck enhancement
+
+Edited the supplied 12-slide blue deck. Added requested team, current app/GitHub links and icons, research links, layered architecture, market pilot explanation, aligned acquisition flow and manual fade transitions. Preserved the original. No app-state changes.
