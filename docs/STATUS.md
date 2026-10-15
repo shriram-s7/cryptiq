@@ -1,5 +1,7 @@
 # Core status - 2026-10-15
 
+Demo recovery 15 October 2026: stopped services restarted; prior tunnel had network disconnects. New origin https://flyer-thinking-anonymous-shake.trycloudflare.com. Full access URL in GitHub About/release and local runtime file. Page and authenticated API verified HTTP 200. Old PPT embedded demo links are stale; use the current GitHub About link. No reset or repair applied.
+
 Release update — 15 October 2026: v0.1.0-demo publishes the working full sharing link at the owner’s explicit request, with visual PPT and presenter guide. Temporary PC-backed hosting, shared synthetic state. Link and authenticated API returned HTTP 200. No source changes or live-state reset. Root deck copies match committed versions. Release: https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo
 
 Visual presentation revision: use docs/presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx. Replaces the text-heavy deck with four current product screenshots, editable workflow/architecture and five tables. Keeps the 12-section sequence and detailed notes. Demo and GitHub hyperlinks on closing slide. No live app state reset or repair performed.

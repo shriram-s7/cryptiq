@@ -698,6 +698,8 @@
     "date": "2026-10-15",
     "scope": "Hosted demo announcement, complete access link and presentation assets",
     "hosting": "Temporary Cloudflare tunnel dependent on presenter PC",
-    "verification": "Sharing URL and authenticated health endpoint HTTP 200; local and remote code matched"
+    "verification": "Sharing URL and authenticated health endpoint HTTP 200; local and remote code matched",
+    "demo_origin": "https://flyer-thinking-anonymous-shake.trycloudflare.com",
+    "last_recovery": "2026-10-15: restarted stopped services and tunnel; HTTP 200 verified"
   }
 }
