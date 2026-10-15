@@ -358,3 +358,8 @@ Restarted stopped local services and Cloudflare tunnel. Verified new public page
 ## 2026-10-15 — Supplied pitch deck enhancement
 
 Edited the supplied 12-slide blue deck. Added requested team, current app/GitHub links and icons, research links, layered architecture, market pilot explanation, aligned acquisition flow and manual fade transitions. Preserved the original. No app-state changes.
+
+
+## 2026-10-15 — Full presentation visual QA
+
+Latest presentation QA: docs/presentation/CryptIQ_TechSquad_Pitch_QA.pptx. All 12 slides rendered and visually reviewed. Enlarged before/after demo evidence, restored breathing room around clickable links, centered architecture arrows, clarified engineering vs market validation, improved pilot-target hierarchy, and added meaningful before/after symbols. Preserved blue theme, all 12 topics, pricing, notes and research/demo links. Package, geometry and re-import checks passed with zero findings. Demo URL returned HTTP 200. Open the PPTX in Slide Show to present. Original and prior deck preserved; tunnel remains temporary. Next: remaining C19+ implementation and persistent hosting; no app state changed.

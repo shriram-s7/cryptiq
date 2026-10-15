@@ -1,5 +1,7 @@
 # CryptIQ — Tech Squad presenter guide
 
+Latest deck: [CryptIQ Tech Squad — visually checked pitch](CryptIQ_TechSquad_Pitch_QA.pptx).
+
 Use CryptIQ_Tech_Squad_Visual_Deck.pptx, which follows the 12-section Prosculpt sequence with redesigned visuals. The earlier text deck is superseded. Slide notes contain the same detailed guidance below. Pitch timing totals about five minutes; allow a separate 3–5 minutes for the live Business demonstration.
 
 ## Slide 1

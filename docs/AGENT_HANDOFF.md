@@ -1,5 +1,7 @@
 # Core handoff - latest state
 
+Latest presentation QA: docs/presentation/CryptIQ_TechSquad_Pitch_QA.pptx. All 12 slides rendered and visually reviewed. Enlarged before/after demo evidence, restored breathing room around clickable links, centered architecture arrows, clarified engineering vs market validation, improved pilot-target hierarchy, and added meaningful before/after symbols. Preserved blue theme, all 12 topics, pricing, notes and research/demo links. Package, geometry and re-import checks passed with zero findings. Demo URL returned HTTP 200. Open the PPTX in Slide Show to present. Original and prior deck preserved; tunnel remains temporary. Next: remaining C19+ implementation and persistent hosting; no app state changed.
+
 Latest presentation: docs/presentation/CryptIQ_TechSquad_Review_Ready.pptx edits the supplied blue deck. Four team members, storefront visual, controlled-attack step, layered architecture, clickable research and GitHub/app links, centered acquisition arrows and fade transitions. All 12 slides visually inspected; package/import/layout validation completed. Original Desktop deck preserved. Demo link remains temporary.
 
 Demo recovery 15 October 2026: stopped services restarted; prior tunnel had network disconnects. New origin https://flyer-thinking-anonymous-shake.trycloudflare.com. Full access URL in GitHub About/release and local runtime file. Page and authenticated API verified HTTP 200. Old PPT embedded demo links are stale; use the current GitHub About link. No reset or repair applied.

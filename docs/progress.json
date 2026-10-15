@@ -686,11 +686,20 @@
     "date": "2026-10-15",
     "slides": 12,
     "team": "Tech Squad",
-    "deck": "docs/presentation/CryptIQ_TechSquad_Review_Ready.pptx",
+    "deck": "docs/presentation/CryptIQ_TechSquad_Pitch_QA.pptx",
     "guide": "docs/presentation/PRESENTER_GUIDE.md",
     "scope": "Presentation and documentation only; no additional C prompt acceptance",
     "publication": "included in presentation documentation commit",
-    "revision": "User-supplied blue deck enhanced with named team, workflows, references and live links"
+    "revision": "User-supplied blue deck enhanced with named team, workflows, references and live links",
+    "visual_qa": {
+      "date": "2026-10-15",
+      "slides_reviewed": 12,
+      "package_findings": 0,
+      "layout_findings": 0,
+      "reimport": "passed",
+      "demo_http_status": 200,
+      "note": "Rendered visual review; native PowerPoint Slide Show not executed."
+    }
   },
   "release": {
     "tag": "v0.1.0-demo",
