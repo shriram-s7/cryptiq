@@ -1,6 +1,6 @@
 # Public demonstration — 15 October 2026
 
-Current origin: https://usual-orbit-national-mazda.trycloudflare.com/
+Current origin: https://flyer-thinking-anonymous-shake.trycloudflare.com/
 New reviewers require the complete access link, now shared in the [demo release](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo) at the owner’s request.
 
 Presentation: [Tech Squad deck](presentation/CryptIQ_Tech_Squad_Visual_Deck.pptx).

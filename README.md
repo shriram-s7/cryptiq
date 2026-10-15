@@ -6,7 +6,7 @@ CryptIQ demonstrates a security workflow for a small business: inspect supported
 
 **Hosted demo release:** [CryptIQ v0.1.0 Demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo). The release contains the working full sharing link, presentation and walkthrough.
 
-[Current demo origin](https://usual-orbit-national-mazda.trycloudflare.com/)
+[Current demo origin](https://flyer-thinking-anonymous-shake.trycloudflare.com/)
 
 New reviewers need the **complete access link supplied privately by the presenter**. The clean URL above does not grant access. The complete demo sharing link is published in the GitHub release at the owner’s request. The local key file remains untracked. This free temporary Cloudflare Tunnel depends on the presenter PC remaining awake, online, and running the services. Restarting the tunnel can change its address. All reviewers share one synthetic demonstration database.
 

@@ -348,3 +348,8 @@ Rebuilt the 12-section deck with current dashboard, shop, Hacker and partner scr
 ## 2026-10-15 — Hosted demo release
 
 Prepared v0.1.0-demo with the complete sharing link explicitly requested by the owner. Verified remote main matched local code, untracked root decks matched committed copies, and demo plus API health returned HTTP 200. Updated README and hosting notes. No additional implementation acceptance or full regression run claimed. Next: remaining C19+ work and permanent hosting.
+
+
+## 2026-10-15 — Demo recovery
+
+Restarted stopped local services and Cloudflare tunnel. Verified new public page and authenticated API. Updated GitHub About, release and current documentation with replacement origin. No database reset. Previously downloaded PPT demo hyperlinks point at the expired tunnel; GitHub About is the current entry point.
