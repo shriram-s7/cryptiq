@@ -363,3 +363,8 @@ Edited the supplied 12-slide blue deck. Added requested team, current app/GitHub
 ## 2026-10-15 — Full presentation visual QA
 
 Latest presentation QA: docs/presentation/CryptIQ_TechSquad_Pitch_QA.pptx. All 12 slides rendered and visually reviewed. Enlarged before/after demo evidence, restored breathing room around clickable links, centered architecture arrows, clarified engineering vs market validation, improved pilot-target hierarchy, and added meaningful before/after symbols. Preserved blue theme, all 12 topics, pricing, notes and research/demo links. Package, geometry and re-import checks passed with zero findings. Demo URL returned HTTP 200. Open the PPTX in Slide Show to present. Original and prior deck preserved; tunnel remains temporary. Next: remaining C19+ implementation and persistent hosting; no app state changed.
+
+
+## 2026-10-15 — Box centering and flow spacing
+
+Presentation alignment complete: docs/presentation/CryptIQ_TechSquad_Centered_Final.pptx. Removed slide 4 card numbers; centered boxed text and table cells across all 12 slides; equal card gaps and clear arrow spacing on slides 4 and 7, smaller arrows on slide 5. All slides rendered and visually checked; final package/layout/import validation passed. Open the PPTX to present. Content and hyperlinks retained. Next: existing C19+ work and persistent hosting remain unchanged.
