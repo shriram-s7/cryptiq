@@ -28,3 +28,7 @@ __pycache__/
 
 # Reuse-step scratch
 .reuse/
+
+# local documents and media (moved here during consolidation; not published)
+docs/_local/
+media/
