@@ -1,14 +1,18 @@
 # CryptIQ — Tech Squad
 
+**Links:** [GitHub](https://github.com/shriram-s7/cryptiq) · [Demo release v0.1.0-demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo)
+
 CryptIQ demonstrates a security workflow for a small business: inspect supported source and storage patterns, review repairs, and verify the result before publishing evidence.
+
+## Overview
+
+Small online businesses rarely know whether customer passwords and payment-adjacent data are stored safely. CryptIQ walks through that story end to end on a synthetic shop ("Chennai Organics"): scan the shop's source and database for weak cryptography, show what an attacker could recover, apply a protected migration, then re-attack and re-verify before producing evidence (a PDF report and a CycloneDX inventory). It is a hackathon-style prototype built by the Tech Squad team; the hosted instance runs temporarily on a presenter's PC.
 
 ## Live demonstration
 
 **Hosted demo release:** [CryptIQ v0.1.0 Demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo). The release contains the working full sharing link, presentation and walkthrough.
 
-[Current demo origin](https://flyer-thinking-anonymous-shake.trycloudflare.com/)
-
-New reviewers need the **complete access link supplied privately by the presenter**. The clean URL above does not grant access. The complete demo sharing link is published in the GitHub release at the owner’s request. The local key file remains untracked. This free temporary Cloudflare Tunnel depends on the presenter PC remaining awake, online, and running the services. Restarting the tunnel can change its address. All reviewers share one synthetic demonstration database.
+The demo is hosted temporarily on a presenter's PC through a free tunnel, so its address changes and it may be offline. New reviewers need the **complete access link supplied privately by the presenter**. The clean URL above does not grant access. The complete demo sharing link is published in the GitHub release at the owner’s request. The local key file remains untracked. This free temporary Cloudflare Tunnel depends on the presenter PC remaining awake, online, and running the services. Restarting the tunnel can change its address. All reviewers share one synthetic demonstration database.
 
 [Presentation (12 slides)](docs/presentation/CryptIQ_TechSquad_Review_Ready.pptx) · [Speaker notes and Business demo script](docs/presentation/PRESENTER_GUIDE.md) · [Hosting and walkthrough](docs/PUBLIC_DEMO.md)
 
@@ -41,9 +45,34 @@ Billing, server-enforced subscriptions, production tenant isolation, broad autom
 
 These are proposed prices and UI limits. Payments are not connected. Partner subscriptions do not grant write access to client repairs.
 
+## How it works
+
+```mermaid
+flowchart LR
+  SH[Chennai Organics demo shop: source + SQLite] --> SC[Scan: Python AST rules, 8 risk families]
+  SC --> FD[Findings + score 38]
+  FD --> AT[Attacks: bounded dictionary, tiny-RSA factoring]
+  FD --> RV[Review proposed repairs]
+  RV --> MG[Atomic migration of 4 dependent repairs]
+  MG --> VF[Verify: rescan, reattack, app still works, fresh account storage]
+  VF --> EV[Evidence: PDF + CycloneDX inventory, score 91]
+```
+
+The scanner is `core/api/engine/simple_rules.py` with rules in `rules.yaml`. After repair, stored passwords use a server-held HMAC pepper before Argon2id; the verification step re-runs the dictionary attack against the same account and a fresh signup.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React, TypeScript, Vite, Tailwind, Radix, React Router |
+| API | FastAPI, Uvicorn |
+| Demo shop | Flask, SQLite |
+| Crypto | argon2-cffi, cryptography, kyber-py (educational only) |
+| Verification and PDF | Playwright |
+
 ## Run locally (Windows PowerShell)
 
-Use Python 3.11+ and Node 20.19+ from the repository root:
+Use Python 3.11+ and Node 20.19+ from the repository root. No environment variables or secrets are required for the local demo (only the `PLAYWRIGHT_BROWSERS_PATH` shown below). On Linux/macOS use `core/.venv/bin/python` in place of `core/.venv/Scripts/python.exe` and `export` for the variable; the launcher has been used on Windows only.
 
 ```powershell
 python -m venv core/.venv
@@ -73,3 +102,23 @@ Do not force reseed an existing demo unless you intend to remove its fake regist
 Current implementation notes take precedence over unimplemented aspirations in older plans. [STATUS](docs/STATUS.md), [progress database](docs/progress.json), and [handoff](docs/AGENT_HANDOFF.md) record completed and remaining work. C19 onward is not automatically accepted by this presentation update.
 
 Stage explicit paths only, preserve collaborator work, and never commit keys, real customer data or runtime databases.
+
+## Tests
+
+There is no single test command. Backend acceptance scripts live in `core/api/check_*.py` and `core/demo-shop/check_*.py`; browser tests are Playwright specs in `core/web/tests/` (`npm --prefix core/web run test:e2e`, `test:mocks`). They were **not run** while writing this README because they seed and reset the shared demo database; see `docs/STATUS.md` for the results recorded by the project.
+
+## Status and limitations
+
+- Working prototype: the four views, scans, attack demos, the atomic repair, four verification checks and gated evidence export work on synthetic data.
+- Transaction attack effects are scripted; only the dictionary attack and tiny-RSA example are real computations.
+- Repairs apply as one bundle; independent per-fix application is not implemented.
+- No authentication or multi-tenancy in the API, no billing, no GitHub OAuth/PR publishing. Hosting is temporary.
+- The earlier Hash Patch engine is not wired in yet (T02/T09 deferred); see [hash_patch](https://github.com/shriram-s7/hash_patch).
+
+## Team
+
+Tech Squad (four members, per `docs/presentation`). The `hub/` folder is collaborator-owned.
+
+## License
+
+No license specified.
