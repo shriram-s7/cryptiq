@@ -1,6 +1,7 @@
 """Single-origin, access-link protected public demo; local services remain available."""
 from pathlib import Path
 import hmac
+import os
 import secrets
 from urllib.parse import urlencode
 from fastapi import Request
@@ -24,7 +25,7 @@ def install(app):
 
     @app.middleware('http')
     async def demo_access(request: Request, call_next):
-        local = request.url.hostname in ('localhost', '127.0.0.1')
+        local = request.url.hostname in ('localhost', '127.0.0.1') or os.environ.get('CRYPTIQ_OPEN_DEMO') == '1'
         if not local:
             supplied = request.query_params.get('access', '')
             if supplied and hmac.compare_digest(supplied, secret):
