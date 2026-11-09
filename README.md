@@ -1,6 +1,6 @@
 # CryptIQ — Tech Squad
 
-**Links:** [GitHub](https://github.com/shriram-s7/cryptiq) · [Demo release v0.1.0-demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo)
+**Links:** [Live demo](https://cryptiq-demo-8mup.onrender.com) · [GitHub](https://github.com/shriram-s7/cryptiq) · [Demo release v0.1.0-demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo)
 
 CryptIQ demonstrates a security workflow for a small business: inspect supported source and storage patterns, review repairs, and verify the result before publishing evidence.
 
@@ -10,9 +10,9 @@ Small online businesses rarely know whether customer passwords and payment-adjac
 
 ## Live demonstration
 
-**Hosted demo release:** [CryptIQ v0.1.0 Demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo). The release contains the working full sharing link, presentation and walkthrough.
+**Live demo:** [https://cryptiq-demo-8mup.onrender.com](https://cryptiq-demo-8mup.onrender.com)
 
-The demo is hosted temporarily on a presenter's PC through a free tunnel, so its address changes and it may be offline. New reviewers need the **complete access link supplied privately by the presenter**. The clean URL above does not grant access. The complete demo sharing link is published in the GitHub release at the owner’s request. The local key file remains untracked. This free temporary Cloudflare Tunnel depends on the presenter PC remaining awake, online, and running the services. Restarting the tunnel can change its address. All reviewers share one synthetic demonstration database.
+It runs the full flow (scan, hacker console, repairs, verification, report) on a free Render instance. It sleeps when idle, so the first load can take about 50 seconds. All visitors share one synthetic demonstration database that resets whenever the service restarts. The earlier release [v0.1.0-demo](https://github.com/shriram-s7/cryptiq/releases/tag/v0.1.0-demo) is kept for the presentation and walkthrough.
 
 [Presentation (12 slides)](docs/presentation/CryptIQ_TechSquad_Review_Ready.pptx) · [Speaker notes and Business demo script](docs/presentation/PRESENTER_GUIDE.md) · [Hosting and walkthrough](docs/PUBLIC_DEMO.md)
 
