@@ -1,8 +1,8 @@
-# Prompt for Claude Code — create the CryptIQ repo and first commit
+# Prompt for a coding agent — create the CryptIQ repo and first commit
 
 Before pasting: create an empty folder (e.g. `D:\cryptiq`, NOT inside the SIH folder), copy the five docs
 (`CRYPTIQ_PLAN.md`, `CORE_CONTEXT.md`, `HUB_PLAN.md`, `SHARED_THEME_AND_CONTRACT.md`,
-`CLAUDE_CODE_REUSE_PROMPT.md`) into `D:\cryptiq\docs\`, open Claude Code in `D:\cryptiq`, then paste:
+`REUSE_PROMPT.md`) into `D:\cryptiq\docs\`, open your coding agent in `D:\cryptiq`, then paste:
 
 ---
 

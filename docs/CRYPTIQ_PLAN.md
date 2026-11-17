@@ -20,7 +20,7 @@
   (5) partner console. One repo, three processes.
 - **Reuse:** the crypto-discovery / CBOM engine is **copied** (never edited in place) from the team's
   earlier Hash Patch project into `api/engine/vendor_hashpatch/`, wrapped by an adapter. Disclosed in
-  `PRE_EXISTING.md`. See Section 7 and `CLAUDE_CODE_REUSE_PROMPT.md`.
+  `PRE_EXISTING.md`. See Section 7 and `REUSE_PROMPT.md`.
 - **Rule for placeholders:** anything the jury *sees happen* must really happen (scan, score, attacks,
   verify checks, PDF). Anything behind a button the jury only *sees exists* may be a placeholder
   (GitHub connect, billing, email, alerts). Section 23 lists exactly which.
@@ -551,7 +551,7 @@ Status: ☐ todo · ◐ doing · ☑ done. Owner in brackets. AC = acceptance cr
 **Setup**
 
 - ☐ T01 [A] Create `cryptiq/` repo, layout (Section 15), `.gitignore`, `dev.sh`. AC: three processes start.
-- ☐ T02 [A] Run `CLAUDE_CODE_REUSE_PROMPT.md`; `REUSE_REPORT.md` + `PRE_EXISTING.md` committed; source folder unchanged (checksums match).
+- ☐ T02 [A] Run `REUSE_PROMPT.md`; `REUSE_REPORT.md` + `PRE_EXISTING.md` committed; source folder unchanged (checksums match).
 - ☐ T03 [B] Web scaffold: Vite+React+TS+Tailwind+shadcn, fonts, colours, layout with sidebar. AC: all routes render.
 - ☐ T04 [B] Mock JSON for Scan, AttackRun, PR, Verification, Partner (Section 8). AC: every screen renders on mocks.
 

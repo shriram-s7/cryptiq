@@ -1,6 +1,6 @@
-# Prompt for Claude Code — inspect Hash Patch (read-only) and copy reusable parts into CryptIQ
+# Prompt for a coding agent — inspect Hash Patch (read-only) and copy reusable parts into CryptIQ
 
-Fill in the two paths, then paste everything below the line into Claude Code.
+Fill in the two paths, then paste everything below the line into the coding agent.
 
 - `SOURCE` = path to the SIH Hash Patch folder (e.g. `D:\CBOM-SIH\hash_patch`)
 - `TARGET` = path to the new CryptIQ repo (e.g. `D:\cryptiq`)

@@ -33,7 +33,7 @@ cryptiq/
 ├── PRE_EXISTING.md           disclosure of reused code
 ├── .gitignore
 ├── docs/                     CRYPTIQ_PLAN.md, CORE_CONTEXT.md, HUB_PLAN.md, SHARED_THEME_AND_CONTRACT.md,
-│                             CLAUDE_CODE_REUSE_PROMPT.md, proposal PDF
+│                             REUSE_PROMPT.md, proposal PDF
 ├── shared/
 │   ├── theme/  tokens.css  tailwind.preset.cjs  logo.svg  lattice.svg
 │   └── contracts/  project_summary.example.json  project_summary.before.json

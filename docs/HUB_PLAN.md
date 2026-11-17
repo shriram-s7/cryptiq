@@ -45,7 +45,7 @@ connects to Core through **one** endpoint (`ProjectSummary`) when Core is runnin
 8. Commit small and often (every 30–60 min).
 
 ### 2.3 Coding agents
-If you use Claude Code / Cursor / Copilot, start every session with:
+If you use a coding agent (Cursor, Copilot, etc.), start every session with:
 > "Read docs/HUB_PLAN.md and docs/SHARED_THEME_AND_CONTRACT.md. You may only create or modify files
 > inside hub/. Never run git add . or git add -A; stage with git add hub/. Never force-push."
 
